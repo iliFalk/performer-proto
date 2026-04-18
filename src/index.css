@@ -1,0 +1,672 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;700;800&family=Barlow:wght@400;500;600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap');
+@import "tailwindcss";
+
+:root {
+  /* ===============================================================
+     TIER 1 — PRIMITIVES (Private Values)
+     =============================================================== */
+  
+  /* CYAN RAMP */
+  --_arc-cyan-300: #67E8F9;
+  --_arc-cyan-400: #22D3EE;
+  --_arc-cyan-500: #00D4FF;    /* Haupt-Primär */
+  --_arc-cyan-600: #0891B2;
+  --_arc-cyan-700: #00F5FF;    /* Arc-Reactor-Bright */
+
+  /* BACKGROUND RAMP */
+  --_arc-dark-50:  #1A2633;
+  --_arc-dark-100: #0F1923;
+  --_arc-dark-200: #0A0E17;
+  --_arc-dark-300: #05080D;
+
+  /* STATUS RAMP */
+  --_arc-green-500:  #10B981;
+  --_arc-amber-500:  #F59E0B;
+  --_arc-orange-500: #FF6B35;
+  --_arc-red-500:    #FF3B3B;
+
+  /* TEXT RAMP */
+  --_arc-blue-100: #E0F2FE;
+  --_arc-blue-200: #7DD3FC;
+  --_arc-blue-300: #38BDF8;
+  --_arc-blue-400: #22D3EE;
+  --_arc-blue-600: #4B7A8C;
+
+  /* ===============================================================
+     TIER 2 — SEMANTICS (Purpose-driven)
+     =============================================================== */
+
+  /* Hintergründe */
+  --arc-bg-ambient: var(--_arc-dark-300);
+  --arc-bg-base: var(--_arc-dark-200);
+  --arc-bg-layer-1: var(--_arc-dark-100);
+  --arc-bg-layer-2: var(--_arc-dark-50);
+  --arc-bg-glass: rgba(26, 38, 51, 0.6);
+
+  /* Primärfarben */
+  --arc-color-primary: var(--_arc-cyan-500);
+  --arc-color-primary-strong: var(--_arc-cyan-700);
+  --arc-color-primary-muted: var(--_arc-cyan-600);
+  --arc-color-primary-ghost: var(--_arc-cyan-300);
+
+  /* Textfarben */
+  --arc-text-high: var(--_arc-blue-100);
+  --arc-text-medium: var(--_arc-blue-200);
+  --arc-text-low: var(--_arc-blue-300);
+  --arc-text-data: var(--_arc-blue-400);
+  --arc-text-subtle: var(--_arc-blue-600);
+
+  /* Statusfarben */
+  --arc-color-ok: var(--_arc-green-500);
+  --arc-color-caution: var(--_arc-amber-500);
+  --arc-color-warn: var(--_arc-orange-500);
+  --arc-color-critical: var(--_arc-red-500);
+
+  /* Borders (Raw for CSS border property) */
+  --arc-border-strong: 1px solid rgba(0, 212, 255, 0.6);
+  --arc-border-medium: 1px solid rgba(8, 145, 178, 0.4);
+  --arc-border-subtle: 1px solid rgba(26, 38, 51, 0.8);
+  --arc-border-focus: 2px solid var(--_arc-cyan-700);
+
+  --arc-gradient-energy: linear-gradient(90deg, var(--_arc-cyan-600) 0%, var(--_arc-cyan-500) 50%, var(--_arc-cyan-700) 100%);
+
+  /* ===============================================================
+     TIER 3 — COMPONENTS (Overrides)
+     =============================================================== */
+  --arc-btn-bg-primary:        var(--arc-color-primary);
+  --arc-btn-bg-primary-hover:  var(--arc-color-primary-strong);
+  
+  --arc-card-bg:               var(--arc-bg-glass);
+  --arc-card-border:           var(--arc-border-medium);
+
+  /* ===============================================================
+     TIER 2 — SPACING (8px Basis)
+     =============================================================== */
+  --arc-space-1: 0.25rem;  /* 4px  */
+  --arc-space-2: 0.5rem;   /* 8px  */
+  --arc-space-3: 0.75rem;  /* 12px */
+  --arc-space-4: 1rem;     /* 16px */
+  --arc-space-5: 1.25rem;  /* 20px */
+  --arc-space-6: 1.5rem;   /* 24px */
+  --arc-space-8: 2rem;     /* 32px */
+  --arc-space-10: 2.5rem;  /* 40px */
+  --arc-space-12: 3rem;    /* 48px */
+  --arc-space-16: 4rem;    /* 64px */
+
+  /* Default Raster Tokens (Mobile S) */
+  --arc-gutter: 1rem;
+  --arc-margin: 1rem;
+
+  /* ===============================================================
+     TIER 2 — MOTION (Timing & Easing)
+     =============================================================== */
+  --arc-motion-instant: 50ms;
+  --arc-motion-quick: 150ms;
+  --arc-motion-fast: 250ms;
+  --arc-motion-normal: 350ms;
+  --arc-motion-deliberate: 500ms;
+  --arc-motion-dramatic: 800ms;
+
+  --arc-ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --arc-ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --arc-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --arc-ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --arc-ease-linear: linear;
+
+  /* ===============================================================
+     TIER 2 — GLOW (Light as Communication)
+     =============================================================== */
+  --arc-glow-ambient: 0 20px 40px rgba(0, 212, 255, 0.3);
+  --arc-glow-subtle: 0 0 15px 5px rgba(0, 212, 255, 0.5);
+  --arc-glow-active: 0 0 20px 10px rgba(0, 212, 255, 1);
+  --arc-glow-focus: 0 0 25px 12px rgba(0, 245, 255, 1);
+  --arc-glow-alert: 0 0 25px 12px rgba(245, 158, 11, 0.8);
+  --arc-glow-critical: 0 0 30px 15px rgba(255, 59, 59, 1);
+
+  /* ===============================================================
+     TIER 2 — SHADOW (Depth Hierarchy)
+     =============================================================== */
+  --arc-shadow-card: 0 4px 16px rgba(0,0,0,0.3);
+  --arc-shadow-panel: 0 8px 32px rgba(0,0,0,0.4);
+  --arc-shadow-modal: 0 24px 64px rgba(0,0,0,0.6);
+
+  /* ===============================================================
+     TIER 2 — RADIUS (Contextual Hierarchy)
+     =============================================================== */
+  --arc-radius-none: 0px;
+  --arc-radius-sharp: 4px;
+  --arc-radius-control: 8px;
+  --arc-radius-panel: 12px;
+  --arc-radius-pill: 9999px;
+  --arc-radius-circle: 50%;
+}
+
+/* Obsidian Specific Overrides */
+.performer-container {
+  background-color: var(--arc-bg-base);
+  color: var(--arc-text-high);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.performer-container * {
+  box-sizing: border-box;
+}
+
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Barlow Condensed', sans-serif;
+  --font-barlow: 'Barlow', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+
+  /* Radius Tokens */
+  --radius-arc-none: var(--arc-radius-none);
+  --radius-arc-sharp: var(--arc-radius-sharp);
+  --radius-arc-control: var(--arc-radius-control);
+  --radius-arc-panel: var(--arc-radius-panel);
+  --radius-arc-pill: var(--arc-radius-pill);
+  --radius-arc-circle: var(--arc-radius-circle);
+
+  /* Shadow & Glow Tokens */
+  --shadow-arc-glow-ambient: var(--arc-glow-ambient);
+  --shadow-arc-glow-subtle: var(--arc-glow-subtle);
+  --shadow-arc-glow-active: var(--arc-glow-active);
+  --shadow-arc-glow-focus: var(--arc-glow-focus);
+  --shadow-arc-glow-alert: var(--arc-glow-alert);
+  --shadow-arc-glow-critical: var(--arc-glow-critical);
+
+  --shadow-arc-card: var(--arc-shadow-card);
+  --shadow-arc-panel: var(--arc-shadow-panel);
+  --shadow-arc-modal: var(--arc-shadow-modal);
+
+  /* Breakpoints */
+  --breakpoint-mobile-s: 320px;
+  --breakpoint-mobile-l: 480px;
+  --breakpoint-tablet: 768px;
+  --breakpoint-desktop: 1024px;
+  --breakpoint-desktop-xl: 1440px;
+
+  /* Cyber-Neon Palette derived from Design Tokens */
+  --color-obsidian-bg: var(--arc-bg-base);
+  --color-obsidian-surface: var(--arc-bg-layer-1);
+  --color-obsidian-border: var(--arc-bg-layer-2);
+  --color-obsidian-muted: var(--arc-text-low);
+  --color-obsidian-text: var(--arc-text-high);
+  
+  --color-obsidian-accent: var(--arc-color-primary);
+  --color-obsidian-accent-hover: var(--arc-color-primary-strong);
+  --color-obsidian-tertiary: var(--arc-text-data); 
+  
+  --color-obsidian-success: var(--arc-color-ok);
+  --color-obsidian-error: var(--arc-color-critical);
+  --color-obsidian-warning: var(--arc-color-caution);
+
+  /* Direct Semantic Token Access */
+  --color-arc-primary: var(--arc-color-primary);
+  --color-arc-primary-strong: var(--arc-color-primary-strong);
+  --color-arc-text-high: var(--arc-text-high);
+  --color-arc-text-medium: var(--arc-text-medium);
+  --color-arc-text-data: var(--arc-text-data);
+
+  /* Spacing Scale (8px Basis) */
+  --spacing-arc-1: var(--arc-space-1);
+  --spacing-arc-2: var(--arc-space-2);
+  --spacing-arc-3: var(--arc-space-3);
+  --spacing-arc-4: var(--arc-space-4);
+  --spacing-arc-5: var(--arc-space-5);
+  --spacing-arc-6: var(--arc-space-6);
+  --spacing-arc-8: var(--arc-space-8);
+  --spacing-arc-10: var(--arc-space-10);
+  --spacing-arc-12: var(--arc-space-12);
+  --spacing-arc-16: var(--arc-space-16);
+
+  --spacing-gutter: var(--arc-gutter);
+  --spacing-margin: var(--arc-margin);
+
+  /* Motion Tokens */
+  --duration-instant: var(--arc-motion-instant);
+  --duration-quick: var(--arc-motion-quick);
+  --duration-fast: var(--arc-motion-fast);
+  --duration-normal: var(--arc-motion-normal);
+  --duration-deliberate: var(--arc-motion-deliberate);
+  --duration-dramatic: var(--arc-motion-dramatic);
+
+  --ease-arc-out: var(--arc-ease-out);
+  --ease-arc-in: var(--arc-ease-in);
+  --ease-arc-in-out: var(--arc-ease-in-out);
+  --ease-arc-spring: var(--arc-ease-spring);
+  --ease-arc-linear: var(--arc-ease-linear);
+}
+
+@layer base {
+  :root {
+    /* Responsive Raster Implementation */
+    @media (min-width: 480px) {
+      --arc-margin: 1.25rem; /* 20px */
+    }
+    @media (min-width: 768px) {
+      --arc-margin: 2rem; /* 32px */
+    }
+    @media (min-width: 1024px) {
+      --arc-gutter: 1.5rem; /* 24px */
+      --arc-margin: 3rem;   /* 48px */
+    }
+    @media (min-width: 1440px) {
+      --arc-margin: 4rem;   /* 64px */
+    }
+  }
+
+  body {
+    @apply antialiased bg-obsidian-bg text-obsidian-text font-sans overflow-hidden text-[14px];
+  }
+  
+  @media (min-width: 768px) {
+    body {
+      @apply text-[16px];
+    }
+  }
+  
+  h1, h2, h3, .font-display {
+    @apply font-display font-bold tracking-tight;
+  }
+}
+
+@layer utilities {
+  /* ===============================================================
+     TIER 2 — TYPOGRAPHY (Workshop Character)
+     =============================================================== */
+
+  .text-display {
+    @apply font-display font-extrabold text-[36px] leading-none tracking-[0.04em] uppercase;
+  }
+  @media (min-width: 768px) {
+    .text-display { @apply text-[48px]; }
+  }
+  @media (min-width: 1024px) {
+    .text-display { @apply text-[72px]; }
+  }
+
+  .text-h1 {
+    @apply font-display font-bold text-[24px] leading-tight tracking-[0.03em] uppercase;
+  }
+  @media (min-width: 768px) {
+    .text-h1 { @apply text-[28px]; }
+  }
+  @media (min-width: 1024px) {
+    .text-h1 { @apply text-[32px]; }
+  }
+
+  .text-h2 {
+    @apply font-barlow font-semibold text-[20px] leading-snug tracking-[0.02em] uppercase;
+  }
+  @media (min-width: 768px) {
+    .text-h2 { @apply text-[22px]; }
+  }
+  @media (min-width: 1024px) {
+    .text-h2 { @apply text-[24px]; }
+  }
+
+  .text-h3 {
+    @apply font-barlow font-medium text-[18px] leading-snug tracking-[0.01em] uppercase;
+  }
+
+  .text-h4 {
+    @apply font-barlow font-normal text-[14px] leading-snug tracking-[0.01em] uppercase;
+  }
+
+  .text-label {
+    @apply font-display font-medium text-[13px] leading-none tracking-[0.08em] uppercase;
+  }
+
+  .text-data-label {
+    @apply font-display font-normal text-[10px] leading-none tracking-[0.10em] uppercase;
+  }
+
+  .text-body {
+    @apply font-sans font-normal text-[14px] leading-relaxed tracking-normal;
+  }
+  @media (min-width: 768px) {
+    .text-body { @apply text-[16px]; }
+  }
+
+  .text-body-small {
+    @apply font-sans font-normal text-[14px] leading-relaxed tracking-normal;
+  }
+
+  .text-caption {
+    @apply font-sans font-normal text-[12px] leading-normal tracking-[0.01em];
+  }
+
+  /* Mono Data Scale */
+  .text-data-xl {
+    @apply font-mono font-normal text-[32px] leading-none tracking-normal;
+  }
+
+  .text-data-m {
+    @apply font-mono font-normal text-[20px] leading-tight tracking-normal;
+  }
+
+  .text-data-s {
+    @apply font-mono font-normal text-[14px] leading-normal tracking-normal;
+  }
+
+  .text-data-micro {
+    @apply font-mono font-normal text-[11px] leading-none tracking-[0.02em];
+  }
+
+  .custom-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: #1F2633 transparent;
+    -webkit-overflow-scrolling: touch; /* Native inertia for swipe */
+  }
+
+  .custom-scroll::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  
+  .custom-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .custom-scroll::-webkit-scrollbar-thumb {
+    background: #1F2633;
+    border-radius: 4px;
+  }
+  
+  .custom-scroll::-webkit-scrollbar-thumb:hover {
+    background: #2D3748;
+  }
+
+  /* Touch Interaction Enhancements */
+  @media (hover: none) {
+    /* Touch-specific feedback: Use active instead of hover */
+    .btn-touch-feedback:active {
+      @apply shadow-arc-glow-active transition-shadow;
+      transition-duration: var(--arc-motion-instant);
+    }
+  }
+
+  /* Phone frame removed as per new prototype */
+  
+  @keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 10px 2px rgba(0, 212, 255, 0.6); }
+    50% { box-shadow: 0 0 15px 5px rgba(0, 212, 255, 1); }
+  }
+
+  @keyframes scan-line {
+    from { transform: translateY(-100%); }
+    to { transform: translateY(400%); }
+  }
+
+  @keyframes float-ambient {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+  }
+
+  @keyframes reactor-pulse-expand {
+    0% { transform: scale(1); opacity: 1; border-width: 2px; }
+    100% { transform: scale(3); opacity: 0; border-width: 1px; }
+  }
+
+  @keyframes hologram-jitter {
+    0% { transform: translateX(0) skew(0deg); opacity: 0.9; }
+    20% { transform: translateX(-2px) skew(1deg); opacity: 1; }
+    40% { transform: translateX(2px) skew(-1deg); opacity: 0.9; }
+    60% { transform: translateX(-1px) skew(0.5deg); opacity: 1; }
+    80% { transform: translateX(1px) skew(-0.5deg); opacity: 0.9; }
+    100% { transform: translateX(0) skew(0deg); opacity: 1; }
+  }
+
+  @keyframes data-rain {
+    0% { transform: translateY(-100%); opacity: 0; }
+    10% { opacity: 0.1; }
+    90% { opacity: 0.1; }
+    100% { transform: translateY(100vh); opacity: 0; }
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
+    20%, 40%, 60%, 80% { transform: translateX(4px); }
+  }
+
+  .animate-shake {
+    animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+  }
+
+  @keyframes border-pulse {
+    0% { border-bottom-color: rgba(0, 212, 255, 0.4); box-shadow: 0 1px 0 0 rgba(0, 212, 255, 0.2); }
+    50% { border-bottom-color: rgba(0, 212, 255, 1); box-shadow: 0 2px 10px 0 rgba(0, 212, 255, 0.6); }
+    100% { border-bottom-color: rgba(0, 212, 255, 0.4); box-shadow: 0 1px 0 0 rgba(0, 212, 255, 0.2); }
+  }
+
+  @keyframes cursor-flicker {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .animate-line-pulse {
+    animation: border-pulse 2s ease-in-out infinite;
+  }
+
+  .animate-cursor-flicker {
+    animation: cursor-flicker 0.8s ease-in-out infinite;
+  }
+
+  @keyframes particle-stream {
+    0% { transform: translateX(-100%); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: translateX(400%); opacity: 0; }
+  }
+
+  .animate-particle-stream {
+    animation: particle-stream 2s linear infinite;
+  }
+
+  .animate-reactor-pulse {
+    @apply absolute rounded-full border-arc-primary;
+    animation: reactor-pulse-expand 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+
+  .animate-hologram-jitter {
+    animation: hologram-jitter 0.2s linear infinite;
+  }
+
+  .data-rain-particle {
+    @apply absolute w-[1px] h-4 bg-arc-primary opacity-[0.05];
+    animation: data-rain 5s linear infinite;
+  }
+
+  .animate-scan {
+    position: relative;
+    overflow: hidden;
+  }
+  .animate-scan::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to right, transparent, var(--arc-color-primary), transparent);
+    box-shadow: 0 0 10px var(--arc-color-primary);
+    animation: scan-line 2s linear infinite;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  .animate-float {
+    animation: float-ambient 4s ease-in-out infinite;
+  }
+
+  .animate-pulse-arc {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  .transition-arc-reveal {
+    transition: all 300ms cubic-bezier(0, 0, 0.2, 1);
+  }
+
+  .transition-arc-dismiss {
+    transition: all 200ms cubic-bezier(0.4, 0, 1, 1);
+  }
+  
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .animate-fade-in { animation: fade-in 0.3s ease-out forwards; }
+  .performing-glow { animation: pulse-glow 1.5s ease-in-out infinite; }
+  
+  @keyframes highlight-pop {
+    0% { background-color: rgba(0, 212, 255, 0.15); }
+    100% { background-color: transparent; }
+  }
+  
+  .field-highlight { animation: highlight-pop 1.5s ease-out forwards; }
+  
+  /* Grid Layout Implementation */
+  .grid-container {
+    @apply mx-auto w-full max-w-7xl px-arc-5; /* Default mobile margin */
+  }
+
+  @media (min-width: 480px) and (max-width: 767px) {
+    .grid-layout {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      column-gap: var(--spacing-gutter);
+    }
+    
+    .grid-container {
+      padding-left: var(--spacing-margin);
+      padding-right: var(--spacing-margin);
+    }
+  }
+
+  .view-transition { transition: transform 0.3s ease, opacity 0.3s ease; }
+  
+  /* ===============================================================
+     TIER 2 — WEB-LIQUID-GLASS (Material System)
+     =============================================================== */
+  .glass-ghost {
+    background: rgba(26, 38, 51, 0.2);
+    backdrop-filter: blur(8px) saturate(140%);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .glass-light {
+    background: rgba(26, 38, 51, 0.4);
+    backdrop-filter: blur(12px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.08), var(--arc-shadow-card);
+  }
+
+  .glass-standard {
+    background: rgba(26, 38, 51, 0.6);
+    backdrop-filter: blur(16px) saturate(180%) brightness(1.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.12), var(--arc-shadow-panel);
+    border-top-color: rgba(255, 255, 255, 0.2);
+    border-left-color: rgba(255, 255, 255, 0.15);
+  }
+
+  .glass-heavy {
+    background: rgba(26, 38, 51, 0.8);
+    backdrop-filter: blur(24px) saturate(200%) brightness(1.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.15), var(--arc-shadow-modal);
+    border-top-color: rgba(255, 255, 255, 0.25);
+    border-left-color: rgba(255, 255, 255, 0.2);
+  }
+
+  /* Minimal ARC — Mobile Overrides (< 768px) */
+  @media (max-width: 767px) {
+    .glass-heavy {
+      /* Fallback to Standard on Mobile */
+      background: rgba(26, 38, 51, 0.6);
+      backdrop-filter: blur(16px) saturate(180%) brightness(1.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.12), var(--arc-shadow-panel);
+    }
+
+    /* Reduce animations for battery saving */
+    .view-transition { transition: none; }
+    * { transition-duration: 100ms !important; }
+
+    /* Hide decorative peripheral elements */
+    .peripheral-data, .corner-brackets {
+      display: none !important;
+    }
+  }
+
+  /* Ambient Layer Effects */
+  .ambient-grid {
+    background-size: 40px 40px;
+    background-image: 
+      linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    display: none;
+  }
+  @media (min-width: 768px) {
+    .ambient-grid { display: block; }
+  }
+
+  .ambient-scanlines {
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      transparent 50%,
+      rgba(0, 0, 0, 0.1) 50%,
+      rgba(0, 0, 0, 0.1)
+    );
+    background-size: 100% 4px;
+    pointer-events: none;
+    display: none;
+  }
+  @media (min-width: 768px) {
+    .ambient-scanlines { display: block; }
+  }
+  
+  /* Seinten-Architektur Layers */
+  .layer-2 { 
+    z-index: 500;
+    position: relative;
+  }
+  .layer-1 { 
+    z-index: 10;
+    position: relative;
+  }
+  .layer-0 { 
+    z-index: 0;
+    position: absolute;
+    pointer-events: none;
+  }
+
+  .toggle-switch {
+    @apply relative w-9 h-5 rounded-full cursor-pointer transition-colors duration-200 bg-obsidian-border;
+  }
+  .toggle-switch.active {
+    @apply bg-obsidian-accent;
+  }
+  .toggle-switch::after {
+    content: '';
+    @apply absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full transition-transform duration-200;
+  }
+  .toggle-switch.active::after {
+    @apply translate-x-4;
+  }
+
+  .custom-select {
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    padding-right: 24px;
+  }
+}

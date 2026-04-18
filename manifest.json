@@ -1,0 +1,10 @@
+{
+  "id": "obsidian-performer",
+  "name": "Performer",
+  "version": "1.0.0",
+  "minAppVersion": "0.15.0",
+  "description": "AI-powered note interpretation. Enriches Frontmatter and restructures note content.",
+  "author": "Obsidian Performer",
+  "authorUrl": "https://ais-dev-nodhucr5dblofxu4wf5zwy-148560510889.europe-west1.run.app",
+  "isDesktopOnly": false
+}

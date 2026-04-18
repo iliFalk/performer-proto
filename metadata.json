@@ -1,0 +1,6 @@
+{
+  "name": "Remix: Performer - Obsidian AI Plugin proto",
+  "description": "AI-powered note interpretation directly in the Obsidian app. Enriches Frontmatter and restructures body content using OpenRouter LLMs.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
