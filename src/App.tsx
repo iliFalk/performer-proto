@@ -526,10 +526,10 @@ Respond with ONLY the JSON object, no other text.`;
                                 <div className={`rounded-2xl border border-obsidian-border/30 overflow-hidden ${settings.glassEffect ? 'glass-standard layer-1' : 'bg-obsidian-surface/40'}`}>
                                     <button 
                                         onClick={() => setFmCollapsed(!fmCollapsed)} 
-                                        className="flex items-center gap-arc-3 w-full px-arc-4 py-arc-4 text-obsidian-text hover:text-obsidian-accent hover:bg-white/5 transition-all outline-none"
+                                        className="flex items-center gap-arc-3 w-full px-arc-4 py-arc-4 text-obsidian-text hover:text-obsidian-accent hover:bg-white/5 transition-all outline-none bg-transparent! border-none!"
                                     >
                                         <ChevronDown size={18} className={`transition-transform duration-500 text-obsidian-tertiary ${fmCollapsed ? '-rotate-90' : ''}`} />
-                                        <span className="text-label tracking-[0.2em] font-black">Properties</span>
+                                        <span className="text-label tracking-[0.2em] font-black uppercase text-obsidian-text">Properties</span>
                                         <div className="ml-auto bg-obsidian-tertiary/20 text-obsidian-tertiary px-2 py-0.5 rounded-lg border border-obsidian-tertiary/30 text-data-label font-bold">
                                             {currentTemplate.fields.length}
                                         </div>
@@ -708,15 +708,15 @@ Respond with ONLY the JSON object, no other text.`;
                                                     <select 
                                                         value={currentTemplateId} 
                                                         onChange={(e) => setCurrentTemplateId(e.target.value)}
-                                                        className={`flex-1 border border-obsidian-border rounded-xl px-arc-4 py-arc-3 text-sm text-obsidian-text custom-select outline-none focus:border-obsidian-accent transition-colors ${settings.glassEffect ? 'glass-heavy layer-2' : 'bg-obsidian-bg'}`}
+                                                        className="flex-1 glass-input px-arc-4 py-arc-3 text-sm outline-none! focus:border-arc-primary! transition-all"
                                                     >
                                                         {settings.templates.map(t => (
-                                                            <option key={t.id} value={t.id}>{t.name}</option>
+                                                            <option key={t.id} value={t.id} className="bg-[#0a0e17]">{t.name}</option>
                                                         ))}
                                                     </select>
                                                     <button 
                                                         onClick={() => setIsAddingTemplate(true)} 
-                                                        className="w-12 h-12 rounded-xl bg-obsidian-accent/10 border border-obsidian-accent/30 flex items-center justify-center hover:bg-obsidian-accent/20 text-obsidian-accent transition-all active:scale-90 layer-2"
+                                                        className="w-12 h-12 btn-arc flex items-center justify-center p-0!"
                                                     >
                                                         <Plus size={22} />
                                                     </button>
@@ -751,19 +751,19 @@ Respond with ONLY the JSON object, no other text.`;
                                         </div>
                                         
                                          <div>
-                                            <label className="text-obsidian-tertiary mb-arc-2 block text-label">Note Name Prompt</label>
-                                            <textarea 
-                                                value={currentTemplate.noteNamePrompt}
-                                                onChange={(e) => updateTemplate(currentTemplateId, { noteNamePrompt: e.target.value })}
-                                                rows={2} 
-                                                className={`w-full border border-obsidian-border rounded-xl px-arc-4 py-arc-3 text-obsidian-text focus:border-obsidian-accent outline-none resize-none transition-all leading-relaxed text-body-small ${settings.glassEffect ? 'glass-heavy layer-2' : 'bg-obsidian-bg'}`}
-                                            />
+                                             <label className="text-obsidian-tertiary mb-arc-2 block text-label tracking-[0.1em] uppercase">Note Name Prompt</label>
+                                             <textarea 
+                                                 value={currentTemplate.noteNamePrompt}
+                                                 onChange={(e) => updateTemplate(currentTemplateId, { noteNamePrompt: e.target.value })}
+                                                 rows={2} 
+                                                 className="w-full glass-input px-arc-4 py-arc-3 outline-none resize-none transition-all leading-relaxed text-body-small focus:border-arc-primary!"
+                                             />
                                         </div>
                                                                                 <div>
-                                            <label className="text-obsidian-tertiary mb-arc-2 block text-label">Properties</label>
+                                            <label className="text-obsidian-tertiary mb-arc-2 block text-label tracking-[0.1em] uppercase">Properties</label>
                                             <div className="space-y-arc-3">
                                                 {currentTemplate.fields.map((field, i) => (
-                                                    <div key={i} className={`flex items-stretch rounded-xl border border-obsidian-border overflow-hidden group focus-within:border-obsidian-accent/30 transition-all ${settings.glassEffect ? 'glass-heavy' : 'bg-obsidian-bg'}`}>
+                                                    <div key={i} className="flex items-stretch rounded-xl border border-obsidian-border/30 glass-heavy overflow-hidden group focus-within:border-arc-primary/50 transition-all">
                                                         <button 
                                                             onClick={(e) => {
                                                                 e.stopPropagation();
@@ -771,7 +771,7 @@ Respond with ONLY the JSON object, no other text.`;
                                                                 const fields = currentTemplate.fields.filter((_, idx) => idx !== i);
                                                                 updateTemplate(currentTemplateId, { fields });
                                                             }}
-                                                            className={`w-10 shrink-0 flex items-center justify-center bg-obsidian-error/5 border-r border-obsidian-border transition-all layer-2 ${currentTemplate.fields.length > 1 ? 'hover:bg-obsidian-error group-hover:bg-obsidian-error/20 text-obsidian-error/60 hover:text-white' : 'opacity-20 grayscale'}`}
+                                                            className={`w-10 shrink-0 flex items-center justify-center bg-white/5 border-r border-obsidian-border/30 transition-all ${currentTemplate.fields.length > 1 ? 'hover:bg-obsidian-error/40 text-obsidian-error/60' : 'opacity-20 grayscale'}`}
                                                             disabled={currentTemplate.fields.length <= 1}
                                                             title="Delete field"
                                                         >
@@ -784,7 +784,7 @@ Respond with ONLY the JSON object, no other text.`;
                                                                 fields[i].name = e.target.value;
                                                                 updateTemplate(currentTemplateId, { fields });
                                                             }}
-                                                            className={`w-24 shrink-0 px-arc-3 py-arc-3 text-obsidian-muted border-r border-obsidian-border outline-none text-data-label layer-2 ${settings.glassEffect ? 'bg-transparent' : 'bg-obsidian-surface/30'}`}
+                                                            className="w-24 shrink-0 px-arc-3 py-arc-3 text-obsidian-muted bg-white/5 border-r border-obsidian-border/30 outline-none text-data-label font-bold uppercase tracking-wider"
                                                         />
                                                         <textarea 
                                                             value={field.prompt}
@@ -805,7 +805,7 @@ Respond with ONLY the JSON object, no other text.`;
                                                     const fields = [...currentTemplate.fields, { name: 'field', prompt: 'prompt...' }];
                                                     updateTemplate(currentTemplateId, { fields });
                                                 }}
-                                                className={`mt-arc-3 w-full py-arc-3 text-obsidian-accent border border-dashed border-obsidian-accent/30 rounded-xl hover:bg-obsidian-accent/5 hover:border-obsidian-accent transition-all flex items-center justify-center gap-arc-2 text-label ${settings.glassEffect ? 'glass-heavy layer-2' : ''}`}
+                                                className="mt-arc-3 w-full btn-arc flex items-center justify-center gap-arc-2"
                                             >
                                                 <Plus size={16} />
                                                 Add field
@@ -813,12 +813,12 @@ Respond with ONLY the JSON object, no other text.`;
                                         </div>
                                         
                                          <div>
-                                            <label className="text-obsidian-tertiary mb-arc-2 block text-label">Body Prompt (optional)</label>
+                                            <label className="text-obsidian-tertiary mb-arc-2 block text-label tracking-[0.1em] uppercase">Body Prompt (optional)</label>
                                             <textarea 
                                                 value={currentTemplate.bodyPrompt}
                                                 onChange={(e) => updateTemplate(currentTemplateId, { bodyPrompt: e.target.value })}
                                                 rows={3} 
-                                                className={`w-full border border-obsidian-border rounded-xl px-arc-4 py-arc-3 text-obsidian-text focus:border-obsidian-accent outline-none resize-none transition-all leading-relaxed text-body-small ${settings.glassEffect ? 'glass-heavy layer-2' : 'bg-obsidian-bg'}`}
+                                                className="w-full glass-input px-arc-4 py-arc-3 outline-none resize-none transition-all leading-relaxed text-body-small focus:border-arc-primary!"
                                             />
                                         </div>
                                     </div>
@@ -832,10 +832,10 @@ Respond with ONLY the JSON object, no other text.`;
                                     <div className={`border border-obsidian-border rounded-2xl p-arc-5 space-y-arc-6 shadow-xl ${settings.glassEffect ? 'glass-standard layer-1' : 'bg-obsidian-surface/60'}`}>
                                         <div>
                                             <div className="flex items-center justify-between mb-arc-2 px-1">
-                                                <label className="text-obsidian-tertiary text-label">API Key (OpenRouter)</label>
+                                                <label className="text-obsidian-tertiary text-label tracking-[0.1em] uppercase">API Key (OpenRouter)</label>
                                                 <button 
                                                     onClick={() => setIsApiKeyEditing(!isApiKeyEditing)}
-                                                    className="text-obsidian-accent hover:text-white transition-colors text-label"
+                                                    className="btn-arc py-1 px-4 text-xs"
                                                 >
                                                     {isApiKeyEditing ? 'Done' : 'Edit'}
                                                 </button>
@@ -847,31 +847,31 @@ Respond with ONLY the JSON object, no other text.`;
                                                     onChange={(e) => setSettings({ ...settings, openRouterApiKey: e.target.value })}
                                                     placeholder="sk-or-..." 
                                                     readOnly={!isApiKeyEditing}
-                                                    className={`w-full border rounded-xl px-arc-4 py-arc-3 text-xs text-obsidian-text pr-10 outline-none transition-all shadow-inner ${isApiKeyEditing ? 'border-obsidian-accent shadow-[0_0_10px_rgba(0,212,255,0.2)]' : 'border-obsidian-border group-hover:border-obsidian-border/80'} ${settings.glassEffect ? 'glass-heavy' : 'bg-obsidian-bg'}`}
+                                                    className={`w-full glass-input px-arc-4 py-arc-3 text-xs pr-10 outline-none transition-all ${isApiKeyEditing ? 'border-arc-primary! shadow-[0_0_10px_rgba(0,212,255,0.2)]' : ''}`}
                                                 />
-                                                <button onClick={() => setShowKey(!showKey)} className="absolute right-3 top-1/2 -translate-y-1/2 text-obsidian-muted hover:text-obsidian-accent transition-colors">
+                                                <button onClick={() => setShowKey(!showKey)} className="absolute right-3 top-1/2 -translate-y-1/2 text-obsidian-muted hover:text-arc-primary transition-colors">
                                                     {showKey ? <X size={16} /> : <Eye size={16} />}
                                                 </button>
                                             </div>
                                         </div>
-                                        
-                                         <div>
-                                            <label className="text-obsidian-tertiary mb-2.5 block px-1 text-label">Available Models</label>
+
+                                        <div>
+                                            <label className="text-obsidian-tertiary mb-2.5 block px-1 text-label tracking-[0.1em] uppercase">Available Models</label>
                                             <div className="space-y-2.5">
                                                 {settings.models.map((m, i) => (
-                                                    <div key={i} className={`flex items-center gap-0 rounded-xl border border-obsidian-border overflow-hidden group focus-within:border-obsidian-accent/30 transition-all ${settings.glassEffect ? 'glass-heavy' : 'bg-obsidian-bg'}`}>
+                                                    <div key={i} className="flex items-center gap-0 rounded-xl border border-obsidian-border/30 glass-heavy overflow-hidden group focus-within:border-arc-primary/30 transition-all">
                                                         <button 
                                                             onClick={() => {
                                                                 if (settings.models.length <= 1) return;
                                                                 const models = settings.models.filter((_, idx) => idx !== i);
                                                                 setSettings({ ...settings, models });
                                                             }}
-                                                            className={`w-10 h-10 flex items-center justify-center border-r border-obsidian-border transition-all ${settings.models.length > 1 ? 'bg-obsidian-error/5 text-obsidian-error/60 group-hover:bg-obsidian-error/20 hover:bg-obsidian-error hover:text-white' : 'opacity-20 grayscale'}`}
+                                                            className={`w-10 h-10 flex items-center justify-center border-r border-obsidian-border/30 transition-all ${settings.models.length > 1 ? 'bg-obsidian-error/5 text-obsidian-error/60 hover:bg-obsidian-error hover:text-white' : 'opacity-20 grayscale'}`}
                                                             disabled={settings.models.length <= 1}
                                                         >
                                                             <X size={14} strokeWidth={3} />
                                                         </button>
-                                                        <div className="flex-1 bg-transparent px-arc-4 py-arc-3 text-obsidian-text truncate text-data-micro">
+                                                        <div className="flex-1 bg-transparent px-arc-4 py-arc-3 text-obsidian-text truncate text-data-micro font-mono">
                                                             {m}
                                                         </div>
                                                     </div>
@@ -879,18 +879,18 @@ Respond with ONLY the JSON object, no other text.`;
                                             </div>
 
                                             {isAddingModel ? (
-                                                <div className="mt-arc-4 space-y-arc-3 bg-obsidian-bg/50 p-arc-3 rounded-xl border border-obsidian-border shadow-inner">
+                                                <div className="mt-arc-4 space-y-arc-3 glass-heavy p-arc-3 rounded-xl border border-obsidian-border/30">
                                                     <div className="flex items-center gap-arc-2">
                                                         <input 
                                                             autoFocus
                                                             placeholder="Search models..."
                                                             value={modelSearch}
                                                             onChange={(e) => setModelSearch(e.target.value)}
-                                                            className="flex-1 bg-obsidian-bg border border-obsidian-border rounded-lg px-arc-3 py-arc-2 text-xs text-white outline-none focus:border-obsidian-accent"
+                                                            className="flex-1 glass-input px-arc-3 py-arc-2 text-xs outline-none focus:border-arc-primary!"
                                                         />
                                                         <button 
                                                             onClick={() => setIsAddingModel(false)}
-                                                            className="text-xs text-obsidian-muted hover:text-white"
+                                                            className="text-xs text-obsidian-muted hover:text-white uppercase tracking-wider"
                                                         >
                                                             Close
                                                         </button>
@@ -899,9 +899,9 @@ Respond with ONLY the JSON object, no other text.`;
                                                     {isFetchingModels ? (
                                                         <div className="py-arc-6 flex flex-col items-center gap-arc-3">
                                                              <motion.div animate={{ rotate: 360 }} transition={{ duration: 2, repeat: Infinity, ease: "linear" }}>
-                                                                <Sparkles size={20} className="text-obsidian-tertiary" />
+                                                                <Zap size={20} className="text-arc-primary" />
                                                             </motion.div>
-                                                            <span className="text-obsidian-muted text-label">Loading models...</span>
+                                                            <span className="text-obsidian-muted text-label uppercase tracking-widest">Synchronizing...</span>
                                                         </div>
                                                     ) : (
                                                         <div className="max-h-48 overflow-y-auto custom-scroll space-y-1">
@@ -918,23 +918,12 @@ Respond with ONLY the JSON object, no other text.`;
                                                                             setIsAddingModel(false);
                                                                             setModelSearch('');
                                                                         }}
-                                                                        className="w-full text-left px-arc-3 py-arc-2 text-xs text-obsidian-muted hover:text-white hover:bg-obsidian-accent/10 rounded-lg transition-colors group flex items-center justify-between"
+                                                                        className="w-full text-left px-arc-3 py-arc-2 text-xs text-obsidian-muted hover:text-arc-primary hover:bg-arc-primary/10 rounded-lg transition-colors group flex items-center justify-between"
                                                                     >
-                                                                        <span className="truncate">{m.id}</span>
-                                                                        <Plus size={12} className="opacity-0 group-hover:opacity-100 text-obsidian-accent" />
+                                                                        <span className="truncate font-mono">{m.id}</span>
+                                                                        <Plus size={12} className="opacity-0 group-hover:opacity-100 text-arc-primary" />
                                                                     </button>
                                                                 ))}
-                                                            {availableModels.length > 0 && availableModels.filter(m => m.id.toLowerCase().includes(modelSearch.toLowerCase())).length === 0 && (
-                                                                <div className="p-arc-4 text-center text-xs text-obsidian-muted italic">No models found</div>
-                                                            )}
-                                                            {availableModels.length === 0 && (
-                                                                <button 
-                                                                    onClick={fetchAvailableModels}
-                                                                    className="w-full p-arc-4 text-center text-xs text-obsidian-accent hover:underline"
-                                                                >
-                                                                    Load model list from OpenRouter
-                                                                </button>
-                                                            )}
                                                         </div>
                                                     )}
                                                 </div>
@@ -944,7 +933,7 @@ Respond with ONLY the JSON object, no other text.`;
                                                         setIsAddingModel(true);
                                                         if (availableModels.length === 0) fetchAvailableModels();
                                                     }}
-                                                    className={`mt-arc-3 w-full py-arc-3 text-obsidian-accent border border-dashed border-obsidian-accent/30 rounded-xl hover:bg-obsidian-accent/5 hover:border-obsidian-accent transition-all flex items-center justify-center gap-arc-2 text-label ${settings.glassEffect ? 'glass-heavy' : ''}`}
+                                                    className="mt-arc-3 w-full btn-arc flex items-center justify-center gap-arc-2"
                                                 >
                                                     <Plus size={16} />
                                                     Add model
