@@ -708,23 +708,25 @@ Respond with ONLY the JSON object, no other text.`;
                                                             <option key={t.id} value={t.id} className="bg-[#0a0e17] text-white">{t.name}</option>
                                                         ))}
                                                     </select>
-                                                    <button 
+                                                    <div 
+                                                        role="button"
                                                         onClick={() => setIsAddingTemplate(true)} 
-                                                        className="w-12 h-12 btn-arc flex items-center justify-center p-0!"
+                                                        className="w-12 h-12 btn-arc flex items-center justify-center p-0! cursor-pointer"
                                                     >
                                                         <Plus size={22} />
-                                                    </button>
+                                                    </div>
                                                 </>
                                             )}
                                         </div>
 
                                          <div className="flex items-center gap-arc-3">
-                                            <button 
+                                            <div 
+                                                role="button"
                                                 onClick={() => deleteTemplate(currentTemplateId)}
-                                                className={`flex-1 py-arc-2 text-obsidian-error/70 border border-obsidian-error/20 rounded-xl hover:bg-obsidian-error/10 hover:text-obsidian-error transition-all text-label ${settings.glassEffect ? 'glass-heavy layer-2' : ''}`}
+                                                className={`flex-1 flex justify-center items-center py-arc-2 text-obsidian-error/70 border border-obsidian-error/20 rounded-xl hover:bg-[#8e1c1c]/30! hover:text-obsidian-error transition-all text-label cursor-pointer pointer-events-auto ${settings.glassEffect ? 'glass-heavy layer-2' : ''}`}
                                             >
                                                 Delete
-                                            </button>
+                                            </div>
                                             {isRenamingTemplate === currentTemplateId ? (
                                                 <input 
                                                     autoFocus
@@ -735,12 +737,13 @@ Respond with ONLY the JSON object, no other text.`;
                                                     className={`flex-1 border border-obsidian-accent rounded-xl px-arc-3 py-arc-2 text-white outline-none text-data-s ${settings.glassEffect ? 'glass-heavy layer-2' : 'bg-obsidian-bg'}`}
                                                 />
                                             ) : (
-                                                <button 
+                                                <div 
+                                                    role="button"
                                                     onClick={() => setIsRenamingTemplate(currentTemplateId)}
-                                                    className={`flex-1 py-arc-2 text-obsidian-muted border border-obsidian-border rounded-xl hover:bg-obsidian-bg hover:text-white transition-all text-label ${settings.glassEffect ? 'glass-heavy layer-2' : ''}`}
+                                                    className={`flex-1 flex justify-center items-center py-arc-2 text-obsidian-muted border border-obsidian-border rounded-xl hover:bg-[#1a202c]! hover:text-white transition-all text-label cursor-pointer pointer-events-auto ${settings.glassEffect ? 'glass-heavy layer-2' : ''}`}
                                                 >
                                                     Rename
-                                                </button>
+                                                </div>
                                             )}
                                         </div>
                                         
@@ -758,8 +761,8 @@ Respond with ONLY the JSON object, no other text.`;
                                             <div className="space-y-arc-3">
                                                 {currentTemplate.fields.map((field, i) => (
                                                     <div key={i} className="flex items-stretch rounded-xl border border-obsidian-border/30 glass-heavy overflow-hidden group focus-within:border-arc-primary/50 transition-all mb-arc-3">
-                                                        <button 
-                                                            type="button"
+                                                        <div 
+                                                            role="button"
                                                             onClick={(e) => {
                                                                 e.preventDefault();
                                                                 e.stopPropagation();
@@ -767,12 +770,11 @@ Respond with ONLY the JSON object, no other text.`;
                                                                 const fields = currentTemplate.fields.filter((_, idx) => idx !== i);
                                                                 updateTemplate(currentTemplateId, { fields });
                                                             }}
-                                                            className={`arc-base-transparent w-10 shrink-0 flex items-center justify-center border-r border-obsidian-border/30 transition-all pointer-events-auto ${currentTemplate.fields.length > 1 ? 'hover:bg-obsidian-error/40! text-obsidian-error/60' : 'opacity-20 grayscale'}`}
-                                                            disabled={currentTemplate.fields.length <= 1}
+                                                            className={`w-10 shrink-0 flex items-center justify-center border-r border-obsidian-border/30 transition-all pointer-events-auto cursor-pointer self-stretch ${currentTemplate.fields.length > 1 ? 'hover:bg-[#8e1c1c]! text-obsidian-error/60 hover:text-white' : 'opacity-20 grayscale pointer-events-none'}`}
                                                             title="Delete field"
                                                         >
-                                                            <X size={14} strokeWidth={3} />
-                                                        </button>
+                                                            <X size={16} strokeWidth={3} />
+                                                        </div>
                                                         <input 
                                                             value={field.name}
                                                             onChange={(e) => {
@@ -796,18 +798,19 @@ Respond with ONLY the JSON object, no other text.`;
                                                     </div>
                                                 ))}
                                             </div>
-                                            <button 
-                                                type="button"
+                                            <div 
+                                                role="button"
                                                 onClick={(e) => {
                                                     e.preventDefault();
+                                                    e.stopPropagation();
                                                     const fields = [...currentTemplate.fields, { name: 'field', prompt: 'prompt...' }];
                                                     updateTemplate(currentTemplateId, { fields });
                                                 }}
-                                                className="mt-arc-3 w-full btn-arc flex items-center justify-center gap-arc-2 py-4! text-base! font-bold layer-3 pointer-events-auto"
+                                                className="mt-arc-3 w-full btn-arc flex items-center justify-center gap-arc-2 py-4! text-base! font-bold layer-3 pointer-events-auto cursor-pointer"
                                             >
                                                 <Plus size={20} />
                                                 Add field
-                                            </button>
+                                            </div>
                                         </div>
                                         
                                          <div>
@@ -857,18 +860,20 @@ Respond with ONLY the JSON object, no other text.`;
                                             <label className="text-obsidian-tertiary mb-2.5 block px-1 text-label tracking-[0.1em] uppercase">Available Models</label>
                                             <div className="space-y-2.5">
                                                 {settings.models.map((m, i) => (
-                                                    <div key={i} className="flex items-center gap-0 rounded-xl border border-obsidian-border/30 glass-heavy overflow-hidden group focus-within:border-arc-primary/30 transition-all">
-                                                        <button 
-                                                            onClick={() => {
+                                                    <div key={i} className="flex items-stretch gap-0 rounded-xl border border-obsidian-border/30 glass-heavy overflow-hidden group focus-within:border-arc-primary/30 transition-all">
+                                                        <div 
+                                                            role="button"
+                                                            onClick={(e) => {
+                                                                e.preventDefault();
+                                                                e.stopPropagation();
                                                                 if (settings.models.length <= 1) return;
                                                                 const models = settings.models.filter((_, idx) => idx !== i);
                                                                 setSettings({ ...settings, models });
                                                             }}
-                                                            className={`w-10 h-10 flex items-center justify-center border-r border-obsidian-border/30 transition-all ${settings.models.length > 1 ? 'bg-obsidian-error/5 text-obsidian-error/60 hover:bg-obsidian-error hover:text-white' : 'opacity-20 grayscale'}`}
-                                                            disabled={settings.models.length <= 1}
+                                                            className={`w-10 self-stretch flex items-center justify-center border-r border-obsidian-border/30 transition-all cursor-pointer pointer-events-auto ${settings.models.length > 1 ? 'hover:bg-[#8e1c1c]! text-obsidian-error/80 hover:text-white' : 'opacity-20 grayscale pointer-events-none'}`}
                                                         >
-                                                            <X size={14} strokeWidth={3} />
-                                                        </button>
+                                                            <X size={16} strokeWidth={3} />
+                                                        </div>
                                                         <div className="flex-1 bg-transparent px-arc-4 py-arc-3 text-obsidian-text truncate text-data-micro font-mono">
                                                             {m}
                                                         </div>
