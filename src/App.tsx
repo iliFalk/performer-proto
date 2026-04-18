@@ -13,7 +13,8 @@ import {
   X, 
   Eye, 
   Brain,
-  RefreshCw
+  RefreshCw,
+  Zap
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
@@ -471,13 +472,13 @@ Respond with ONLY the JSON object, no other text.`;
                             className="absolute inset-0 flex flex-col"
                         >
                             {/* Header */}
-                            <div className={`sticky top-0 w-full flex items-center justify-between px-arc-5 pt-arc-2 pb-arc-3 ${settings.glassEffect ? 'layer-2 glass-heavy' : 'bg-obsidian-bg/80 backdrop-blur-sm'}`}>
-                                <div className="flex items-center gap-arc-3 overflow-hidden">
-                                     <h2 className="text-white text-h2 uppercase tracking-wider truncate">Performer</h2>
+                            <div className={`sticky top-0 w-full flex items-center justify-between px-arc-5 pt-arc-5 pb-arc-4 ${settings.glassEffect ? 'layer-2 glass-heavy border-b border-arc-primary/20' : 'bg-obsidian-bg/80 backdrop-blur-sm shadow-lg'}`}>
+                                <div className="flex items-center gap-arc-4 overflow-hidden">
+                                     <h2 className="text-white text-h2 uppercase tracking-[0.15em] font-display font-black truncate">Performer</h2>
                                      {bridge.isPlugin && (
                                          <button 
                                             onClick={syncNote}
-                                            className="p-1.5 text-obsidian-muted hover:text-obsidian-accent transition-colors"
+                                            className="p-2 text-obsidian-muted hover:text-obsidian-accent transition-colors bg-obsidian-border/30 rounded-lg"
                                             title="Sync active note"
                                          >
                                              <RefreshCw size={14} className={isPerforming ? 'animate-spin' : ''} />
@@ -486,7 +487,7 @@ Respond with ONLY the JSON object, no other text.`;
                                 </div>
                                 <button 
                                     onClick={() => setView('settings')} 
-                                    className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center transition-colors text-obsidian-muted hover:text-obsidian-accent active:scale-95 ${settings.glassEffect ? 'glass-heavy' : 'hover:bg-shadow-panel'}`}
+                                    className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center transition-all text-obsidian-muted hover:text-obsidian-accent hover:shadow-arc-glow-subtle active:scale-95 ${settings.glassEffect ? 'glass-heavy border border-arc-primary/30' : 'hover:bg-shadow-panel'}`}
                                 >
                                     <Settings size={20} />
                                 </button>
@@ -506,39 +507,39 @@ Respond with ONLY the JSON object, no other text.`;
                             </div>
                             
                             {/* Note Name Prompt */}
-                            <div className={`px-arc-5 pb-arc-2 ${settings.glassEffect ? 'layer-1' : ''}`}>
-                                <div className={`border border-obsidian-border rounded-xl px-arc-4 py-arc-3 shadow-lg ${settings.glassEffect ? 'glass-standard' : 'bg-obsidian-surface'}`}>
-                                    <div className="text-obsidian-tertiary text-label mb-arc-1 flex items-center gap-arc-2">
-                                        <div className="w-1.5 h-1.5 rounded-full bg-obsidian-tertiary shadow-[0_0_8px_rgba(76,114,213,0.8)] peripheral-data" />
+                            <div className={`px-arc-5 pb-arc-4 ${settings.glassEffect ? 'layer-1' : ''}`}>
+                                <div className={`border border-arc-primary/20 rounded-xl px-arc-4 py-arc-4 shadow-arc-card ${settings.glassEffect ? 'glass-standard' : 'bg-obsidian-surface'}`}>
+                                    <div className="text-obsidian-tertiary text-label mb-arc-2 flex items-center gap-arc-2">
+                                        <div className="w-1.5 h-1.5 rounded-full bg-obsidian-tertiary shadow-arc-glow-subtle peripheral-data" />
                                         Suggested Note Name
                                     </div>
-                                    <div className="text-obsidian-accent italic font-medium truncate leading-relaxed text-body-small">
+                                    <div className="text-obsidian-accent italic font-medium truncate leading-relaxed text-[15px] tracking-wide">
                                         {llmResults?._noteName || currentTemplate.noteNamePrompt || "Extract note name..."}
                                     </div>
                                 </div>
                             </div>
                             
                             {/* Scrollable content */}
-                            <div className="flex-1 overflow-y-auto custom-scroll px-arc-5 pb-arc-3 text-inter">
+                            <div className="flex-1 overflow-y-auto custom-scroll px-arc-5 pb-arc-6 space-y-arc-5">
                                 
                                 {/* Frontmatter Section */}
-                                <div className={`rounded-2xl p-arc-2 border border-obsidian-border/50 shadow-inner ${settings.glassEffect ? 'glass-standard layer-1' : 'bg-obsidian-surface/40'}`}>
+                                <div className={`rounded-2xl border border-obsidian-border/30 overflow-hidden ${settings.glassEffect ? 'glass-standard layer-1' : 'bg-obsidian-surface/40'}`}>
                                     <button 
                                         onClick={() => setFmCollapsed(!fmCollapsed)} 
-                                        className="flex items-center gap-arc-2 w-full px-arc-3 py-arc-2 text-obsidian-text hover:text-obsidian-accent transition-colors outline-none text-label"
+                                        className="flex items-center gap-arc-3 w-full px-arc-4 py-arc-4 text-obsidian-text hover:text-obsidian-accent hover:bg-white/5 transition-all outline-none"
                                     >
-                                        <ChevronDown size={18} className={`transition-transform duration-300 text-obsidian-tertiary ${fmCollapsed ? '-rotate-90' : ''}`} />
-                                        <span>Properties</span>
-                                        <span className="bg-obsidian-tertiary/20 text-obsidian-tertiary px-arc-2 py-0.5 rounded-lg border border-obsidian-tertiary/30 text-data-label">
+                                        <ChevronDown size={18} className={`transition-transform duration-500 text-obsidian-tertiary ${fmCollapsed ? '-rotate-90' : ''}`} />
+                                        <span className="text-label tracking-[0.2em] font-black">Properties</span>
+                                        <div className="ml-auto bg-obsidian-tertiary/20 text-obsidian-tertiary px-2 py-0.5 rounded-lg border border-obsidian-tertiary/30 text-data-label font-bold">
                                             {currentTemplate.fields.length}
-                                        </span>
+                                        </div>
                                     </button>
                                     {!fmCollapsed && (
                                         <motion.div 
                                             variants={getStaggerChildren(0.02)}
                                             initial="initial"
                                             animate="animate"
-                                            className="space-y-arc-3 pt-arc-2"
+                                            className="px-arc-4 pb-arc-4 space-y-arc-2"
                                         >
                                             {currentTemplate.fields.map((field, i) => {
                                                 const resultValue = llmResults?.[field.name];
@@ -548,21 +549,21 @@ Respond with ONLY the JSON object, no other text.`;
                                                         key={i} 
                                                         variants={hologramRowsVariants}
                                                         custom={i}
-                                                        className={`flex items-stretch rounded-xl border border-obsidian-border/80 bg-obsidian-bg/60 overflow-hidden group hover:border-obsidian-accent/30 transition-all duration-500 ${hasValue ? 'field-highlight ring-1 ring-obsidian-accent/20 layer-2' : ''}`}
+                                                        className={`flex items-stretch rounded-lg border border-obsidian-border/50 bg-obsidian-bg/30 overflow-hidden group hover:border-obsidian-accent/30 transition-all duration-300 ${hasValue ? 'field-highlight border-arc-primary/50 layer-2' : ''}`}
                                                     >
-                                                        <div className={`${settings.glassEffect ? 'bg-transparent' : 'bg-obsidian-surface'} border-r border-obsidian-border px-arc-3 py-2.5 min-w-[100px] flex items-center`}>
-                                                            <span className="text-obsidian-muted group-hover:text-obsidian-tertiary transition-colors text-data-label">{field.name}</span>
+                                                        <div className="bg-obsidian-surface/50 border-r border-obsidian-border/50 px-arc-3 py-2.5 min-w-[90px] flex items-center justify-center">
+                                                            <span className="text-obsidian-muted group-hover:text-obsidian-tertiary transition-colors text-data-label text-center">{field.name}</span>
                                                         </div>
-                                                        <div className="flex-1">
+                                                        <div className="flex-1 min-w-0">
                                                             {hasValue ? (
                                                                 <input 
                                                                     value={resultValue}
                                                                     onChange={(e) => setLlmResults({ ...llmResults, [field.name]: e.target.value })}
-                                                                    className="w-full bg-transparent px-arc-4 py-2.5 text-white outline-none text-data-s layer-2 animate-hologram-jitter"
+                                                                    className="w-full bg-transparent px-arc-4 py-2.5 text-white outline-none text-data-s layer-2 hover:bg-white/5 transition-colors"
                                                                 />
                                                             ) : (
-                                                                <div className="px-arc-4 py-2.5 text-obsidian-muted/40 italic truncate select-none leading-relaxed text-data-s">
-                                                                    {"{ " + field.prompt + " }"}
+                                                                <div className="px-arc-4 py-2.5 text-obsidian-muted/30 italic truncate select-none leading-relaxed text-data-s opacity-50">
+                                                                    {field.prompt}
                                                                 </div>
                                                             )}
                                                         </div>
@@ -574,13 +575,13 @@ Respond with ONLY the JSON object, no other text.`;
                                 </div>
                                 
                                 {/* Note Body */}
-                                <div className={`mt-arc-4 ${settings.glassEffect ? 'layer-1' : ''}`}>
-                                    <div className="flex items-center gap-2 py-2">
-                                        <FileText size={16} className="text-obsidian-muted" />
-                                        <span className="text-obsidian-text text-h4">Note Body</span>
-                                        <span className="text-obsidian-muted text-data-label">(read-only)</span>
+                                <div className={settings.glassEffect ? 'layer-1' : ''}>
+                                    <div className="flex items-center gap-2 mb-arc-3">
+                                        <FileText size={14} className="text-obsidian-tertiary opacity-70" />
+                                        <span className="text-label">Note Body</span>
+                                        <span className="text-obsidian-muted text-[10px] tracking-wider opacity-60 uppercase">(Preview Only)</span>
                                     </div>
-                                    <div className={`border border-obsidian-border rounded-lg p-arc-3 text-obsidian-muted leading-relaxed max-h-36 overflow-y-auto custom-scroll whitespace-pre-wrap text-data-micro ${settings.glassEffect ? 'glass-standard' : 'bg-obsidian-surface'}`}>
+                                    <div className={`border border-obsidian-border/40 rounded-xl p-arc-4 text-obsidian-muted/70 leading-relaxed max-h-48 overflow-y-auto custom-scroll whitespace-pre-wrap text-data-micro ${settings.glassEffect ? 'glass-standard' : 'bg-obsidian-surface'}`}>
                                         {llmResults?.body || activeNote?.body || SAMPLE_NOTE.body}
                                     </div>
                                 </div>
@@ -594,7 +595,7 @@ Respond with ONLY the JSON object, no other text.`;
                             </div>
                             
                             {/* Bottom Bar: Model + Perform */}
-                            <div className={`sticky bottom-0 px-arc-5 py-arc-4 border-t border-obsidian-border bg-obsidian-bg/95 backdrop-blur-sm space-y-arc-4 ${settings.glassEffect ? 'layer-2 glass-heavy' : ''}`}>
+                            <div className={`sticky bottom-0 px-arc-5 pt-arc-5 pb-[calc(1.25rem+env(safe-area-inset-bottom))] border-t border-arc-primary/20 bg-obsidian-bg/95 backdrop-blur-md space-y-arc-4 ${settings.glassEffect ? 'layer-2 glass-heavy' : 'shadow-[0_-8px_24px_rgba(0,0,0,0.4)]'}`}>
                                 <AnimatePresence>
                                     {isPerforming && (
                                         <motion.div 
@@ -614,40 +615,42 @@ Respond with ONLY the JSON object, no other text.`;
                                         </motion.div>
                                     )}
                                 </AnimatePresence>
-                                <div className="flex items-center gap-arc-3">
-                                    <select 
-                                        value={selectedModel} 
-                                        onChange={(e) => setSelectedModel(e.target.value)}
-                                        className={`flex-1 basis-0 min-w-0 border border-obsidian-border rounded-xl px-arc-4 py-arc-3 text-obsidian-text cursor-pointer custom-select appearance-none outline-none focus:border-obsidian-accent/50 transition-colors text-data-micro ${settings.glassEffect ? 'glass-heavy' : 'bg-obsidian-surface'}`}
-                                    >
-                                        {settings.models.map(m => (
-                                            <option key={m} value={m}>{m}</option>
-                                        ))}
-                                    </select>
+                                <div className="flex gap-arc-3">
+                                    <div className="flex-1 relative min-w-0">
+                                        <select 
+                                            value={selectedModel} 
+                                            onChange={(e) => setSelectedModel(e.target.value)}
+                                            className={`w-full border border-arc-primary/30 rounded-xl px-arc-4 py-2.5 text-obsidian-text cursor-pointer custom-select appearance-none outline-none focus:border-obsidian-accent transition-all text-data-micro ${settings.glassEffect ? 'glass-ghost' : 'bg-obsidian-surface'}`}
+                                        >
+                                            {settings.models.map(m => (
+                                                <option key={m} value={m}>{m.split('/').pop()}</option>
+                                            ))}
+                                        </select>
+                                    </div>
                                     <button 
                                         onClick={perform} 
-                                        className={`flex-1 basis-0 min-w-0 py-arc-3 bg-obsidian-accent hover:bg-obsidian-accent-hover text-obsidian-bg rounded-xl transition-all flex items-center justify-center gap-arc-2 whitespace-nowrap active:scale-95 text-label ${isPerforming ? 'performing-glow' : ''} ${settings.glassEffect ? 'shadow-lg shadow-obsidian-accent/40' : ''}`}
+                                        className={`flex-1 btn-arc group py-2.5 whitespace-nowrap flex items-center justify-center gap-arc-2 ${isPerforming ? 'performing-glow' : ''}`}
                                     >
+                                        <Zap size={14} className={isPerforming ? 'animate-pulse' : 'group-hover:scale-110 transition-transform'} />
                                         <span>{isPerforming ? `${(timer / 1000).toFixed(1)}s` : 'PERFORM'}</span>
                                     </button>
                                 </div>
 
                                 <button 
                                     onClick={updateNote} 
-                                    className={`w-full py-arc-4 rounded-xl transition-all duration-300 flex items-center justify-center gap-arc-3 overflow-hidden group relative text-label ${llmResults ? 'bg-obsidian-accent text-obsidian-bg shadow-[0_0_20px_rgba(0,212,255,0.3)] hover:shadow-[0_0_30px_rgba(0,212,255,0.5)]' : 'bg-obsidian-surface text-obsidian-muted opacity-30 cursor-not-allowed border border-obsidian-border'}`}
+                                    className={llmResults ? 'btn-arc-primary w-full' : 'btn-arc w-full opacity-30 cursor-not-allowed border-obsidian-border'}
                                     disabled={!llmResults}
                                 >
-                                    <AnimatePresence mode="wait">
-                                        {isSaved ? (
-                                            <motion.div initial={{ y: 20 }} animate={{ y: 0 }} className="flex items-center gap-arc-2">
-                                                <span>Saved!</span>
-                                            </motion.div>
-                                        ) : (
-                                            <motion.div exit={{ y: -20 }} className="flex items-center gap-arc-2">
-                                                <span>Update Note</span>
-                                            </motion.div>
-                                        )}
-                                    </AnimatePresence>
+                                    <div className="flex items-center justify-center gap-arc-3">
+                                        <Save size={18} />
+                                        <AnimatePresence mode="wait">
+                                            {isSaved ? (
+                                                <motion.span key="saved" initial={{ y: 10, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -10, opacity: 0 }}>Saved!</motion.span>
+                                            ) : (
+                                                <motion.span key="update" initial={{ y: 10, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -10, opacity: 0 }}>Update Note</motion.span>
+                                            )}
+                                        </AnimatePresence>
+                                    </div>
                                 </button>
                             </div>
                         </motion.div>

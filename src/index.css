@@ -61,22 +61,22 @@
   --arc-color-primary-ghost: var(--_arc-cyan-300);
 
   /* Textfarben */
-  --arc-text-high: var(--_arc-blue-100);
-  --arc-text-medium: var(--_arc-blue-200);
-  --arc-text-low: var(--_arc-blue-300);
-  --arc-text-data: var(--_arc-blue-400);
-  --arc-text-subtle: var(--_arc-blue-600);
+  --arc-text-high: #F0F9FF;    /* Fast Weiß für Contrast */
+  --arc-text-medium: #BAE6FD;
+  --arc-text-low: #7DD3FC;
+  --arc-text-data: #22D3EE;
+  --arc-text-subtle: #4B7A8C;
 
   /* Statusfarben */
-  --arc-color-ok: var(--_arc-green-500);
-  --arc-color-caution: var(--_arc-amber-500);
-  --arc-color-warn: var(--_arc-orange-500);
-  --arc-color-critical: var(--_arc-red-500);
+  --arc-color-ok: #10B981;
+  --arc-color-caution: #F59E0B;
+  --arc-color-warn: #F97316;
+  --arc-color-critical: #EF4444;
 
   /* Borders (Raw for CSS border property) */
-  --arc-border-strong: 1px solid rgba(0, 212, 255, 0.6);
-  --arc-border-medium: 1px solid rgba(8, 145, 178, 0.4);
-  --arc-border-subtle: 1px solid rgba(26, 38, 51, 0.8);
+  --arc-border-strong: 1px solid rgba(0, 212, 255, 0.5);
+  --arc-border-medium: 1px solid rgba(8, 145, 178, 0.3);
+  --arc-border-subtle: 1px solid rgba(255, 255, 255, 0.08);
   --arc-border-focus: 2px solid var(--_arc-cyan-700);
 
   --arc-gradient-energy: linear-gradient(90deg, var(--_arc-cyan-600) 0%, var(--_arc-cyan-500) 50%, var(--_arc-cyan-700) 100%);
@@ -301,7 +301,7 @@
   }
 
   .text-h1 {
-    @apply font-display font-bold text-[24px] leading-tight tracking-[0.03em] uppercase;
+    @apply font-display font-bold text-[24px] leading-tight tracking-[0.06em] uppercase;
   }
   @media (min-width: 768px) {
     .text-h1 { @apply text-[28px]; }
@@ -311,29 +311,29 @@
   }
 
   .text-h2 {
-    @apply font-barlow font-semibold text-[20px] leading-snug tracking-[0.02em] uppercase;
+    @apply font-display font-bold text-[18px] leading-snug tracking-[0.10em] uppercase;
   }
   @media (min-width: 768px) {
-    .text-h2 { @apply text-[22px]; }
+    .text-h2 { @apply text-[20px]; }
   }
   @media (min-width: 1024px) {
-    .text-h2 { @apply text-[24px]; }
+    .text-h2 { @apply text-[22px]; }
   }
 
   .text-h3 {
-    @apply font-barlow font-medium text-[18px] leading-snug tracking-[0.01em] uppercase;
+    @apply font-display font-semibold text-[16px] leading-snug tracking-[0.08em] uppercase;
   }
 
   .text-h4 {
-    @apply font-barlow font-normal text-[14px] leading-snug tracking-[0.01em] uppercase;
+    @apply font-display font-medium text-[12px] leading-snug tracking-[0.12em] uppercase;
   }
 
   .text-label {
-    @apply font-display font-medium text-[13px] leading-none tracking-[0.08em] uppercase;
+    @apply font-display font-semibold text-[11px] leading-none tracking-[0.15em] uppercase opacity-80;
   }
 
   .text-data-label {
-    @apply font-display font-normal text-[10px] leading-none tracking-[0.10em] uppercase;
+    @apply font-mono font-medium text-[9px] leading-none tracking-[0.2em] uppercase opacity-60;
   }
 
   .text-body {
@@ -565,34 +565,38 @@
      TIER 2 — WEB-LIQUID-GLASS (Material System)
      =============================================================== */
   .glass-ghost {
-    background: rgba(26, 38, 51, 0.2);
-    backdrop-filter: blur(8px) saturate(140%);
+    background: rgba(10, 14, 23, 0.4);
+    backdrop-filter: blur(8px);
     border: 1px solid rgba(255, 255, 255, 0.05);
   }
 
   .glass-light {
-    background: rgba(26, 38, 51, 0.4);
-    backdrop-filter: blur(12px) saturate(160%);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.08), var(--arc-shadow-card);
+    background: rgba(10, 14, 23, 0.6);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(0, 212, 255, 0.1);
+    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
   }
 
   .glass-standard {
-    background: rgba(26, 38, 51, 0.6);
-    backdrop-filter: blur(16px) saturate(180%) brightness(1.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.12), var(--arc-shadow-panel);
-    border-top-color: rgba(255, 255, 255, 0.2);
-    border-left-color: rgba(255, 255, 255, 0.15);
+    background: rgba(15, 25, 35, 0.7);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 212, 255, 0.15);
+    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
   }
 
   .glass-heavy {
-    background: rgba(26, 38, 51, 0.8);
-    backdrop-filter: blur(24px) saturate(200%) brightness(1.1);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.15), var(--arc-shadow-modal);
-    border-top-color: rgba(255, 255, 255, 0.25);
-    border-left-color: rgba(255, 255, 255, 0.2);
+    background: rgba(5, 8, 13, 0.85);
+    backdrop-filter: blur(30px);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.15);
+  }
+
+  .btn-arc {
+    @apply relative border border-arc-primary/40 bg-arc-primary/10 text-arc-primary font-display font-bold uppercase tracking-[0.15em] py-2 px-6 transition-all duration-300 overflow-hidden hover:bg-arc-primary/20 hover:border-arc-primary hover:shadow-arc-glow-subtle active:scale-95;
+  }
+
+  .btn-arc-primary {
+    @apply relative bg-arc-primary text-obsidian-bg font-display font-black uppercase tracking-[0.2em] py-3 px-8 transition-all duration-300 hover:brightness-110 active:scale-95 shadow-arc-glow-subtle;
   }
 
   /* Minimal ARC — Mobile Overrides (< 768px) */
