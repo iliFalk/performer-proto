@@ -1,4 +1,4 @@
-import { Plugin, ItemView, WorkspaceLeaf, Notice } from 'obsidian';
+import { Plugin, ItemView, WorkspaceLeaf, Notice, PluginSettingTab, Setting, App as ObsidianApp } from 'obsidian';
 import React from 'react';
 import { createRoot, Root } from 'react-dom/client';
 import App from './src/App';
@@ -61,11 +61,50 @@ const DEFAULT_SETTINGS: PerformerSettings = {
   templates: [] // App code has internal defaults if this is empty
 }
 
+class PerformerSettingTab extends PluginSettingTab {
+  plugin: PerformerPlugin;
+
+  constructor(app: ObsidianApp, plugin: PerformerPlugin) {
+    super(app, plugin);
+    this.plugin = plugin;
+  }
+
+  display(): void {
+    const { containerEl } = this;
+    containerEl.empty();
+    containerEl.createEl('h2', { text: 'Performer Settings' });
+
+    new Setting(containerEl)
+      .setName('OpenRouter API Key')
+      .setDesc('Enter your OpenRouter API Key for AI note interpretation.')
+      .addText(text => text
+        .setPlaceholder('Enter your API key')
+        .setValue(this.plugin.settings.openRouterApiKey)
+        .onChange(async (value) => {
+          this.plugin.settings.openRouterApiKey = value;
+          await this.plugin.saveSettings();
+        }));
+
+    new Setting(containerEl)
+      .setName('Models')
+      .setDesc('Enter comma-separated list of OpenRouter models you want to use.')
+      .addTextArea(text => text
+        .setPlaceholder('google/gemini-2.0-flash-lite:free, openai/gpt-4o')
+        .setValue(this.plugin.settings.models.join(', '))
+        .onChange(async (value) => {
+          this.plugin.settings.models = value.split(',').map(m => m.trim()).filter(m => m !== '');
+          await this.plugin.saveSettings();
+        }));
+  }
+}
+
 export default class PerformerPlugin extends Plugin {
   settings: PerformerSettings;
 
   async onload() {
     await this.loadSettings();
+
+    this.addSettingTab(new PerformerSettingTab(this.app, this));
 
     this.registerView(
       VIEW_TYPE_PERFORMER,

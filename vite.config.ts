@@ -13,7 +13,11 @@ export default defineConfig(({mode}) => {
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),
+        'obsidian': path.resolve(__dirname, './src/lib/obsidian-mock.ts'),
       },
+    },
+    optimizeDeps: {
+      exclude: ['obsidian'],
     },
     build: {
       rollupOptions: {
