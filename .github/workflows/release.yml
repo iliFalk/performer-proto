@@ -24,7 +24,10 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Upload main.js to Release
+      - name: Upload assets to Release
         uses: softprops/action-gh-release@v2
         with:
-          files: main.js
+          files: |
+            main.js
+            manifest.json
+            styles.css
