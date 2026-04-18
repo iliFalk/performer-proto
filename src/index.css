@@ -719,17 +719,33 @@
   }
 
   .toggle-switch {
-    @apply relative w-9 h-5 rounded-full cursor-pointer transition-colors duration-200 bg-obsidian-border;
+    @apply relative cursor-pointer transition-colors duration-300;
+    width: 2.25rem !important;
+    height: 1.25rem !important;
+    border-radius: 9999px !important;
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
   }
   .toggle-switch.active {
-    @apply bg-obsidian-accent;
+    background-color: rgba(0, 212, 255, 0.2) !important;
+    border-color: rgba(0, 212, 255, 0.5) !important;
   }
   .toggle-switch::after {
-    content: '';
-    @apply absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full transition-transform duration-200;
+    content: '' !important;
+    @apply absolute;
+    top: 1px !important;
+    left: 1px !important;
+    width: 1.125rem !important;
+    height: 1.125rem !important;
+    background-color: rgba(255,255,255,0.7) !important;
+    border-radius: 9999px !important;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s ease !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3) !important;
   }
   .toggle-switch.active::after {
-    @apply translate-x-4;
+    transform: translateX(1rem) !important;
+    background-color: rgb(0, 212, 255) !important;
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.5) !important;
   }
 
   .custom-select {

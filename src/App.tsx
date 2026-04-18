@@ -834,25 +834,30 @@ Respond with ONLY the JSON object, no other text.`;
                                         <div>
                                             <div className="flex items-center justify-between mb-arc-2 px-1">
                                                 <label className="text-obsidian-tertiary text-label tracking-[0.1em] uppercase">API Key (OpenRouter)</label>
-                                                <button 
+                                                <div 
+                                                    role="button"
                                                     onClick={() => setIsApiKeyEditing(!isApiKeyEditing)}
-                                                    className="btn-arc py-1 px-4 text-xs"
+                                                    className="btn-arc flex items-center justify-center py-1 px-4 text-xs cursor-pointer"
                                                 >
                                                     {isApiKeyEditing ? 'Done' : 'Edit'}
-                                                </button>
+                                                </div>
                                             </div>
-                                            <div className="relative group">
+                                            <div className={`flex items-center w-full arc-base-input rounded-xl px-arc-4 transition-all border ${isApiKeyEditing ? 'border-arc-primary shadow-[0_0_10px_rgba(0,212,255,0.2)]' : 'border-obsidian-border/50'}`}>
                                                 <input 
                                                     type={showKey || isApiKeyEditing ? "text" : "password"}
                                                     value={settings.openRouterApiKey}
                                                     onChange={(e) => setSettings({ ...settings, openRouterApiKey: e.target.value })}
                                                     placeholder="sk-or-..." 
                                                     readOnly={!isApiKeyEditing}
-                                                    className={`w-full arc-base-input px-arc-4 py-arc-3 text-xs pr-10 outline-none transition-all ${isApiKeyEditing ? 'border-arc-primary! shadow-[0_0_10px_rgba(0,212,255,0.2)]' : ''}`}
+                                                    className="flex-1 arc-base-transparent outline-none! border-none! shadow-none! py-arc-3 text-xs m-0! min-w-0"
                                                 />
-                                                <button onClick={() => setShowKey(!showKey)} className="absolute right-3 top-1/2 -translate-y-1/2 text-obsidian-muted hover:text-arc-primary transition-colors">
+                                                <div 
+                                                    role="button"
+                                                    onClick={() => setShowKey(!showKey)} 
+                                                    className="flex-shrink-0 ml-2 flex items-center justify-center text-obsidian-muted hover:text-arc-primary transition-colors cursor-pointer w-6 h-6"
+                                                >
                                                     {showKey ? <X size={16} /> : <Eye size={16} />}
-                                                </button>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -889,15 +894,15 @@ Respond with ONLY the JSON object, no other text.`;
                                                             placeholder="Search models..."
                                                             value={modelSearch}
                                                             onChange={(e) => setModelSearch(e.target.value)}
-                                                            className="flex-1 arc-base-input px-arc-3 py-arc-2 text-xs outline-none focus:border-arc-primary!"
+                                                            className="flex-1 arc-base-input rounded-xl px-arc-3 py-arc-2 text-xs outline-none focus:border-arc-primary!"
                                                         />
-                                                        <button 
-                                                            type="button"
+                                                        <div 
+                                                            role="button"
                                                             onClick={() => setIsAddingModel(false)}
-                                                            className="text-xs text-obsidian-muted hover:text-white uppercase tracking-wider py-1 px-2 hover:bg-white/5 rounded transition-all"
+                                                            className="text-xs text-obsidian-muted hover:text-white uppercase tracking-wider py-1 px-2 hover:bg-white/5 rounded transition-all cursor-pointer"
                                                         >
                                                             Close
-                                                        </button>
+                                                        </div>
                                                     </div>
                                                     
                                                     {isFetchingModels ? (
