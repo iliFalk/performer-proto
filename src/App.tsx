@@ -466,9 +466,6 @@ Respond with ONLY the JSON object, no other text.`;
                             key="performer"
                             initial={{ x: 0, opacity: 1 }}
                             exit={{ x: -100, opacity: 0 }}
-                            onPanEnd={(_, info) => {
-                                if (info.offset.x > 50) setView('settings');
-                            }}
                             className="absolute inset-0 flex flex-col"
                         >
                             {/* Header */}
@@ -660,9 +657,6 @@ Respond with ONLY the JSON object, no other text.`;
                             initial={{ x: 300, opacity: 0 }}
                             animate={{ x: 0, opacity: 1 }}
                             exit={{ x: 300, opacity: 0 }}
-                            onPanEnd={(_, info) => {
-                                if (info.offset.x > 50) setView('performer');
-                            }}
                             className="absolute inset-0 flex flex-col"
                         >
                             {/* Settings Scrollable */}
@@ -708,7 +702,7 @@ Respond with ONLY the JSON object, no other text.`;
                                                     <select 
                                                         value={currentTemplateId} 
                                                         onChange={(e) => setCurrentTemplateId(e.target.value)}
-                                                        className="flex-1 glass-input px-arc-4 py-arc-3 text-sm outline-none! focus:border-arc-primary! transition-all bg-[#0a0e17]!"
+                                                        className="flex-1 arc-base-select px-arc-4 py-arc-3 text-sm outline-none! focus:border-arc-primary! transition-all"
                                                     >
                                                         {settings.templates.map(t => (
                                                             <option key={t.id} value={t.id} className="bg-[#0a0e17] text-white">{t.name}</option>
@@ -756,7 +750,7 @@ Respond with ONLY the JSON object, no other text.`;
                                                  value={currentTemplate.noteNamePrompt}
                                                  onChange={(e) => updateTemplate(currentTemplateId, { noteNamePrompt: e.target.value })}
                                                  rows={2} 
-                                                 className="w-full glass-input px-arc-4 py-arc-3 outline-none resize-none transition-all leading-relaxed text-body-small focus:border-arc-primary! bg-[#05080d]!"
+                                                 className="w-full arc-base-input px-arc-4 py-arc-3 outline-none resize-none transition-all leading-relaxed text-body-small focus:border-arc-primary! rounded-xl"
                                              />
                                         </div>
                                                                                 <div>
@@ -773,7 +767,7 @@ Respond with ONLY the JSON object, no other text.`;
                                                                 const fields = currentTemplate.fields.filter((_, idx) => idx !== i);
                                                                 updateTemplate(currentTemplateId, { fields });
                                                             }}
-                                                            className={`w-10 shrink-0 flex items-center justify-center bg-white/5 border-r border-obsidian-border/30 transition-all pointer-events-auto ${currentTemplate.fields.length > 1 ? 'hover:bg-obsidian-error/40 text-obsidian-error/60' : 'opacity-20 grayscale'}`}
+                                                            className={`arc-base-transparent w-10 shrink-0 flex items-center justify-center border-r border-obsidian-border/30 transition-all pointer-events-auto ${currentTemplate.fields.length > 1 ? 'hover:bg-obsidian-error/40! text-obsidian-error/60' : 'opacity-20 grayscale'}`}
                                                             disabled={currentTemplate.fields.length <= 1}
                                                             title="Delete field"
                                                         >
@@ -786,7 +780,7 @@ Respond with ONLY the JSON object, no other text.`;
                                                                 fields[i].name = e.target.value;
                                                                 updateTemplate(currentTemplateId, { fields });
                                                             }}
-                                                            className="w-24 shrink-0 px-arc-3 py-arc-3 text-obsidian-muted bg-[#05080d]! border-r border-obsidian-border/30 outline-none text-data-label font-bold uppercase tracking-wider"
+                                                            className="arc-base-input w-24 shrink-0 px-arc-3 py-arc-3 text-obsidian-muted border-r border-obsidian-border/30 outline-none text-data-label font-bold uppercase tracking-wider"
                                                         />
                                                         <textarea 
                                                             value={field.prompt}
@@ -796,7 +790,7 @@ Respond with ONLY the JSON object, no other text.`;
                                                                 updateTemplate(currentTemplateId, { fields });
                                                             }}
                                                             rows={1}
-                                                            className="flex-1 min-w-0 bg-[#05080d]! px-arc-3 py-arc-3 text-xs text-obsidian-text outline-none resize-none transition-all duration-300 focus:min-h-[80px] leading-relaxed custom-scroll"
+                                                            className="arc-base-input flex-1 min-w-0 px-arc-3 py-arc-3 text-xs text-obsidian-text outline-none resize-none transition-all duration-300 focus:min-h-[80px] leading-relaxed custom-scroll"
                                                             placeholder="Prompt..."
                                                         />
                                                     </div>
@@ -822,7 +816,7 @@ Respond with ONLY the JSON object, no other text.`;
                                                 value={currentTemplate.bodyPrompt}
                                                 onChange={(e) => updateTemplate(currentTemplateId, { bodyPrompt: e.target.value })}
                                                 rows={3} 
-                                                className="w-full glass-input px-arc-4 py-arc-3 outline-none resize-none transition-all leading-relaxed text-body-small focus:border-arc-primary! bg-[#05080d]!"
+                                                className="w-full arc-base-input px-arc-4 py-arc-3 outline-none resize-none transition-all leading-relaxed text-body-small focus:border-arc-primary! rounded-xl"
                                             />
                                         </div>
                                     </div>
@@ -851,7 +845,7 @@ Respond with ONLY the JSON object, no other text.`;
                                                     onChange={(e) => setSettings({ ...settings, openRouterApiKey: e.target.value })}
                                                     placeholder="sk-or-..." 
                                                     readOnly={!isApiKeyEditing}
-                                                    className={`w-full glass-input px-arc-4 py-arc-3 text-xs pr-10 outline-none transition-all ${isApiKeyEditing ? 'border-arc-primary! shadow-[0_0_10px_rgba(0,212,255,0.2)]' : ''}`}
+                                                    className={`w-full arc-base-input px-arc-4 py-arc-3 text-xs pr-10 outline-none transition-all ${isApiKeyEditing ? 'border-arc-primary! shadow-[0_0_10px_rgba(0,212,255,0.2)]' : ''}`}
                                                 />
                                                 <button onClick={() => setShowKey(!showKey)} className="absolute right-3 top-1/2 -translate-y-1/2 text-obsidian-muted hover:text-arc-primary transition-colors">
                                                     {showKey ? <X size={16} /> : <Eye size={16} />}
@@ -890,7 +884,7 @@ Respond with ONLY the JSON object, no other text.`;
                                                             placeholder="Search models..."
                                                             value={modelSearch}
                                                             onChange={(e) => setModelSearch(e.target.value)}
-                                                            className="flex-1 glass-input px-arc-3 py-arc-2 text-xs outline-none focus:border-arc-primary! bg-[#05080d]!"
+                                                            className="flex-1 arc-base-input px-arc-3 py-arc-2 text-xs outline-none focus:border-arc-primary!"
                                                         />
                                                         <button 
                                                             type="button"

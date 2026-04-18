@@ -593,29 +593,35 @@
   }
 
   .glass-input {
+    background-color: rgba(10, 14, 23, 0.5) !important;
     background: rgba(10, 14, 23, 0.5) !important;
     border: 1px solid rgba(255, 255, 255, 0.1) !important;
     color: white !important;
-    border-radius: 0.75rem;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(4px);
-  }
-
-  /* Global UI Reset for Obsidian environment */
-  #arc-reactor-plugin button, 
-  #arc-reactor-plugin input, 
-  #arc-reactor-plugin textarea, 
-  #arc-reactor-plugin select {
-    background-color: transparent;
-    border: none;
-    color: inherit;
-    font-family: inherit;
+    border-radius: 0.75rem !important;
+    transition: all 0.3s ease !important;
+    backdrop-filter: blur(4px) !important;
     box-shadow: none !important;
   }
 
-  #arc-reactor-plugin input:focus, 
-  #arc-reactor-plugin textarea:focus {
-    outline: none !important;
+  .arc-base-input {
+    background-color: #05080d !important;
+    background: #05080d !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    color: rgba(255, 255, 255, 0.8) !important;
+    box-shadow: none !important;
+  }
+
+  .arc-base-select {
+    background-color: #0a0e17 !important;
+    background: #0a0e17 !important;
+    color: white !important;
+    box-shadow: none !important;
+  }
+
+  .arc-base-transparent {
+    background-color: transparent !important;
+    background: transparent !important;
+    box-shadow: none !important;
   }
 
   .glass-input:focus {
