@@ -598,12 +598,30 @@
     color: white !important;
     border-radius: 0.75rem;
     transition: all 0.3s ease;
+    backdrop-filter: blur(4px);
+  }
+
+  /* Global UI Reset for Obsidian environment */
+  #arc-reactor-plugin button, 
+  #arc-reactor-plugin input, 
+  #arc-reactor-plugin textarea, 
+  #arc-reactor-plugin select {
+    background-color: transparent;
+    border: none;
+    color: inherit;
+    font-family: inherit;
+    box-shadow: none !important;
+  }
+
+  #arc-reactor-plugin input:focus, 
+  #arc-reactor-plugin textarea:focus {
+    outline: none !important;
   }
 
   .glass-input:focus {
     background: rgba(10, 14, 23, 0.8) !important;
     border-color: var(--arc-primary) !important;
-    box-shadow: 0 0 10px rgba(0, 212, 255, 0.2) !important;
+    box-shadow: 0 0 15px rgba(0, 212, 255, 0.25) !important;
   }
 
   .btn-arc {

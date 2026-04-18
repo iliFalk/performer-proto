@@ -447,7 +447,7 @@ Respond with ONLY the JSON object, no other text.`;
     };
 
     return (
-        <div className="relative w-full h-screen bg-obsidian-bg text-obsidian-text overflow-hidden font-sans">
+        <div id="arc-reactor-plugin" className="relative w-full h-screen bg-obsidian-bg text-obsidian-text overflow-hidden font-sans">
             <DataRain />
             {/* LAYER 0: AMBIENT */}
             {settings.glassEffect && (
@@ -708,10 +708,10 @@ Respond with ONLY the JSON object, no other text.`;
                                                     <select 
                                                         value={currentTemplateId} 
                                                         onChange={(e) => setCurrentTemplateId(e.target.value)}
-                                                        className="flex-1 glass-input px-arc-4 py-arc-3 text-sm outline-none! focus:border-arc-primary! transition-all"
+                                                        className="flex-1 glass-input px-arc-4 py-arc-3 text-sm outline-none! focus:border-arc-primary! transition-all bg-[#0a0e17]!"
                                                     >
                                                         {settings.templates.map(t => (
-                                                            <option key={t.id} value={t.id} className="bg-[#0a0e17]">{t.name}</option>
+                                                            <option key={t.id} value={t.id} className="bg-[#0a0e17] text-white">{t.name}</option>
                                                         ))}
                                                     </select>
                                                     <button 
@@ -756,35 +756,37 @@ Respond with ONLY the JSON object, no other text.`;
                                                  value={currentTemplate.noteNamePrompt}
                                                  onChange={(e) => updateTemplate(currentTemplateId, { noteNamePrompt: e.target.value })}
                                                  rows={2} 
-                                                 className="w-full glass-input px-arc-4 py-arc-3 outline-none resize-none transition-all leading-relaxed text-body-small focus:border-arc-primary!"
+                                                 className="w-full glass-input px-arc-4 py-arc-3 outline-none resize-none transition-all leading-relaxed text-body-small focus:border-arc-primary! bg-[#05080d]!"
                                              />
                                         </div>
                                                                                 <div>
                                             <label className="text-obsidian-tertiary mb-arc-2 block text-label tracking-[0.1em] uppercase">Properties</label>
                                             <div className="space-y-arc-3">
                                                 {currentTemplate.fields.map((field, i) => (
-                                                    <div key={i} className="flex items-stretch rounded-xl border border-obsidian-border/30 glass-heavy overflow-hidden group focus-within:border-arc-primary/50 transition-all">
+                                                    <div key={i} className="flex items-stretch rounded-xl border border-obsidian-border/30 glass-heavy overflow-hidden group focus-within:border-arc-primary/50 transition-all mb-arc-3">
                                                         <button 
+                                                            type="button"
                                                             onClick={(e) => {
+                                                                e.preventDefault();
                                                                 e.stopPropagation();
                                                                 if (currentTemplate.fields.length <= 1) return;
                                                                 const fields = currentTemplate.fields.filter((_, idx) => idx !== i);
                                                                 updateTemplate(currentTemplateId, { fields });
                                                             }}
-                                                            className={`w-10 shrink-0 flex items-center justify-center bg-white/5 border-r border-obsidian-border/30 transition-all ${currentTemplate.fields.length > 1 ? 'hover:bg-obsidian-error/40 text-obsidian-error/60' : 'opacity-20 grayscale'}`}
+                                                            className={`w-10 shrink-0 flex items-center justify-center bg-white/5 border-r border-obsidian-border/30 transition-all pointer-events-auto ${currentTemplate.fields.length > 1 ? 'hover:bg-obsidian-error/40 text-obsidian-error/60' : 'opacity-20 grayscale'}`}
                                                             disabled={currentTemplate.fields.length <= 1}
                                                             title="Delete field"
                                                         >
                                                             <X size={14} strokeWidth={3} />
                                                         </button>
-                                                         <input 
+                                                        <input 
                                                             value={field.name}
                                                             onChange={(e) => {
                                                                 const fields = [...currentTemplate.fields];
                                                                 fields[i].name = e.target.value;
                                                                 updateTemplate(currentTemplateId, { fields });
                                                             }}
-                                                            className="w-24 shrink-0 px-arc-3 py-arc-3 text-obsidian-muted bg-white/5 border-r border-obsidian-border/30 outline-none text-data-label font-bold uppercase tracking-wider"
+                                                            className="w-24 shrink-0 px-arc-3 py-arc-3 text-obsidian-muted bg-[#05080d]! border-r border-obsidian-border/30 outline-none text-data-label font-bold uppercase tracking-wider"
                                                         />
                                                         <textarea 
                                                             value={field.prompt}
@@ -794,20 +796,22 @@ Respond with ONLY the JSON object, no other text.`;
                                                                 updateTemplate(currentTemplateId, { fields });
                                                             }}
                                                             rows={1}
-                                                            className="flex-1 min-w-0 bg-transparent px-arc-3 py-arc-3 text-xs text-obsidian-text outline-none resize-none transition-all duration-300 focus:min-h-[80px] leading-relaxed custom-scroll layer-2"
+                                                            className="flex-1 min-w-0 bg-[#05080d]! px-arc-3 py-arc-3 text-xs text-obsidian-text outline-none resize-none transition-all duration-300 focus:min-h-[80px] leading-relaxed custom-scroll"
                                                             placeholder="Prompt..."
                                                         />
                                                     </div>
                                                 ))}
                                             </div>
-                                             <button 
-                                                onClick={() => {
+                                            <button 
+                                                type="button"
+                                                onClick={(e) => {
+                                                    e.preventDefault();
                                                     const fields = [...currentTemplate.fields, { name: 'field', prompt: 'prompt...' }];
                                                     updateTemplate(currentTemplateId, { fields });
                                                 }}
-                                                className="mt-arc-3 w-full btn-arc flex items-center justify-center gap-arc-2"
+                                                className="mt-arc-3 w-full btn-arc flex items-center justify-center gap-arc-2 py-4! text-base! font-bold layer-3 pointer-events-auto"
                                             >
-                                                <Plus size={16} />
+                                                <Plus size={20} />
                                                 Add field
                                             </button>
                                         </div>
@@ -818,7 +822,7 @@ Respond with ONLY the JSON object, no other text.`;
                                                 value={currentTemplate.bodyPrompt}
                                                 onChange={(e) => updateTemplate(currentTemplateId, { bodyPrompt: e.target.value })}
                                                 rows={3} 
-                                                className="w-full glass-input px-arc-4 py-arc-3 outline-none resize-none transition-all leading-relaxed text-body-small focus:border-arc-primary!"
+                                                className="w-full glass-input px-arc-4 py-arc-3 outline-none resize-none transition-all leading-relaxed text-body-small focus:border-arc-primary! bg-[#05080d]!"
                                             />
                                         </div>
                                     </div>
@@ -879,18 +883,19 @@ Respond with ONLY the JSON object, no other text.`;
                                             </div>
 
                                             {isAddingModel ? (
-                                                <div className="mt-arc-4 space-y-arc-3 glass-heavy p-arc-3 rounded-xl border border-obsidian-border/30">
+                                                <div className="mt-arc-4 space-y-arc-3 glass-heavy p-arc-3 rounded-xl border border-obsidian-border/30 bg-[#0a0e17]! layer-3">
                                                     <div className="flex items-center gap-arc-2">
                                                         <input 
                                                             autoFocus
                                                             placeholder="Search models..."
                                                             value={modelSearch}
                                                             onChange={(e) => setModelSearch(e.target.value)}
-                                                            className="flex-1 glass-input px-arc-3 py-arc-2 text-xs outline-none focus:border-arc-primary!"
+                                                            className="flex-1 glass-input px-arc-3 py-arc-2 text-xs outline-none focus:border-arc-primary! bg-[#05080d]!"
                                                         />
                                                         <button 
+                                                            type="button"
                                                             onClick={() => setIsAddingModel(false)}
-                                                            className="text-xs text-obsidian-muted hover:text-white uppercase tracking-wider"
+                                                            className="text-xs text-obsidian-muted hover:text-white uppercase tracking-wider py-1 px-2 hover:bg-white/5 rounded transition-all"
                                                         >
                                                             Close
                                                         </button>
@@ -911,14 +916,16 @@ Respond with ONLY the JSON object, no other text.`;
                                                                 .map(m => (
                                                                     <button 
                                                                         key={m.id}
-                                                                        onClick={() => {
+                                                                        type="button"
+                                                                        onClick={(e) => {
+                                                                            e.preventDefault();
                                                                             if (!settings.models.includes(m.id)) {
                                                                                 setSettings({ ...settings, models: [...settings.models, m.id] });
                                                                             }
                                                                             setIsAddingModel(false);
                                                                             setModelSearch('');
                                                                         }}
-                                                                        className="w-full text-left px-arc-3 py-arc-2 text-xs text-obsidian-muted hover:text-arc-primary hover:bg-arc-primary/10 rounded-lg transition-colors group flex items-center justify-between"
+                                                                        className="w-full text-left px-arc-3 py-arc-2 text-xs text-obsidian-muted hover:text-arc-primary hover:bg-arc-primary/10 rounded-lg transition-colors group flex items-center justify-between bg-transparent!"
                                                                     >
                                                                         <span className="truncate font-mono">{m.id}</span>
                                                                         <Plus size={12} className="opacity-0 group-hover:opacity-100 text-arc-primary" />
