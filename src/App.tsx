@@ -466,8 +466,8 @@ Respond with ONLY the JSON object, no other text.`;
     if (!isVisible) return null;
 
     return createPortal(
-        <div id="arc-reactor-plugin" className="fixed inset-0 w-full h-[100dvh] bg-black/60 backdrop-blur-sm z-[99999] flex flex-col items-center justify-start text-obsidian-text overflow-y-auto font-sans pointer-events-auto px-4 pt-[8dvh] pb-4">
-            <div className="w-full h-[80vh] shrink-0 sm:w-[400px] sm:max-w-md bg-obsidian-bg rounded-[2rem] shadow-[0_24px_64px_rgba(0,0,0,0.6)] ring-1 ring-obsidian-border/50 ring-inset relative flex flex-col overflow-hidden isolate">
+        <div id="arc-reactor-plugin" className="fixed inset-0 w-full h-[100dvh] bg-black/60 backdrop-blur-sm z-[99999] flex flex-col items-center justify-center text-obsidian-text overflow-hidden font-sans pointer-events-auto p-4 sm:p-6 pb-[calc(1rem+env(safe-area-inset-bottom))]">
+            <div className="w-full flex-1 min-h-0 max-h-[850px] sm:w-[400px] sm:max-w-md bg-obsidian-bg rounded-[2rem] shadow-[0_24px_64px_rgba(0,0,0,0.6)] ring-1 ring-obsidian-border/50 ring-inset relative flex flex-col overflow-hidden isolate">
                 <AnimatePresence mode="wait">
                     {view === 'performer' ? (
                         <motion.div 
@@ -940,6 +940,10 @@ Respond with ONLY the JSON object, no other text.`;
                                                             placeholder="Search models..."
                                                             value={modelSearch}
                                                             onChange={(e) => setModelSearch(e.target.value)}
+                                                            onFocus={(e) => {
+                                                                const target = e.target;
+                                                                setTimeout(() => target.parentElement?.parentElement?.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 300);
+                                                            }}
                                                             className="flex-1 arc-base-input rounded-xl px-arc-3 py-arc-2 text-xs outline-none focus:border-arc-primary!"
                                                         />
                                                         <div 
