@@ -597,18 +597,34 @@ Respond with ONLY the JSON object, no other text.`;
                                         {llmResults?.body || activeNote?.body || SAMPLE_NOTE.body}
                                     </div>
                                 </div>
-
-                                {error && (
-                                    <div className="shrink-0 mb-arc-3 bg-obsidian-error/10 border border-obsidian-error/30 rounded-lg p-arc-3 text-xs text-obsidian-error flex items-start gap-arc-2 animate-fade-in">
-                                        <AlertCircle size={16} className="flex-shrink-0 mt-0.5" />
-                                        <span>{error}</span>
-                                    </div>
-                                )}
                             </div>
                             
                             {/* Bottom Bar: Model + Perform */}
                             <div className="sticky bottom-0 px-arc-4 pt-arc-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] border-t border-arc-primary/20 bg-obsidian-bg/95 backdrop-blur-md space-y-arc-3 layer-2 glass-heavy z-50">
-                                <div className="flex gap-arc-3">
+                                <div className="flex gap-arc-3 relative">
+                                    <AnimatePresence>
+                                        {error && (
+                                            <motion.div 
+                                                initial={{ opacity: 0, y: 5 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                exit={{ opacity: 0, y: 5 }}
+                                                className="absolute inset-0 z-20 flex"
+                                            >
+                                                <div 
+                                                    role="button"
+                                                    onClick={() => setError(null)}
+                                                    className="flex-1 w-full bg-[#1e0f11] backdrop-blur-md border border-obsidian-error/40 rounded-xl px-3 flex items-center justify-between gap-arc-2 shadow-lg cursor-pointer hover:border-obsidian-error text-obsidian-error pointer-events-auto"
+                                                    title="Click to dismiss error"
+                                                >
+                                                    <div className="flex items-center gap-arc-2 overflow-hidden w-full">
+                                                        <AlertCircle size={16} className="flex-shrink-0" />
+                                                        <span className="text-xs truncate font-medium leading-tight block w-full">{error}</span>
+                                                    </div>
+                                                    <X size={14} className="flex-shrink-0 ml-1 opacity-70" />
+                                                </div>
+                                            </motion.div>
+                                        )}
+                                    </AnimatePresence>
                                     <div className="flex-1 relative min-w-0">
                                         <select 
                                             value={selectedModel} 
