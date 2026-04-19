@@ -228,6 +228,7 @@ export default function App({ app, plugin }: AppProps) {
 
     // Persistence
     const [settings, setSettings] = useState<SettingsState>(DEFAULT_SETTINGS);
+    const [isVisible, setIsVisible] = useState(true);
     
     // Initial Load from Bridge
     useEffect(() => {
@@ -467,6 +468,8 @@ Respond with ONLY the JSON object, no other text.`;
         }
     };
 
+    if (!isVisible) return null;
+
     return createPortal(
         <div id="arc-reactor-plugin" className="fixed inset-0 w-full h-[100dvh] bg-black/60 backdrop-blur-sm z-[99999] flex flex-col items-center justify-start text-obsidian-text overflow-y-auto font-sans pointer-events-auto px-4 pt-[8dvh] pb-4">
             <div className="w-full h-[80vh] shrink-0 sm:w-[400px] sm:max-w-md bg-obsidian-bg rounded-[2rem] shadow-[0_24px_64px_rgba(0,0,0,0.6)] ring-1 ring-obsidian-border/50 ring-inset relative flex flex-col overflow-hidden isolate">
@@ -492,12 +495,20 @@ Respond with ONLY the JSON object, no other text.`;
                                          </button>
                                      )}
                                 </div>
-                                <button 
-                                    onClick={() => setView('settings')} 
-                                    className="w-10 h-10 shrink-0 rounded-xl flex items-center justify-center transition-all text-obsidian-muted hover:text-obsidian-accent hover:shadow-arc-glow-subtle active:scale-95 glass-heavy border border-arc-primary/30"
-                                >
-                                    <Settings size={20} />
-                                </button>
+                                <div className="flex items-center gap-2">
+                                    <button 
+                                        onClick={() => setView('settings')} 
+                                        className="w-10 h-10 shrink-0 rounded-xl flex items-center justify-center transition-all text-obsidian-muted hover:text-obsidian-accent hover:shadow-arc-glow-subtle active:scale-95 glass-heavy border border-arc-primary/30"
+                                    >
+                                        <Settings size={20} />
+                                    </button>
+                                    <button 
+                                        onClick={() => setIsVisible(false)} 
+                                        className="w-10 h-10 shrink-0 rounded-xl flex items-center justify-center transition-all text-obsidian-muted hover:text-white hover:bg-[#8e1c1c] hover:border-[#8e1c1c] active:scale-95 glass-heavy border border-obsidian-border/50"
+                                    >
+                                        <X size={20} />
+                                    </button>
+                                </div>
                             </div>
                             
                             {/* Scrollable Content wrapper */}
@@ -675,13 +686,22 @@ Respond with ONLY the JSON object, no other text.`;
                                         <h3 className="text-white text-h2 uppercase tracking-wider">
                                             Templates
                                         </h3>
-                                        <button 
-                                            onClick={() => setView('performer')} 
-                                            className="w-10 h-10 shrink-0 rounded-xl flex items-center justify-center transition-all text-obsidian-muted hover:text-obsidian-accent active:scale-95 shadow-lg border border-obsidian-border/50 glass-heavy layer-2"
-                                            title="Back to Performer"
-                                        >
-                                            <ArrowLeft size={20} />
-                                        </button>
+                                        <div className="flex items-center gap-2">
+                                            <button 
+                                                onClick={() => setView('performer')} 
+                                                className="w-10 h-10 shrink-0 rounded-xl flex items-center justify-center transition-all text-obsidian-muted hover:text-obsidian-accent active:scale-95 shadow-lg border border-obsidian-border/50 glass-heavy layer-2"
+                                                title="Back to Performer"
+                                            >
+                                                <ArrowLeft size={20} />
+                                            </button>
+                                            <button 
+                                                onClick={() => setIsVisible(false)} 
+                                                className="w-10 h-10 shrink-0 rounded-xl flex items-center justify-center transition-all text-obsidian-muted hover:text-white hover:bg-[#8e1c1c] hover:border-[#8e1c1c] active:scale-95 shadow-lg border border-obsidian-border/50 glass-heavy layer-2"
+                                                title="Close"
+                                            >
+                                                <X size={20} />
+                                            </button>
+                                        </div>
                                     </div>
                                     
                                     <div className="border border-obsidian-border rounded-2xl p-arc-5 space-y-arc-5 shadow-xl glass-standard layer-1">
