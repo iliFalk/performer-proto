@@ -682,6 +682,9 @@
     border-color: rgba(255, 255, 255, 0.1) !important;
     color: rgba(255, 255, 255, 0.8) !important;
     box-shadow: none !important;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    border-radius: 0;
   }
 
   :root[data-theme="light"] .arc-base-input {

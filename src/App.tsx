@@ -565,7 +565,7 @@ Respond with ONLY the JSON object, no other text.`;
                                                                     <input 
                                                                     value={resultValue}
                                                                     onChange={(e) => setLlmResults({ ...llmResults, [field.name]: e.target.value })}
-                                                                    className="w-full bg-transparent px-3 py-1.5 text-obsidian-text outline-none text-[12px] font-mono layer-2 hover:bg-black/5 transition-colors"
+                                                                    className="w-full bg-transparent px-3 py-1.5 text-obsidian-text outline-none text-[12px] font-mono layer-2 hover:bg-black/5 transition-colors rounded-none appearance-none"
                                                                 />
                                                             ) : (
                                                                 <div className="px-3 py-1.5 text-obsidian-muted/70 italic truncate select-none text-[12px] font-mono leading-tight">
@@ -791,7 +791,7 @@ Respond with ONLY the JSON object, no other text.`;
                                                                 fields[i].name = e.target.value;
                                                                 updateTemplate(currentTemplateId, { fields });
                                                             }}
-                                                            className="arc-base-input w-24 shrink-0 px-arc-3 py-arc-3 text-obsidian-muted border-r border-obsidian-border/30 outline-none text-data-label font-bold uppercase tracking-wider"
+                                                            className="arc-base-input rounded-none w-24 shrink-0 px-arc-3 py-arc-3 text-obsidian-muted border-r border-obsidian-border/30 outline-none text-data-label font-bold uppercase tracking-wider"
                                                         />
                                                         <textarea 
                                                             value={field.prompt}
@@ -801,7 +801,7 @@ Respond with ONLY the JSON object, no other text.`;
                                                                 updateTemplate(currentTemplateId, { fields });
                                                             }}
                                                             rows={1}
-                                                            className="arc-base-input flex-1 min-w-0 px-arc-3 py-arc-3 text-xs text-obsidian-text outline-none resize-none transition-all duration-300 focus:min-h-[80px] leading-relaxed custom-scroll"
+                                                            className="arc-base-input rounded-none flex-1 min-w-0 px-arc-3 py-arc-3 text-xs text-obsidian-text outline-none resize-none transition-all duration-300 focus:min-h-[80px] leading-relaxed custom-scroll"
                                                             placeholder="Prompt..."
                                                         />
                                                     </div>
