@@ -140,11 +140,13 @@ interface SettingsState {
     openRouterApiKey: string;
     models: string[];
     templates: Template[];
+    theme: 'light' | 'dark' | 'system';
 }
 
 const DEFAULT_SETTINGS: SettingsState = {
     openRouterApiKey: '',
     models: ['google/gemini-2.0-flash-exp', 'openai/gpt-4o', 'anthropic/claude-3.5-sonnet'],
+    theme: 'system',
     templates: [
         {
             id: 'raw',
@@ -245,6 +247,26 @@ export default function App({ app, plugin }: AppProps) {
     useEffect(() => {
         bridge.saveSettings(settings);
     }, [settings]);
+
+    // Theme Management
+    useEffect(() => {
+        const root = document.documentElement;
+        if (settings.theme === 'system') {
+            const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            root.setAttribute('data-theme', isDarkMode ? 'dark' : 'light');
+            
+            const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+            const handleChange = (e: MediaQueryListEvent) => {
+                if (settings.theme === 'system') {
+                    root.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+                }
+            };
+            mediaQuery.addEventListener('change', handleChange);
+            return () => mediaQuery.removeEventListener('change', handleChange);
+        } else {
+            root.setAttribute('data-theme', settings.theme);
+        }
+    }, [settings.theme]);
 
     // View State
     const [view, setView] = useState<'performer' | 'settings'>('performer');
@@ -549,13 +571,13 @@ Respond with ONLY the JSON object, no other text.`;
                                                         </div>
                                                         <div className="flex-1 min-w-0">
                                                             {hasValue ? (
-                                                                <input 
+                                                                    <input 
                                                                     value={resultValue}
                                                                     onChange={(e) => setLlmResults({ ...llmResults, [field.name]: e.target.value })}
-                                                                    className="w-full bg-transparent px-arc-4 py-2.5 text-white outline-none text-data-s layer-2 hover:bg-white/5 transition-colors"
+                                                                    className="w-full bg-transparent px-arc-4 py-2.5 text-obsidian-text outline-none text-data-s layer-2 hover:bg-black/5 transition-colors"
                                                                 />
                                                             ) : (
-                                                                <div className="px-arc-4 py-2.5 text-obsidian-muted/30 italic truncate select-none leading-relaxed text-data-s opacity-50">
+                                                                <div className="px-arc-4 py-2.5 text-obsidian-muted/70 italic truncate select-none leading-relaxed text-data-s">
                                                                     {field.prompt}
                                                                 </div>
                                                             )}
@@ -574,7 +596,7 @@ Respond with ONLY the JSON object, no other text.`;
                                         <span className="text-label">Note Body</span>
                                         <span className="text-obsidian-muted text-[10px] tracking-wider opacity-60 uppercase">(Preview Only)</span>
                                     </div>
-                                    <div className="border border-obsidian-border/40 rounded-xl p-arc-4 text-obsidian-muted/70 leading-relaxed max-h-48 overflow-y-auto custom-scroll whitespace-pre-wrap text-data-micro glass-standard">
+                                    <div className="border border-obsidian-border/40 rounded-xl p-arc-4 text-obsidian-text/80 leading-relaxed max-h-48 overflow-y-auto custom-scroll whitespace-pre-wrap text-data-micro glass-standard">
                                         {llmResults?.body || activeNote?.body || SAMPLE_NOTE.body}
                                     </div>
                                 </div>
@@ -817,6 +839,30 @@ Respond with ONLY the JSON object, no other text.`;
                                                 rows={3} 
                                                 className="w-full arc-base-input px-arc-4 py-arc-3 outline-none resize-none transition-all leading-relaxed text-body-small focus:border-arc-primary! rounded-xl"
                                             />
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <section className="mb-arc-6">
+                                    <h3 className="text-white mb-arc-4 text-h2 uppercase tracking-wider layer-2">
+                                        Interface
+                                    </h3>
+                                    
+                                    <div className="border border-obsidian-border rounded-2xl p-arc-5 space-y-arc-6 shadow-xl glass-standard layer-1">
+                                        <div className="flex items-center justify-between">
+                                            <div>
+                                                <label className="text-obsidian-text mb-1 block text-sm font-medium tracking-[0.1em] uppercase">Theme</label>
+                                                <div className="text-xs text-obsidian-muted">Set the system dark/light mode preference</div>
+                                            </div>
+                                            <select 
+                                                value={settings.theme} 
+                                                onChange={(e) => setSettings({ ...settings, theme: e.target.value as any })}
+                                                className="arc-base-select rounded-lg px-arc-3 py-arc-2 text-sm text-obsidian-text cursor-pointer custom-select appearance-none outline-none transition-all focus:border-obsidian-accent/50 glass-heavy"
+                                            >
+                                                <option value="system">System</option>
+                                                <option value="dark">Dark</option>
+                                                <option value="light">Light</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </section>

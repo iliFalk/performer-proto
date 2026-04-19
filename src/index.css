@@ -141,6 +141,62 @@
   --arc-radius-circle: 50%;
 }
 
+:root[data-theme="light"] {
+  --_arc-light-0:   #BDC8CE;
+  --_arc-light-50:  #AEBDC7;
+  --_arc-light-100: #A0B3BF;
+  --_arc-light-200: #8AA1AF;
+  --_arc-light-300: #758E9E;
+
+  --_arc-light-cyan-300: #0087AB;
+  --_arc-light-cyan-400: #00708F;
+  --_arc-light-cyan-500: #00566B; /* ~86 brightness cyan */
+  --_arc-light-cyan-600: #004153; /* ~65 brightness dark cyan */
+  --_arc-light-cyan-700: #002833;
+
+  --_arc-slate-900: #252D3A; /* ~45 brightness */
+  --_arc-slate-800: #323C4A; /* ~55 brightness */
+  --_arc-slate-700: #404B5A; /* ~70 brightness */
+  --_arc-slate-600: #515D6D; /* ~85 brightness */
+  --_arc-slate-500: #647182; /* ~105 brightness */
+
+  --arc-bg-ambient: var(--_arc-light-100);
+  --arc-bg-base: var(--_arc-light-50);
+  --arc-bg-layer-1: var(--_arc-light-0);
+  --arc-bg-layer-2: var(--_arc-light-100);
+  --arc-bg-glass: rgba(189, 200, 206, 0.68);
+
+  --arc-color-primary: var(--_arc-light-cyan-500);
+  --arc-color-primary-strong: var(--_arc-light-cyan-600);
+  --arc-color-primary-muted: var(--_arc-light-cyan-400);
+  --arc-color-primary-ghost: rgba(0, 86, 107, 0.14);
+
+  --arc-text-high: var(--_arc-slate-900);
+  --arc-text-medium: var(--_arc-slate-800);
+  --arc-text-low: var(--_arc-slate-700);
+  --arc-text-data: var(--_arc-light-cyan-600);
+  --arc-text-subtle: var(--_arc-slate-600);
+
+  --arc-border-strong: 1px solid rgba(8, 145, 178, 0.45);
+  --arc-border-medium: 1px solid rgba(15, 23, 42, 0.12);
+  --arc-border-subtle: 1px solid rgba(15, 23, 42, 0.08);
+  --arc-border-focus: 2px solid var(--_arc-cyan-700);
+
+  --arc-shadow-card: 0 4px 16px rgba(15, 23, 42, 0.08);
+  --arc-shadow-panel: 0 8px 24px rgba(15, 23, 42, 0.10);
+  --arc-shadow-modal: 0 20px 48px rgba(15, 23, 42, 0.14);
+
+  --arc-glow-ambient: 0 20px 40px rgba(8, 145, 178, 0.18);
+  --arc-glow-subtle: 0 0 10px 2px rgba(8, 145, 178, 0.28);
+  --arc-glow-active: 0 0 14px 4px rgba(8, 145, 178, 0.42);
+  --arc-glow-focus: 0 0 16px 4px rgba(0, 122, 153, 0.48);
+  --arc-glow-alert: 0 0 14px 4px rgba(234, 88, 12, 0.35);
+  --arc-glow-critical: 0 0 16px 4px rgba(220, 38, 38, 0.40);
+
+  /* Mapping overrides for light theme specifically */
+  --color-obsidian-border: var(--_arc-slate-600);
+}
+
 /* Obsidian Specific Overrides */
 .performer-container {
   background-color: var(--arc-bg-base);
@@ -558,12 +614,25 @@
     backdrop-filter: blur(8px);
     border: 1px solid rgba(255, 255, 255, 0.05) !important;
   }
+  
+  :root[data-theme="light"] .glass-ghost {
+    background: rgba(189, 200, 206, 0.18) !important;
+    backdrop-filter: blur(8px) saturate(120%);
+    border: 1px solid rgba(15, 23, 42, 0.05) !important;
+  }
 
   .glass-light {
     background: rgba(10, 14, 23, 0.6) !important;
     backdrop-filter: blur(12px);
     border: 1px solid rgba(0, 212, 255, 0.1) !important;
     box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+  }
+
+  :root[data-theme="light"] .glass-light {
+    background: rgba(189, 200, 206, 0.38) !important;
+    backdrop-filter: blur(12px) saturate(130%) brightness(1.02);
+    border: 1px solid rgba(8, 145, 178, 0.1) !important;
+    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
   }
 
   .glass-standard {
@@ -573,11 +642,26 @@
     box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
   }
 
+  :root[data-theme="light"] .glass-standard {
+    background: rgba(189, 200, 206, 0.68) !important;
+    backdrop-filter: blur(16px) saturate(140%) brightness(1.03);
+    border: 1px solid rgba(15, 23, 42, 0.12) !important;
+    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.4), var(--arc-shadow-card);
+  }
+
   .glass-heavy {
     background: rgba(5, 8, 13, 0.85) !important;
     backdrop-filter: blur(30px);
     border: 1px solid rgba(0, 212, 255, 0.2) !important;
     box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.15);
+    color: var(--obsidian-text) !important;
+  }
+
+  :root[data-theme="light"] .glass-heavy {
+    background: rgba(189, 200, 206, 0.85) !important;
+    backdrop-filter: blur(24px) saturate(150%) brightness(1.04);
+    border: 1px solid rgba(15, 23, 42, 0.15) !important;
+    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.5), var(--arc-shadow-panel);
     color: var(--obsidian-text) !important;
   }
 
@@ -600,11 +684,24 @@
     box-shadow: none !important;
   }
 
+  :root[data-theme="light"] .arc-base-input {
+    background-color: var(--arc-bg-layer-2) !important;
+    background: var(--arc-bg-layer-2) !important;
+    border-color: rgba(15, 23, 42, 0.1) !important;
+    color: var(--arc-text-high) !important;
+  }
+
   .arc-base-select {
     background-color: #0a0e17 !important;
     background: #0a0e17 !important;
     color: white !important;
     box-shadow: none !important;
+  }
+
+  :root[data-theme="light"] .arc-base-select {
+    background-color: var(--arc-bg-layer-2) !important;
+    background: var(--arc-bg-layer-2) !important;
+    color: var(--arc-text-high) !important;
   }
 
   .arc-base-transparent {
@@ -620,16 +717,27 @@
   }
 
   .btn-arc {
-    @apply relative border-arc-primary/40 bg-arc-primary/10 text-arc-primary font-display font-bold uppercase tracking-[0.15em] py-2 px-6 transition-all duration-300 overflow-hidden active:scale-95;
+    @apply relative border-arc-primary/40 text-arc-primary font-display font-bold uppercase tracking-[0.15em] py-2 px-6 transition-all duration-300 overflow-hidden active:scale-95;
     background: rgba(0, 212, 255, 0.1) !important;
     border: 1px solid rgba(0, 212, 255, 0.4) !important;
     color: var(--arc-primary) !important;
     box-shadow: none !important;
   }
   
+  :root[data-theme="light"] .btn-arc {
+    background: rgba(8, 145, 178, 0.08) !important;
+    border: 1px solid rgba(8, 145, 178, 0.3) !important;
+    color: var(--arc-color-primary-strong) !important;
+  }
+  
   .btn-arc:hover {
     background: rgba(0, 212, 255, 0.2) !important;
     border-color: var(--arc-primary) !important;
+  }
+
+  :root[data-theme="light"] .btn-arc:hover {
+    background: rgba(8, 145, 178, 0.15) !important;
+    border-color: var(--arc-color-primary) !important;
   }
 
   .btn-arc-primary {
@@ -638,6 +746,12 @@
     color: #000000 !important;
     border: none !important;
     box-shadow: 0 0 20px rgba(0, 212, 255, 0.3) !important;
+  }
+
+  :root[data-theme="light"] .btn-arc-primary {
+    background: var(--arc-color-primary) !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 4px 12px rgba(8, 145, 178, 0.3) !important;
   }
 
   .btn-arc-primary:hover {
