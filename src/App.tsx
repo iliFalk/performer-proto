@@ -494,9 +494,9 @@ Respond with ONLY the JSON object, no other text.`;
                                 </div>
                                 <button 
                                     onClick={() => setView('settings')} 
-                                    className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center transition-all text-obsidian-muted hover:text-obsidian-accent hover:shadow-arc-glow-subtle active:scale-95 glass-heavy border border-arc-primary/30"
+                                    className="w-10 h-10 shrink-0 rounded-xl flex items-center justify-center transition-all text-obsidian-muted hover:text-obsidian-accent hover:shadow-arc-glow-subtle active:scale-95 glass-heavy border border-arc-primary/30"
                                 >
-                                    <Settings size={18} />
+                                    <Settings size={20} />
                                 </button>
                             </div>
                             
@@ -626,7 +626,7 @@ Respond with ONLY the JSON object, no other text.`;
                                         <select 
                                             value={selectedModel} 
                                             onChange={(e) => setSelectedModel(e.target.value)}
-                                            className="w-full h-8 sm:h-10 border border-arc-primary/30 rounded-xl px-arc-3 text-obsidian-text cursor-pointer custom-select appearance-none outline-none focus:border-obsidian-accent transition-all text-data-micro glass-ghost"
+                                            className="w-full h-10 border border-arc-primary/30 rounded-xl px-arc-3 text-obsidian-text cursor-pointer custom-select appearance-none outline-none focus:border-obsidian-accent transition-all text-data-micro glass-ghost"
                                         >
                                             {settings.models.map(m => (
                                                 <option key={m} value={m}>{m.split('/').pop()}</option>
@@ -635,20 +635,20 @@ Respond with ONLY the JSON object, no other text.`;
                                     </div>
                                     <button 
                                         onClick={perform} 
-                                        className={`flex-1 btn-arc group h-8 sm:h-10 whitespace-nowrap flex items-center justify-center gap-2 ${isPerforming ? 'performing-glow' : ''}`}
+                                        className={`flex-1 btn-arc group h-10 whitespace-nowrap flex items-center justify-center gap-2 ${isPerforming ? 'performing-glow' : ''}`}
                                     >
-                                        <Zap size={12} className={isPerforming ? 'animate-pulse' : 'group-hover:scale-110 transition-transform'} />
+                                        <Zap size={14} className={isPerforming ? 'animate-pulse' : 'group-hover:scale-110 transition-transform'} />
                                         <span className="text-[10px] sm:text-[11px] font-bold tracking-[0.1em]">{isPerforming ? `${(timer / 1000).toFixed(1)}s` : 'PERFORM'}</span>
                                     </button>
                                 </div>
 
                                 <button 
                                     onClick={updateNote} 
-                                    className={llmResults ? 'btn-arc-primary w-full h-8 sm:h-10' : 'btn-arc w-full h-8 sm:h-10 opacity-30 cursor-not-allowed border-obsidian-border'}
+                                    className={llmResults ? 'btn-arc-primary w-full h-10' : 'btn-arc w-full h-10 opacity-30 cursor-not-allowed border-obsidian-border'}
                                     disabled={!llmResults}
                                 >
                                     <div className="flex items-center justify-center gap-2">
-                                        <Save size={14} />
+                                        <Save size={16} />
                                         <AnimatePresence mode="wait">
                                             {isSaved ? (
                                                 <motion.span className="text-[10px] sm:text-[11px] font-bold tracking-[0.1em]" key="saved" initial={{ y: 10, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -10, opacity: 0 }}>Saved!</motion.span>
@@ -677,10 +677,10 @@ Respond with ONLY the JSON object, no other text.`;
                                         </h3>
                                         <button 
                                             onClick={() => setView('performer')} 
-                                            className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center transition-all text-obsidian-muted hover:text-obsidian-accent active:scale-95 shadow-lg border border-obsidian-border/50 glass-heavy layer-2"
+                                            className="w-10 h-10 shrink-0 rounded-xl flex items-center justify-center transition-all text-obsidian-muted hover:text-obsidian-accent active:scale-95 shadow-lg border border-obsidian-border/50 glass-heavy layer-2"
                                             title="Back to Performer"
                                         >
-                                            <ArrowLeft size={18} />
+                                            <ArrowLeft size={20} />
                                         </button>
                                     </div>
                                     
