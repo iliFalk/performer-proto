@@ -60,25 +60,20 @@ function useLongPress(callback: () => void, ms = 500) {
 }
 
 /**
- * 6.3 Spezifische Animationen — Arc Reactor Pulse
+ * Button internal ripple effect
  */
-const ArcReactorPulse = ({ active }: { active: boolean }) => {
+const ButtonRipple = ({ active }: { active: boolean }) => {
     if (!active) return null;
     return (
-        <div className="relative flex items-center justify-center w-24 h-24">
+        <>
             {[0, 1, 2, 3].map(i => (
                 <div 
                     key={i}
-                    className="animate-reactor-pulse"
-                    style={{ 
-                        width: '100%', 
-                        height: '100%', 
-                        animationDelay: `${i * 500}ms` 
-                    }}
+                    className="animate-button-ripple w-[160px] h-[160px]"
+                    style={{ animationDelay: `${i * 500}ms` }}
                 />
             ))}
-            <div className="relative z-10 w-8 h-8 rounded-full bg-arc-primary shadow-arc-glow-active" />
-        </div>
+        </>
     );
 };
 
@@ -613,25 +608,6 @@ Respond with ONLY the JSON object, no other text.`;
                             
                             {/* Bottom Bar: Model + Perform */}
                             <div className="sticky bottom-0 px-arc-4 pt-arc-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] border-t border-arc-primary/20 bg-obsidian-bg/95 backdrop-blur-md space-y-arc-3 layer-2 glass-heavy z-50">
-                                <AnimatePresence>
-                                    {isPerforming && (
-                                        <motion.div 
-                                            initial={{ opacity: 0 }}
-                                            animate={{ opacity: 1 }}
-                                            exit={{ opacity: 0 }}
-                                            className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-obsidian-bg/80 backdrop-blur-md"
-                                        >
-                                            <ArcReactorPulse active={true} />
-                                            <motion.p 
-                                                animate={{ opacity: [0.4, 1, 0.4] }}
-                                                transition={{ duration: 1.5, repeat: Infinity }}
-                                                className="mt-arc-3 text-obsidian-accent text-label uppercase tracking-widest text-data-micro"
-                                            >
-                                                Performing Extraction...
-                                            </motion.p>
-                                        </motion.div>
-                                    )}
-                                </AnimatePresence>
                                 <div className="flex gap-arc-3">
                                     <div className="flex-1 relative min-w-0">
                                         <select 
@@ -646,10 +622,11 @@ Respond with ONLY the JSON object, no other text.`;
                                     </div>
                                     <button 
                                         onClick={perform} 
-                                        className={`flex-1 btn-arc group h-10 whitespace-nowrap flex items-center justify-center gap-2 ${isPerforming ? 'performing-glow' : ''}`}
+                                        className={`flex-1 relative overflow-hidden btn-arc group h-10 whitespace-nowrap flex items-center justify-center gap-2 ${isPerforming ? 'performing-glow' : ''}`}
                                     >
-                                        <Zap size={14} className={isPerforming ? 'animate-pulse' : 'group-hover:scale-110 transition-transform'} />
-                                        <span className="text-[10px] sm:text-[11px] font-bold tracking-[0.1em]">{isPerforming ? `${(timer / 1000).toFixed(1)}s` : 'PERFORM'}</span>
+                                        <ButtonRipple active={isPerforming} />
+                                        <Zap size={14} className={`relative z-10 ${isPerforming ? 'animate-pulse' : 'group-hover:scale-110 transition-transform'}`} />
+                                        <span className="relative z-10 text-[10px] sm:text-[11px] font-bold tracking-[0.1em]">{isPerforming ? `${(timer / 1000).toFixed(1)}s` : 'PERFORM'}</span>
                                     </button>
                                 </div>
 
