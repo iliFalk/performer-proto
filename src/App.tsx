@@ -467,78 +467,68 @@ Respond with ONLY the JSON object, no other text.`;
     };
 
     return (
-        <div id="arc-reactor-plugin" className="relative w-full h-screen bg-obsidian-bg text-obsidian-text overflow-hidden font-sans">
-            <DataRain />
-            {/* LAYER 0: AMBIENT */}
-            <div className="absolute inset-0 layer-0 pointer-events-none overflow-hidden">
-                <div className="absolute inset-0 ambient-grid opacity-20" />
-                <div className="absolute inset-0 ambient-scanlines opacity-5" />
-                <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-obsidian-accent/10 blur-[120px] rounded-full animate-pulse" />
-                <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-obsidian-tertiary/10 blur-[120px] rounded-full" />
-            </div>
-
-            <div className="relative z-10 w-full h-full flex flex-col items-center">
+        <div id="arc-reactor-plugin" className="fixed inset-0 w-full h-screen bg-black/60 backdrop-blur-sm z-[9999] flex flex-col items-center justify-center text-obsidian-text overflow-hidden font-sans pointer-events-auto p-4">
+            <div className="w-full h-[80vh] sm:w-[400px] sm:max-w-md bg-obsidian-bg rounded-[2rem] shadow-[0_24px_64px_rgba(0,0,0,0.6)] ring-1 ring-obsidian-border/50 ring-inset relative flex flex-col overflow-hidden isolate">
                 <AnimatePresence mode="wait">
                     {view === 'performer' ? (
                         <motion.div 
                             key="performer"
                             initial={{ x: 0, opacity: 1 }}
                             exit={{ x: -100, opacity: 0 }}
-                            className="absolute inset-0 flex flex-col"
+                            className="w-full h-full flex flex-col"
                         >
                             {/* Header */}
-                            <div className="sticky top-0 w-full flex items-center justify-between px-arc-5 pt-arc-5 pb-arc-4 layer-2 glass-heavy border-b border-arc-primary/20">
-                                <div className="flex items-center gap-arc-4 overflow-hidden">
-                                     <h2 className="text-white text-h2 uppercase tracking-[0.15em] font-display font-black truncate">Performer</h2>
+                            <div className="sticky top-0 w-full flex items-center justify-between px-arc-4 pt-arc-4 pb-arc-3 layer-2 glass-heavy border-b border-arc-primary/20 z-50">
+                                <div className="flex items-center gap-arc-3 overflow-hidden">
+                                     <h2 className="text-white text-[16px] uppercase tracking-[0.12em] font-display font-black truncate">Performer</h2>
                                      {bridge.isPlugin && (
                                          <button 
                                             onClick={syncNote}
-                                            className="p-2 text-obsidian-muted hover:text-obsidian-accent transition-colors bg-obsidian-border/30 rounded-lg"
+                                            className="p-1.5 text-obsidian-muted hover:text-obsidian-accent transition-colors bg-obsidian-border/30 rounded-lg"
                                             title="Sync active note"
                                          >
-                                             <RefreshCw size={14} className={isPerforming ? 'animate-spin' : ''} />
+                                             <RefreshCw size={12} className={isPerforming ? 'animate-spin' : ''} />
                                          </button>
                                      )}
                                 </div>
                                 <button 
                                     onClick={() => setView('settings')} 
-                                    className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center transition-all text-obsidian-muted hover:text-obsidian-accent hover:shadow-arc-glow-subtle active:scale-95 glass-heavy border border-arc-primary/30"
+                                    className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center transition-all text-obsidian-muted hover:text-obsidian-accent hover:shadow-arc-glow-subtle active:scale-95 glass-heavy border border-arc-primary/30"
                                 >
-                                    <Settings size={20} />
+                                    <Settings size={18} />
                                 </button>
                             </div>
                             
-                            {/* Template Dropdown */}
-                            <div className="px-arc-5 pb-arc-3 layer-2">
-                                <select 
-                                    value={currentTemplateId} 
-                                    onChange={(e) => setCurrentTemplateId(e.target.value)} 
-                                    className="w-full border border-obsidian-border rounded-lg px-arc-3 py-arc-2 text-sm text-obsidian-text cursor-pointer custom-select appearance-none outline-none transition-all focus:border-obsidian-accent/50 glass-heavy"
-                                >
-                                    {settings.templates.map(t => (
-                                        <option key={t.id} value={t.id}>{t.name}</option>
-                                    ))}
-                                </select>
-                            </div>
-                            
-                            {/* Note Name Prompt */}
-                            <div className="px-arc-5 pb-arc-4 layer-1">
-                                <div className="border border-arc-primary/20 rounded-xl px-arc-4 py-arc-4 shadow-arc-card glass-standard">
-                                    <div className="text-obsidian-tertiary text-label mb-arc-2 flex items-center gap-arc-2">
-                                        <div className="w-1.5 h-1.5 rounded-full bg-obsidian-tertiary shadow-arc-glow-subtle peripheral-data" />
-                                        Suggested Note Name
-                                    </div>
-                                    <div className="text-obsidian-accent italic font-medium truncate leading-relaxed text-[15px] tracking-wide">
-                                        {llmResults?._noteName || currentTemplate.noteNamePrompt || "Extract note name..."}
+                            {/* Scrollable Content wrapper */}
+                            <div className="flex-1 flex flex-col min-h-0 px-arc-4 pb-arc-4 pt-arc-3 space-y-arc-3 overflow-y-auto custom-scroll">
+                                {/* Template Dropdown */}
+                                <div className="layer-2 shrink-0">
+                                    <select 
+                                        value={currentTemplateId} 
+                                        onChange={(e) => setCurrentTemplateId(e.target.value)} 
+                                        className="w-full border border-obsidian-border rounded-lg px-arc-3 py-arc-2 text-sm text-obsidian-text cursor-pointer custom-select appearance-none outline-none transition-all focus:border-obsidian-accent/50 glass-heavy"
+                                    >
+                                        {settings.templates.map(t => (
+                                            <option key={t.id} value={t.id}>{t.name}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                                
+                                {/* Note Name Prompt */}
+                                <div className="layer-1 shrink-0">
+                                    <div className="border border-arc-primary/20 rounded-lg px-2.5 py-1.5 shadow-arc-card glass-standard">
+                                        <div className="text-obsidian-tertiary text-[9px] uppercase font-bold tracking-[0.1em] flex items-center gap-1.5">
+                                            <div className="w-1 h-1 rounded-full bg-obsidian-tertiary shadow-arc-glow-subtle peripheral-data" />
+                                            Note name
+                                        </div>
+                                        <div className="text-obsidian-accent italic font-medium truncate leading-tight text-[11px] tracking-wide opacity-80 pl-2.5 mt-0.5">
+                                            {llmResults?._noteName || "Suggest a concise, descriptive..."}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            
-                            {/* Scrollable content */}
-                            <div className="flex-1 overflow-y-auto custom-scroll px-arc-5 pb-arc-6 space-y-arc-5">
                                 
                                 {/* Frontmatter Section */}
-                                <div className="rounded-2xl border border-obsidian-border/30 overflow-hidden glass-standard layer-1">
+                                <div className="shrink-0 rounded-2xl border border-obsidian-border/30 overflow-hidden glass-standard layer-1">
                                     <button 
                                         onClick={() => setFmCollapsed(!fmCollapsed)} 
                                         className="flex items-center gap-arc-3 w-full px-arc-4 py-arc-4 text-obsidian-text hover:text-obsidian-accent hover:bg-white/5 transition-all outline-none bg-transparent! border-none!"
@@ -554,7 +544,7 @@ Respond with ONLY the JSON object, no other text.`;
                                             variants={getStaggerChildren(0.02)}
                                             initial="initial"
                                             animate="animate"
-                                            className="px-arc-4 pb-arc-4 space-y-arc-2"
+                                            className="px-arc-4 pb-arc-4 space-y-1.5"
                                         >
                                             {currentTemplate.fields.map((field, i) => {
                                                 const resultValue = llmResults?.[field.name];
@@ -566,18 +556,18 @@ Respond with ONLY the JSON object, no other text.`;
                                                         custom={i}
                                                         className={`flex items-stretch rounded-lg border border-obsidian-border/50 bg-obsidian-bg/30 overflow-hidden group hover:border-obsidian-accent/30 transition-all duration-300 ${hasValue ? 'field-highlight border-arc-primary/50 layer-2' : ''}`}
                                                     >
-                                                        <div className="bg-obsidian-surface/50 border-r border-obsidian-border/50 px-arc-3 py-2.5 min-w-[90px] flex items-center justify-center">
-                                                            <span className="text-obsidian-muted group-hover:text-obsidian-tertiary transition-colors text-data-label text-center">{field.name}</span>
+                                                        <div className="bg-obsidian-surface/50 border-r border-obsidian-border/50 px-2 py-1.5 min-w-[76px] flex items-center justify-center">
+                                                            <span className="text-obsidian-muted group-hover:text-obsidian-tertiary transition-colors text-[9px] font-mono tracking-[0.15em] uppercase opacity-80 text-center">{field.name}</span>
                                                         </div>
-                                                        <div className="flex-1 min-w-0">
+                                                        <div className="flex-1 min-w-0 flex items-center">
                                                             {hasValue ? (
                                                                     <input 
                                                                     value={resultValue}
                                                                     onChange={(e) => setLlmResults({ ...llmResults, [field.name]: e.target.value })}
-                                                                    className="w-full bg-transparent px-arc-4 py-2.5 text-obsidian-text outline-none text-data-s layer-2 hover:bg-black/5 transition-colors"
+                                                                    className="w-full bg-transparent px-3 py-1.5 text-obsidian-text outline-none text-[12px] font-mono layer-2 hover:bg-black/5 transition-colors"
                                                                 />
                                                             ) : (
-                                                                <div className="px-arc-4 py-2.5 text-obsidian-muted/70 italic truncate select-none leading-relaxed text-data-s">
+                                                                <div className="px-3 py-1.5 text-obsidian-muted/70 italic truncate select-none text-[12px] font-mono leading-tight">
                                                                     {field.prompt}
                                                                 </div>
                                                             )}
@@ -590,19 +580,19 @@ Respond with ONLY the JSON object, no other text.`;
                                 </div>
                                 
                                 {/* Note Body */}
-                                <div className="layer-1">
-                                    <div className="flex items-center gap-2 mb-arc-3">
+                                <div className="flex-1 flex flex-col min-h-0 layer-1">
+                                    <div className="shrink-0 flex items-center gap-2 mb-arc-3">
                                         <FileText size={14} className="text-obsidian-tertiary opacity-70" />
                                         <span className="text-label">Note Body</span>
                                         <span className="text-obsidian-muted text-[10px] tracking-wider opacity-60 uppercase">(Preview Only)</span>
                                     </div>
-                                    <div className="border border-obsidian-border/40 rounded-xl p-arc-4 text-obsidian-text/80 leading-relaxed max-h-48 overflow-y-auto custom-scroll whitespace-pre-wrap text-data-micro glass-standard">
+                                    <div className="flex-1 border border-obsidian-border/40 rounded-xl p-arc-4 text-obsidian-text/80 leading-relaxed overflow-y-auto custom-scroll whitespace-pre-wrap text-data-micro glass-standard">
                                         {llmResults?.body || activeNote?.body || SAMPLE_NOTE.body}
                                     </div>
                                 </div>
 
                                 {error && (
-                                    <div className="mb-arc-3 bg-obsidian-error/10 border border-obsidian-error/30 rounded-lg p-arc-3 text-xs text-obsidian-error flex items-start gap-arc-2 animate-fade-in">
+                                    <div className="shrink-0 mb-arc-3 bg-obsidian-error/10 border border-obsidian-error/30 rounded-lg p-arc-3 text-xs text-obsidian-error flex items-start gap-arc-2 animate-fade-in">
                                         <AlertCircle size={16} className="flex-shrink-0 mt-0.5" />
                                         <span>{error}</span>
                                     </div>
@@ -610,7 +600,7 @@ Respond with ONLY the JSON object, no other text.`;
                             </div>
                             
                             {/* Bottom Bar: Model + Perform */}
-                            <div className="sticky bottom-0 px-arc-5 pt-arc-5 pb-[calc(1.25rem+env(safe-area-inset-bottom))] border-t border-arc-primary/20 bg-obsidian-bg/95 backdrop-blur-md space-y-arc-4 layer-2 glass-heavy">
+                            <div className="sticky bottom-0 px-arc-4 pt-arc-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] border-t border-arc-primary/20 bg-obsidian-bg/95 backdrop-blur-md space-y-arc-3 layer-2 glass-heavy z-50">
                                 <AnimatePresence>
                                     {isPerforming && (
                                         <motion.div 
@@ -623,7 +613,7 @@ Respond with ONLY the JSON object, no other text.`;
                                             <motion.p 
                                                 animate={{ opacity: [0.4, 1, 0.4] }}
                                                 transition={{ duration: 1.5, repeat: Infinity }}
-                                                className="mt-arc-4 text-obsidian-accent text-label uppercase tracking-widest text-data-micro"
+                                                className="mt-arc-3 text-obsidian-accent text-label uppercase tracking-widest text-data-micro"
                                             >
                                                 Performing Extraction...
                                             </motion.p>
@@ -635,7 +625,7 @@ Respond with ONLY the JSON object, no other text.`;
                                         <select 
                                             value={selectedModel} 
                                             onChange={(e) => setSelectedModel(e.target.value)}
-                                            className="w-full border border-arc-primary/30 rounded-xl px-arc-4 py-2.5 text-obsidian-text cursor-pointer custom-select appearance-none outline-none focus:border-obsidian-accent transition-all text-data-micro glass-ghost"
+                                            className="w-full h-8 sm:h-10 border border-arc-primary/30 rounded-xl px-arc-3 text-obsidian-text cursor-pointer custom-select appearance-none outline-none focus:border-obsidian-accent transition-all text-data-micro glass-ghost"
                                         >
                                             {settings.models.map(m => (
                                                 <option key={m} value={m}>{m.split('/').pop()}</option>
@@ -644,25 +634,25 @@ Respond with ONLY the JSON object, no other text.`;
                                     </div>
                                     <button 
                                         onClick={perform} 
-                                        className={`flex-1 btn-arc group py-2.5 whitespace-nowrap flex items-center justify-center gap-arc-2 ${isPerforming ? 'performing-glow' : ''}`}
+                                        className={`flex-1 btn-arc group h-8 sm:h-10 whitespace-nowrap flex items-center justify-center gap-2 ${isPerforming ? 'performing-glow' : ''}`}
                                     >
-                                        <Zap size={14} className={isPerforming ? 'animate-pulse' : 'group-hover:scale-110 transition-transform'} />
-                                        <span>{isPerforming ? `${(timer / 1000).toFixed(1)}s` : 'PERFORM'}</span>
+                                        <Zap size={12} className={isPerforming ? 'animate-pulse' : 'group-hover:scale-110 transition-transform'} />
+                                        <span className="text-[10px] sm:text-[11px] font-bold tracking-[0.1em]">{isPerforming ? `${(timer / 1000).toFixed(1)}s` : 'PERFORM'}</span>
                                     </button>
                                 </div>
 
                                 <button 
                                     onClick={updateNote} 
-                                    className={llmResults ? 'btn-arc-primary w-full' : 'btn-arc w-full opacity-30 cursor-not-allowed border-obsidian-border'}
+                                    className={llmResults ? 'btn-arc-primary w-full h-8 sm:h-10' : 'btn-arc w-full h-8 sm:h-10 opacity-30 cursor-not-allowed border-obsidian-border'}
                                     disabled={!llmResults}
                                 >
-                                    <div className="flex items-center justify-center gap-arc-3">
-                                        <Save size={18} />
+                                    <div className="flex items-center justify-center gap-2">
+                                        <Save size={14} />
                                         <AnimatePresence mode="wait">
                                             {isSaved ? (
-                                                <motion.span key="saved" initial={{ y: 10, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -10, opacity: 0 }}>Saved!</motion.span>
+                                                <motion.span className="text-[10px] sm:text-[11px] font-bold tracking-[0.1em]" key="saved" initial={{ y: 10, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -10, opacity: 0 }}>Saved!</motion.span>
                                             ) : (
-                                                <motion.span key="update" initial={{ y: 10, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -10, opacity: 0 }}>Update Note</motion.span>
+                                                <motion.span className="text-[10px] sm:text-[11px] font-bold tracking-[0.1em]" key="update" initial={{ y: 10, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -10, opacity: 0 }}>Update Note</motion.span>
                                             )}
                                         </AnimatePresence>
                                     </div>
@@ -675,21 +665,21 @@ Respond with ONLY the JSON object, no other text.`;
                             initial={{ x: 300, opacity: 0 }}
                             animate={{ x: 0, opacity: 1 }}
                             exit={{ x: 300, opacity: 0 }}
-                            className="absolute inset-0 flex flex-col"
+                            className="w-full h-full flex flex-col"
                         >
                             {/* Settings Scrollable */}
                             <div className="flex-1 overflow-y-auto custom-scroll px-arc-5 pb-arc-6 pt-arc-5">
                                                                 <section className="mb-arc-6">
-                                    <div className="sticky top-0 w-full flex items-center justify-between mb-arc-4 z-40 py-2 layer-2">
+                                    <div className="sticky top-0 w-full flex items-center justify-between mb-arc-4 z-40 py-1 layer-2">
                                         <h3 className="text-white text-h2 uppercase tracking-wider">
                                             Templates
                                         </h3>
                                         <button 
                                             onClick={() => setView('performer')} 
-                                            className="w-12 h-12 rounded-xl flex items-center justify-center transition-all text-obsidian-muted hover:text-obsidian-accent active:scale-95 shadow-lg border border-obsidian-border/50 glass-heavy layer-2"
+                                            className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center transition-all text-obsidian-muted hover:text-obsidian-accent active:scale-95 shadow-lg border border-obsidian-border/50 glass-heavy layer-2"
                                             title="Back to Performer"
                                         >
-                                            <ArrowLeft size={22} />
+                                            <ArrowLeft size={18} />
                                         </button>
                                     </div>
                                     
