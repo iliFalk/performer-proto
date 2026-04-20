@@ -69,7 +69,7 @@ const ButtonRipple = ({ active }: { active: boolean }) => {
             {[0, 1, 2, 3].map(i => (
                 <div 
                     key={i}
-                    className="animate-button-ripple w-[160px] h-[160px]"
+                    className="animate-button-ripple w-full h-full rounded-xl"
                     style={{ animationDelay: `${i * 500}ms` }}
                 />
             ))}
@@ -494,12 +494,6 @@ Respond with ONLY the JSON object, no other text.`;
                                     >
                                         <Settings size={20} />
                                     </button>
-                                    <button 
-                                        onClick={() => bridge.close()} 
-                                        className="w-10 h-10 shrink-0 rounded-xl flex items-center justify-center transition-all text-obsidian-muted hover:text-white hover:bg-[#8e1c1c] hover:border-[#8e1c1c] active:scale-95 glass-heavy border border-obsidian-border/50"
-                                    >
-                                        <X size={20} />
-                                    </button>
                                 </div>
                             </div>
                             
@@ -643,22 +637,30 @@ Respond with ONLY the JSON object, no other text.`;
                                     </button>
                                 </div>
 
-                                <button 
-                                    onClick={updateNote} 
-                                    className={llmResults ? 'btn-arc-primary w-full h-10' : 'btn-arc w-full h-10 opacity-30 cursor-not-allowed border-obsidian-border'}
-                                    disabled={!llmResults}
-                                >
-                                    <div className="flex items-center justify-center gap-2">
-                                        <Save size={16} />
-                                        <AnimatePresence mode="wait">
-                                            {isSaved ? (
-                                                <motion.span className="text-[10px] sm:text-[11px] font-bold tracking-[0.1em]" key="saved" initial={{ y: 10, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -10, opacity: 0 }}>Saved!</motion.span>
-                                            ) : (
-                                                <motion.span className="text-[10px] sm:text-[11px] font-bold tracking-[0.1em]" key="update" initial={{ y: 10, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -10, opacity: 0 }}>Update Note</motion.span>
-                                            )}
-                                        </AnimatePresence>
-                                    </div>
-                                </button>
+                                <div className="flex items-center gap-arc-3">
+                                    <button 
+                                        onClick={updateNote} 
+                                        className={`${llmResults ? 'btn-arc-primary' : 'btn-arc opacity-30 cursor-not-allowed border-obsidian-border'} flex-1 h-10`}
+                                        disabled={!llmResults}
+                                    >
+                                        <div className="flex items-center justify-center gap-2">
+                                            <Save size={16} />
+                                            <AnimatePresence mode="wait">
+                                                {isSaved ? (
+                                                    <motion.span className="text-[10px] sm:text-[11px] font-bold tracking-[0.1em]" key="saved" initial={{ y: 10, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -10, opacity: 0 }}>Saved!</motion.span>
+                                                ) : (
+                                                    <motion.span className="text-[10px] sm:text-[11px] font-bold tracking-[0.1em]" key="update" initial={{ y: 10, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -10, opacity: 0 }}>Update Note</motion.span>
+                                                )}
+                                            </AnimatePresence>
+                                        </div>
+                                    </button>
+                                    <button 
+                                        onClick={() => bridge.close()} 
+                                        className="w-10 h-10 shrink-0 rounded-xl flex items-center justify-center transition-all text-obsidian-muted hover:text-white hover:bg-[#8e1c1c] hover:border-[#8e1c1c] active:scale-95 glass-heavy border border-obsidian-border/50"
+                                    >
+                                        <X size={20} />
+                                    </button>
+                                </div>
                             </div>
                         </motion.div>
                     ) : (
