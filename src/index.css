@@ -741,7 +741,7 @@
   }
 
   .btn-arc {
-    @apply relative border-arc-primary/40 text-arc-primary font-display font-bold uppercase tracking-[0.15em] py-2 px-6 transition-all duration-300 overflow-hidden active:scale-95;
+    @apply relative border-arc-primary/40 text-arc-primary font-display font-bold uppercase tracking-[0.15em] py-2 px-6 transition-all duration-300 overflow-hidden active:scale-95 rounded-full;
     background: rgba(0, 212, 255, 0.1) !important;
     border: 1px solid rgba(0, 212, 255, 0.4) !important;
     color: var(--arc-primary) !important;
@@ -765,10 +765,11 @@
   }
 
   .btn-arc-primary {
-    @apply relative bg-arc-primary font-display font-black uppercase tracking-[0.2em] py-3 px-8 transition-all duration-300 active:scale-95;
+    @apply relative bg-arc-primary font-display font-black uppercase tracking-[0.2em] py-3 px-8 transition-all duration-300 active:scale-95 rounded-full;
     background: var(--arc-primary) !important;
     color: #000000 !important;
     border: none !important;
+
     box-shadow: 0 0 20px rgba(0, 212, 255, 0.3) !important;
   }
 

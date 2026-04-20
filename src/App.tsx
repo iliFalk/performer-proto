@@ -69,7 +69,7 @@ const ButtonRipple = ({ active }: { active: boolean }) => {
             {[0, 1, 2, 3].map(i => (
                 <div 
                     key={i}
-                    className="animate-button-ripple w-full h-full rounded-xl"
+                    className="animate-button-ripple w-full h-full rounded-full"
                     style={{ animationDelay: `${i * 500}ms` }}
                 />
             ))}
@@ -629,7 +629,7 @@ Respond with ONLY the JSON object, no other text.`;
                                     </div>
                                     <button 
                                         onClick={perform} 
-                                        className={`flex-1 relative overflow-hidden btn-arc group h-10 whitespace-nowrap flex items-center justify-center gap-2 ${isPerforming ? 'performing-glow' : ''}`}
+                                        className={`flex-1 relative overflow-hidden rounded-full btn-arc group h-10 whitespace-nowrap flex items-center justify-center gap-2 ${isPerforming ? 'performing-glow' : ''}`}
                                     >
                                         <ButtonRipple active={isPerforming} />
                                         <Zap size={14} className={`relative z-10 ${isPerforming ? 'animate-pulse' : 'group-hover:scale-110 transition-transform'}`} />
@@ -640,7 +640,7 @@ Respond with ONLY the JSON object, no other text.`;
                                 <div className="flex items-center gap-arc-3">
                                     <button 
                                         onClick={updateNote} 
-                                        className={`${llmResults ? 'btn-arc-primary' : 'btn-arc opacity-30 cursor-not-allowed border-obsidian-border'} flex-1 h-10`}
+                                        className={`rounded-full ${llmResults ? 'btn-arc-primary' : 'btn-arc opacity-30 cursor-not-allowed border-obsidian-border'} flex-1 h-10`}
                                         disabled={!llmResults}
                                     >
                                         <div className="flex items-center justify-center gap-2">
