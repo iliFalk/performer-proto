@@ -1,9 +1,15 @@
-import { Plugin, ItemView, WorkspaceLeaf, Notice, PluginSettingTab, Setting, App as ObsidianApp } from 'obsidian';
+import { Plugin, ItemView, WorkspaceLeaf, Notice, PluginSettingTab, Setting, App as ObsidianApp, addIcon } from 'obsidian';
 import React from 'react';
 import { createRoot, Root } from 'react-dom/client';
 import App from './src/App';
 
 const VIEW_TYPE_PERFORMER = "performer-view";
+
+const PERFORMER_ICON_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M 4.5 5.5 L 8.5 5.5 L 8.5 14 M 8.5 5.5 L 14 5.5 C 19.5 5.5, 19.5 13.5, 14 13.5 L 8.5 13.5" />
+  <line x1="7.5" y1="17.5" x2="6" y2="21.5" stroke-width="3.5" />
+  <path d="M 13.2 7 Q 13.2 9.5 10.7 9.5 Q 13.2 9.5 13.2 12 Q 13.2 9.5 15.7 9.5 Q 13.2 9.5 13.2 7 Z" fill="currentColor" stroke="none" />
+</svg>`;
 
 class PerformerView extends ItemView {
   root: Root | null = null;
@@ -23,7 +29,7 @@ class PerformerView extends ItemView {
   }
 
   getIcon() {
-    return "brain";
+    return "performer-logo";
   }
 
   async onOpen() {
@@ -140,6 +146,9 @@ export default class PerformerPlugin extends Plugin {
   async onload() {
     await this.loadSettings();
 
+    // Register our custom Performer logo icon early so the OS can paint it
+    addIcon("performer-logo", PERFORMER_ICON_SVG);
+
     this.addSettingTab(new PerformerSettingTab(this.app, this));
 
     this.registerView(
@@ -147,7 +156,7 @@ export default class PerformerPlugin extends Plugin {
       (leaf) => new PerformerView(leaf, this)
     );
 
-    this.addRibbonIcon("brain", "Open Performer", () => {
+    this.addRibbonIcon("performer-logo", "Open Performer", () => {
       this.activateView();
     });
 
