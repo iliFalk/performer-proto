@@ -463,7 +463,7 @@ Respond with ONLY the JSON object, no other text.`;
     };
 
     return createPortal(
-        <div id="arc-reactor-plugin" className="fixed inset-0 w-full h-[100dvh] bg-black/60 backdrop-blur-sm z-[99999] flex flex-col items-center justify-center text-obsidian-text overflow-hidden font-sans pointer-events-auto p-4 sm:p-6 pb-[calc(1rem+env(safe-area-inset-bottom))]">
+        <div id="arc-reactor-plugin" className="fixed inset-0 w-full h-[100dvh] bg-black/60 backdrop-blur-sm z-[99999] flex flex-col items-center justify-center text-obsidian-text overflow-hidden font-sans pointer-events-auto px-4 pt-[calc(5vh+env(safe-area-inset-top))] pb-[calc(1rem+env(safe-area-inset-bottom))] sm:px-6">
             <div className="w-full flex-1 min-h-0 max-h-[850px] sm:w-[400px] sm:max-w-md bg-obsidian-bg rounded-[2rem] shadow-[0_24px_64px_rgba(0,0,0,0.6)] ring-1 ring-obsidian-border/50 ring-inset relative flex flex-col overflow-hidden isolate">
                 <AnimatePresence mode="wait">
                     {view === 'performer' ? (
