@@ -638,7 +638,16 @@ Respond with ONLY the JSON object, no other text.`;
                                     <div className="flex-1 relative min-w-0">
                                         <select 
                                             value={selectedModel} 
-                                            onChange={(e) => setSelectedModel(e.target.value)}
+                                            onChange={(e) => {
+                                                const newModel = e.target.value;
+                                                setSelectedModel(newModel);
+                                                // Make this the default model by moving it to the front of the array
+                                                const filteredModels = settings.models.filter(m => m !== newModel);
+                                                setSettings({
+                                                    ...settings,
+                                                    models: [newModel, ...filteredModels]
+                                                });
+                                            }}
                                             className="w-full h-10 border border-arc-primary/30 arc-rounded-xl px-arc-3 text-obsidian-text cursor-pointer custom-select appearance-none outline-none focus:border-obsidian-accent transition-all text-data-micro glass-ghost"
                                         >
                                             {settings.models.map(m => (
