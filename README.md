@@ -5,7 +5,6 @@
 
 Performer is a digital "loupe" for Obsidian that clarifies, structures, and enriches your notes for a better Personal Knowledge Base. It doesn't just change your notes; it helps you see the structure that was already there, but hidden.
 
-"It just works."
 
 ---
 
