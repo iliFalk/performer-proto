@@ -41,7 +41,7 @@ tags: project
 
 Performer is designed to be a fluid, high-performance overlay that stays out of your way until you need it.
 
-1.  **Trigger the Loupe:** While in any note, tap the **Brain/Ribbon icon** (or use the command palette). The Performer overlay slides in naturally.
+1.  **Trigger the Loupe:** While in any note, tap the **"Open Performer"/Ribbon icon** (or use the command palette). The Performer overlay slides in naturally.
 2.  **Choose Your Performance:** Select a pre-built template (like "Meeting" or "Book") from the main menu and hit **PERFORM**.
 3.  **Refine & Save:** Watch as the AI populates properties and suggests a restructured body. Tweak any field manually if needed, then hit **Update Note**.
 
