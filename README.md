@@ -87,7 +87,6 @@ Polishes note bodies into consistent, clean structures optimized for long-term s
 ---
 
 ## 🚀 Getting Started
-@@ -77,7 +109,7 @@
 ---
 
 ## 🏗️ The Blueprint
