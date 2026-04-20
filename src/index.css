@@ -699,6 +699,17 @@
     box-shadow: none !important;
     appearance: none !important;
     -webkit-appearance: none !important;
+    background-clip: padding-box !important;
+  }
+
+  .arc-rounded-xl {
+    border-radius: 0.75rem !important;
+    -webkit-border-radius: 0.75rem !important;
+  }
+
+  .arc-rounded-none {
+    border-radius: 0 !important;
+    -webkit-border-radius: 0 !important;
   }
 
   /* Deep iOS Safari overrides for all form elements to prevent pill shadows */
@@ -706,6 +717,9 @@
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
+    background-clip: padding-box;
+    border-radius: 0; /* Default kill pill */
+    -webkit-border-radius: 0; /* Default kill pill */
   }
   
   /* Remove iOS inner shadow specifically */

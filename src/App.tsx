@@ -614,7 +614,7 @@ Respond with ONLY the JSON object, no other text.`;
                                         <select 
                                             value={selectedModel} 
                                             onChange={(e) => setSelectedModel(e.target.value)}
-                                            className="w-full h-10 border border-arc-primary/30 rounded-xl px-arc-3 text-obsidian-text cursor-pointer custom-select appearance-none outline-none focus:border-obsidian-accent transition-all text-data-micro glass-ghost"
+                                            className="w-full h-10 border border-arc-primary/30 arc-rounded-xl px-arc-3 text-obsidian-text cursor-pointer custom-select appearance-none outline-none focus:border-obsidian-accent transition-all text-data-micro glass-ghost"
                                         >
                                             {settings.models.map(m => (
                                                 <option key={m} value={m}>{m.split('/').pop()}</option>
@@ -768,7 +768,7 @@ Respond with ONLY the JSON object, no other text.`;
                                                  value={currentTemplate.noteNamePrompt}
                                                  onChange={(e) => updateTemplate(currentTemplateId, { noteNamePrompt: e.target.value })}
                                                  rows={2} 
-                                                 className="w-full arc-base-input px-arc-4 py-arc-3 outline-none resize-none transition-all leading-relaxed text-body-small focus:border-arc-primary! rounded-xl"
+                                                 className="w-full arc-base-input px-arc-4 py-arc-3 outline-none resize-none transition-all leading-relaxed text-body-small focus:border-arc-primary! arc-rounded-xl"
                                              />
                                         </div>
                                                                                 <div>
@@ -797,7 +797,7 @@ Respond with ONLY the JSON object, no other text.`;
                                                                 fields[i].name = e.target.value;
                                                                 updateTemplate(currentTemplateId, { fields });
                                                             }}
-                                                            className="arc-base-input rounded-none w-24 shrink-0 px-arc-3 py-arc-3 text-obsidian-muted border-r border-obsidian-border/30 outline-none text-data-label font-bold uppercase tracking-wider"
+                                                            className="arc-base-input arc-rounded-none w-24 shrink-0 px-arc-3 py-arc-3 text-obsidian-muted border-r border-obsidian-border/30 outline-none text-data-label font-bold uppercase tracking-wider"
                                                         />
                                                         <textarea 
                                                             value={field.prompt}
@@ -807,7 +807,7 @@ Respond with ONLY the JSON object, no other text.`;
                                                                 updateTemplate(currentTemplateId, { fields });
                                                             }}
                                                             rows={1}
-                                                            className="arc-base-input rounded-none flex-1 min-w-0 px-arc-3 py-arc-3 text-xs text-obsidian-text outline-none resize-none transition-all duration-300 focus:min-h-[80px] leading-relaxed custom-scroll"
+                                                            className="arc-base-input arc-rounded-none flex-1 min-w-0 px-arc-3 py-arc-3 text-xs text-obsidian-text outline-none resize-none transition-all duration-300 focus:min-h-[80px] leading-relaxed custom-scroll"
                                                             placeholder="Prompt..."
                                                         />
                                                     </div>
@@ -834,7 +834,7 @@ Respond with ONLY the JSON object, no other text.`;
                                                 value={currentTemplate.bodyPrompt}
                                                 onChange={(e) => updateTemplate(currentTemplateId, { bodyPrompt: e.target.value })}
                                                 rows={3} 
-                                                className="w-full arc-base-input px-arc-4 py-arc-3 outline-none resize-none transition-all leading-relaxed text-body-small focus:border-arc-primary! rounded-xl"
+                                                className="w-full arc-base-input px-arc-4 py-arc-3 outline-none resize-none transition-all leading-relaxed text-body-small focus:border-arc-primary! arc-rounded-xl"
                                             />
                                         </div>
                                     </div>
@@ -881,7 +881,7 @@ Respond with ONLY the JSON object, no other text.`;
                                                     {isApiKeyEditing ? 'Done' : 'Edit'}
                                                 </div>
                                             </div>
-                                            <div className={`flex items-center w-full arc-base-input rounded-xl px-arc-4 transition-all border ${isApiKeyEditing ? 'border-arc-primary shadow-[0_0_10px_rgba(0,212,255,0.2)]' : 'border-obsidian-border/50'}`}>
+                                            <div className={`flex items-center w-full arc-base-input flex-shrink-0 arc-rounded-xl px-arc-4 transition-all border ${isApiKeyEditing ? 'border-arc-primary shadow-[0_0_10px_rgba(0,212,255,0.2)]' : 'border-obsidian-border/50'}`}>
                                                 <input 
                                                     type={showKey || isApiKeyEditing ? "text" : "password"}
                                                     value={settings.openRouterApiKey}
