@@ -962,7 +962,7 @@ Respond with ONLY the JSON object, no other text.`;
                                                         >
                                                             <X size={16} strokeWidth={3} />
                                                         </div>
-                                                        <div className="flex-1 bg-transparent px-arc-4 py-arc-3 text-obsidian-text truncate text-data-micro font-mono">
+                                                        <div className="flex-1 bg-transparent px-arc-4 py-arc-3 text-obsidian-text break-all whitespace-normal text-data-micro font-mono leading-relaxed">
                                                             {m}
                                                         </div>
                                                     </div>
@@ -1016,10 +1016,10 @@ Respond with ONLY the JSON object, no other text.`;
                                                                             setIsAddingModel(false);
                                                                             setModelSearch('');
                                                                         }}
-                                                                        className="w-full text-left px-arc-3 py-arc-2 text-xs text-obsidian-muted hover:text-arc-primary hover:bg-arc-primary/10 rounded-lg transition-colors group flex items-center justify-between bg-transparent!"
+                                                                        className="w-full text-left px-arc-3 py-arc-2 text-xs text-obsidian-muted hover:text-arc-primary hover:bg-arc-primary/10 rounded-lg transition-colors group flex items-start gap-3 bg-transparent!"
                                                                     >
-                                                                        <span className="truncate font-mono">{m.id}</span>
-                                                                        <Plus size={12} className="opacity-0 group-hover:opacity-100 text-arc-primary" />
+                                                                        <span className="break-all whitespace-normal font-mono leading-relaxed flex-1">{m.id}</span>
+                                                                        <Plus size={12} className="opacity-0 group-hover:opacity-100 text-arc-primary shrink-0 mt-1" />
                                                                     </button>
                                                                 ))}
                                                                 
@@ -1035,10 +1035,10 @@ Respond with ONLY the JSON object, no other text.`;
                                                                         setIsAddingModel(false);
                                                                         setModelSearch('');
                                                                     }}
-                                                                    className="w-full text-left px-arc-3 py-arc-2 text-xs font-bold text-obsidian-accent hover:text-white hover:bg-arc-primary/20 rounded-lg transition-colors flex items-center justify-between bg-transparent! border border-dashed border-obsidian-border mt-2"
+                                                                    className="w-full text-left px-arc-3 py-arc-2 text-xs font-bold text-obsidian-accent hover:text-white hover:bg-arc-primary/20 rounded-lg transition-colors flex items-start gap-3 bg-transparent! border border-dashed border-obsidian-border mt-2"
                                                                 >
-                                                                    <span className="truncate">Force Add: <span className="font-mono">{modelSearch.trim()}</span></span>
-                                                                    <Plus size={12} />
+                                                                    <span className="break-all whitespace-normal leading-relaxed flex-1">Force Add: <span className="font-mono">{modelSearch.trim()}</span></span>
+                                                                    <Plus size={12} className="shrink-0 mt-1" />
                                                                 </button>
                                                             )}
                                                         </div>
