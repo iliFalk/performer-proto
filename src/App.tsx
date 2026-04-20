@@ -204,6 +204,37 @@ The most important thing is to be intentional about your time. Plan your day, pr
 };
 
 // ============================================================
+// PERFORMANCE TIMER COMPONENT
+// ============================================================
+const PerformanceTimer = ({ isPerforming }: { isPerforming: boolean }) => {
+    const [timer, setTimer] = useState(0);
+    const startRef = useRef(0);
+    const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+    useEffect(() => {
+        if (isPerforming) {
+            startRef.current = performance.now();
+            setTimer(0);
+            timerRef.current = setInterval(() => {
+                setTimer(performance.now() - startRef.current);
+            }, 47);
+        } else {
+            if (timerRef.current) clearInterval(timerRef.current);
+            setTimer(0);
+        }
+        return () => {
+             if (timerRef.current) clearInterval(timerRef.current);
+        }
+    }, [isPerforming]);
+
+    return (
+        <span className="relative z-10 text-[10px] sm:text-[11px] font-bold tracking-[0.1em]">
+            {isPerforming ? `${(timer / 1000).toFixed(1)}s` : 'PERFORM'}
+        </span>
+    );
+};
+
+// ============================================================
 // MAIN APPLICATION COMPONENT
 // ============================================================
 
@@ -285,7 +316,6 @@ export default function App({ app, plugin }: AppProps) {
     const [llmResults, setLlmResults] = useState<any>(null);
     const [isPerforming, setIsPerforming] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const [timer, setTimer] = useState(0);
     const [fmCollapsed, setFmCollapsed] = useState(false);
     const [showKey, setShowKey] = useState(false);
     const [isSaved, setIsSaved] = useState(false);
@@ -298,16 +328,7 @@ export default function App({ app, plugin }: AppProps) {
     const [isFetchingModels, setIsFetchingModels] = useState(false);
     const [modelSearch, setModelSearch] = useState('');
 
-    const timerRef = useRef<NodeJS.Timeout | null>(null);
-
     const currentTemplate = settings.templates.find(t => t.id === currentTemplateId) || settings.templates[0];
-
-    // Actions
-    useEffect(() => {
-        return () => {
-            if (timerRef.current) clearInterval(timerRef.current);
-        };
-    }, []);
 
     const perform = async () => {
         if (isPerforming) return;
@@ -319,13 +340,7 @@ export default function App({ app, plugin }: AppProps) {
         setIsPerforming(true);
         setLlmResults(null);
         setError(null);
-        setTimer(0);
         setIsSaved(false);
-
-        const start = performance.now();
-        timerRef.current = setInterval(() => {
-            setTimer(performance.now() - start);
-        }, 47);
 
         const systemPrompt = `You are a note interpretation assistant. Analyze the provided note and extract/assign values for the following fields.
 
@@ -375,7 +390,6 @@ Respond with ONLY the JSON object, no other text.`;
             setLlmResults(parsed);
 
         } catch (err: any) {
-            if (timerRef.current) clearInterval(timerRef.current);
             setError(err.message);
         } finally {
             setIsPerforming(false);
@@ -627,7 +641,7 @@ Respond with ONLY the JSON object, no other text.`;
                                     >
                                         <ButtonRipple active={isPerforming} />
                                         <Zap size={14} className={`relative z-10 ${isPerforming ? 'animate-pulse' : 'group-hover:scale-110 transition-transform'}`} />
-                                        <span className="relative z-10 text-[10px] sm:text-[11px] font-bold tracking-[0.1em]">{isPerforming ? `${(timer / 1000).toFixed(1)}s` : 'PERFORM'}</span>
+                                        <PerformanceTimer isPerforming={isPerforming} />
                                     </button>
                                 </div>
 
