@@ -87,8 +87,21 @@ Polishes note bodies into consistent, clean structures optimized for long-term s
 ---
 
 ## 🚀 Getting Started
----
 
+### 1. Installation (via BRAT)
+As a prototype, Performer is best installed via the [Obsidian BRAT](https://github.com/TfTHacker/obsidian42-brat) plugin:
+1. Install **BRAT** from the Community Plugins.
+2. Open BRAT settings and click **"Add Beta plugin"**.
+3. Paste the URL of this repository.
+4. Enable **Performer** in your Community Plugins list.
+
+### 2. The Engine (OpenRouter)
+Performer is powered by OpenRouter, giving you the freedom to choose your preferred "performance" model:
+1. Get an API key from [openrouter.ai](https://openrouter.ai/).
+2. Open Performer Settings in Obsidian.
+3. Paste your key and select your model (e.g., Gemini 2.0, GPT-4o, or Claude 3.5).
+
+---
 ## 🏗️ The Blueprint
 Built with modern web technologies for a fluid experience:
 - **React 19** & **Vite** for high performance.
