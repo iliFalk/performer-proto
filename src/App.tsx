@@ -65,15 +65,9 @@ function useLongPress(callback: () => void, ms = 500) {
 const ButtonRipple = ({ active }: { active: boolean }) => {
     if (!active) return null;
     return (
-        <>
-            {[0, 1, 2, 3].map(i => (
-                <div 
-                    key={i}
-                    className="animate-button-ripple w-full h-full rounded-full"
-                    style={{ animationDelay: `${i * 500}ms` }}
-                />
-            ))}
-        </>
+        <div className="absolute inset-0 pointer-events-none rounded-full overflow-hidden">
+            <div className="absolute top-0 bottom-0 w-[50%] bg-gradient-to-r from-transparent via-arc-primary/50 to-transparent animate-shimmer-sweep" />
+        </div>
     );
 };
 

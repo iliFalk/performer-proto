@@ -474,6 +474,15 @@
     pointer-events: none;
   }
 
+  @keyframes shimmer-sweep {
+    0% { transform: translateX(-200%) skewX(-15deg); }
+    100% { transform: translateX(300%) skewX(-15deg); }
+  }
+
+  .animate-shimmer-sweep {
+    animation: shimmer-sweep 2s infinite linear;
+  }
+
   @keyframes hologram-jitter {
     0% { transform: translateX(0) skew(0deg); opacity: 0.9; }
     20% { transform: translateX(-2px) skew(1deg); opacity: 1; }
