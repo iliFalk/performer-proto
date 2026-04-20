@@ -7,7 +7,7 @@ Performer is a digital "loupe" for Obsidian that clarifies, structures, and enri
 
 ---
 
-## ✨ The "Aha!" Moment
+## ✨ The Idea
 
 Transform chaotic drafts into structured knowledge in seconds.
 
