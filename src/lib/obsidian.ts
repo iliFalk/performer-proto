@@ -13,6 +13,7 @@ export interface ObsidianBridge {
   saveNote: (metadata: any, body: string) => Promise<boolean>;
   getSettings: () => Promise<any>;
   saveSettings: (settings: any) => Promise<void>;
+  close: () => void;
   isPlugin: boolean;
 }
 
@@ -21,6 +22,7 @@ export interface ObsidianBridge {
  */
 const createMockBridge = (): ObsidianBridge => {
   const SAMPLE_NOTE = {
+    // ... lines 24-33 ...
     title: 'Productivity Tips for Remote Workers',
     path: 'productivity-tips.md',
     frontmatter: {
@@ -35,6 +37,7 @@ const createMockBridge = (): ObsidianBridge => {
   return {
     getActiveNote: async () => SAMPLE_NOTE,
     saveNote: async (metadata, body) => {
+      // ...
       console.log('MOCK SAVE:', { metadata, body });
       try {
         const response = await fetch('/api/save-note', {
@@ -54,6 +57,9 @@ const createMockBridge = (): ObsidianBridge => {
     saveSettings: async (settings) => {
       localStorage.setItem('performer_settings', JSON.stringify(settings));
     },
+    close: () => {
+      window.location.reload(); // Simple mock refresh
+    },
     isPlugin: false
   };
 };
@@ -64,6 +70,7 @@ const createMockBridge = (): ObsidianBridge => {
 const createRealBridge = (app: App, plugin: any): ObsidianBridge => {
   return {
     getActiveNote: async () => {
+      // ...
       const activeFile = app.workspace.getActiveFile();
       if (!activeFile) return null;
 
@@ -88,6 +95,7 @@ const createRealBridge = (app: App, plugin: any): ObsidianBridge => {
       };
     },
     saveNote: async (metadata, body) => {
+      // ...
       const activeFile = app.workspace.getActiveFile();
       if (!activeFile) {
         new Notice('No active file to save to.');
@@ -119,6 +127,11 @@ const createRealBridge = (app: App, plugin: any): ObsidianBridge => {
     saveSettings: async (settings) => {
       plugin.settings = settings;
       await plugin.saveSettings();
+    },
+    close: () => {
+      // In Obsidian, we find the leaf containing this view and detach it.
+      // This is the robust way to close the sidebar.
+      app.workspace.getLeavesOfType('performer-view').forEach(leaf => leaf.detach());
     },
     isPlugin: true
   };
