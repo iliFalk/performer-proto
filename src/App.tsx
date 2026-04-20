@@ -356,6 +356,9 @@ Respond with ONLY the JSON object, no other text.`;
         const userPrompt = `---\n${Object.entries(activeNote?.frontmatter || {}).map(([k, v]) => `${k}: ${v || '""'}`).join('\n')}\n---\n\n${activeNote?.body || ''}`;
 
         try {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 45000); // 45 second timeout
+
             const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
                 method: 'POST',
                 headers: {
@@ -364,6 +367,7 @@ Respond with ONLY the JSON object, no other text.`;
                     'HTTP-Referer': 'https://performer-obsidian-plugin.dev',
                     'X-Title': 'Performer Obsidian Plugin'
                 },
+                signal: controller.signal,
                 body: JSON.stringify({
                     model: selectedModel,
                     messages: [
@@ -371,11 +375,11 @@ Respond with ONLY the JSON object, no other text.`;
                         { role: 'user', content: userPrompt }
                     ],
                     temperature: 0.3,
-                    response_format: { type: 'json_object' }
+                    // response_format: { type: 'json_object' } // Removed to prevent 400 errors on Claude/Llama models
                 })
             });
 
-            if (timerRef.current) clearInterval(timerRef.current);
+            clearTimeout(timeoutId);
 
             if (!response.ok) {
                 const errData = await response.json().catch(() => ({}));
@@ -386,11 +390,18 @@ Respond with ONLY the JSON object, no other text.`;
             const content = data.choices?.[0]?.message?.content;
             if (!content) throw new Error('Empty response from LLM.');
 
-            const parsed = JSON.parse(content);
+            // Clean markdown artifacts (e.g. ```json ... ```) that LLMs often inject
+            const cleanContent = content.replace(/^```(?:json)?\n?/i, '').replace(/\n?```$/i, '').trim();
+
+            const parsed = JSON.parse(cleanContent);
             setLlmResults(parsed);
 
         } catch (err: any) {
-            setError(err.message);
+            if (err.name === 'AbortError') {
+                setError('Request timed out after 45 seconds.');
+            } else {
+                setError(err.message);
+            }
         } finally {
             setIsPerforming(false);
         }
