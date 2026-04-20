@@ -828,13 +828,17 @@ Respond with ONLY the JSON object, no other text.`;
                                             </div>
                                         </div>
                                         
-                                         <div>
-                                            <label className="text-obsidian-tertiary mb-arc-2 block text-label tracking-[0.1em] uppercase">Body Prompt (optional)</label>
+                                         <div className="pt-arc-4 mt-arc-2 border-t border-obsidian-border/30">
+                                            <div className="mb-arc-3">
+                                                <label className="text-obsidian-tertiary block text-label tracking-[0.1em] uppercase mb-1">Body Transformation Prompt</label>
+                                                <div className="text-[11px] text-obsidian-muted leading-tight">These instructions will be used to rewrite and completely replace the main document body. Leave blank to preserve the original body content.</div>
+                                            </div>
                                             <textarea 
                                                 value={currentTemplate.bodyPrompt}
                                                 onChange={(e) => updateTemplate(currentTemplateId, { bodyPrompt: e.target.value })}
                                                 rows={3} 
                                                 className="w-full arc-base-input px-arc-4 py-arc-3 outline-none resize-none transition-all leading-relaxed text-body-small focus:border-arc-primary! arc-rounded-xl"
+                                                placeholder="e.g. Clean up artifacts, format into a summary with action items..."
                                             />
                                         </div>
                                     </div>
