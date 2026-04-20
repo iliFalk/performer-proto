@@ -73,28 +73,64 @@ class PerformerSettingTab extends PluginSettingTab {
     const { containerEl } = this;
     containerEl.empty();
     containerEl.createEl('h2', { text: 'Performer Settings' });
+    
+    // Suggest users to primarily use the plugin UI
+    containerEl.createEl('p', { 
+        text: 'Note: Full settings management (including model additions, custom prompts, and templates) is available directly inside the Performer plugin interface.',
+        cls: 'setting-item-description',
+        attr: { style: 'margin-bottom: 20px;' }
+    });
+
+    let apiKeyInputEl: HTMLInputElement;
 
     new Setting(containerEl)
       .setName('OpenRouter API Key')
       .setDesc('Enter your OpenRouter API Key for AI note interpretation.')
-      .addText(text => text
-        .setPlaceholder('Enter your API key')
-        .setValue(this.plugin.settings.openRouterApiKey)
-        .onChange(async (value) => {
-          this.plugin.settings.openRouterApiKey = value;
-          await this.plugin.saveSettings();
+      .addText(text => {
+        apiKeyInputEl = text.inputEl;
+        apiKeyInputEl.type = "password";
+        text.setPlaceholder('sk-or-...')
+            .setValue(this.plugin.settings.openRouterApiKey)
+            .onChange(async (value) => {
+              this.plugin.settings.openRouterApiKey = value;
+              await this.plugin.saveSettings();
+            });
+      })
+      .addButton(button => button
+        .setIcon('eye')
+        .setTooltip('Toggle API Key visibility')
+        .onClick(() => {
+          if (apiKeyInputEl.type === 'password') {
+            apiKeyInputEl.type = 'text';
+            button.setIcon('eye-off');
+          } else {
+            apiKeyInputEl.type = 'password';
+            button.setIcon('eye');
+          }
         }));
 
     new Setting(containerEl)
-      .setName('Models')
-      .setDesc('Enter comma-separated list of OpenRouter models you want to use.')
-      .addTextArea(text => text
-        .setPlaceholder('google/gemini-2.0-flash-lite:free, openai/gpt-4o')
-        .setValue(this.plugin.settings.models.join(', '))
-        .onChange(async (value) => {
-          this.plugin.settings.models = value.split(',').map(m => m.trim()).filter(m => m !== '');
+      .setName('Primary Model')
+      .setDesc('Select the model to set as default. You can add or manage other models directly in the plugin interface.')
+      .addDropdown(dropdown => {
+        const models = this.plugin.settings.models;
+        if (models && models.length > 0) {
+          models.forEach(model => {
+            dropdown.addOption(model, model.split('/').pop() || model);
+          });
+          dropdown.setValue(models[0]);
+        } else {
+          dropdown.addOption('google/gemini-2.0-flash-exp', 'gemini-2.0-flash-exp');
+          dropdown.setValue('google/gemini-2.0-flash-exp');
+        }
+
+        dropdown.onChange(async (value) => {
+          // Move the selected model to the front to make it the default globally
+          const filtered = this.plugin.settings.models.filter(m => m !== value);
+          this.plugin.settings.models = [value, ...filtered];
           await this.plugin.saveSettings();
-        }));
+        });
+      });
   }
 }
 
