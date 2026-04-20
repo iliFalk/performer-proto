@@ -103,6 +103,10 @@ const createRealBridge = (app: App, plugin: any): ObsidianBridge => {
       }
 
       try {
+        const newNoteName = metadata._noteName;
+        const currentName = activeFile.basename;
+        
+        // 1. Process and save the content first
         await app.vault.process(activeFile, (content) => {
           // Construct new content
           const cleanMetadata = { ...metadata };
@@ -114,6 +118,21 @@ const createRealBridge = (app: App, plugin: any): ObsidianBridge => {
           const yamlStr = yaml.dump(cleanMetadata);
           return `---\n${yamlStr}---\n\n${body}`;
         });
+        
+        // 2. Rename the file if _noteName exists, is valid, and changed
+        if (newNoteName && typeof newNoteName === 'string' && newNoteName.trim() !== '' && newNoteName !== currentName) {
+            const safeName = newNoteName.replace(/[\\/:"*?<>|]/g, '-').trim();
+            if (safeName) {
+                const parentPath = activeFile.parent?.path;
+                let newPath = '';
+                if (parentPath && parentPath !== '/') {
+                    newPath = `${parentPath}/${safeName}.md`;
+                } else {
+                    newPath = `${safeName}.md`;
+                }
+                await app.fileManager.renameFile(activeFile, newPath);
+            }
+        }
         
         new Notice('Note updated successfully!');
         return true;

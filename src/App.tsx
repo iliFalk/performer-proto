@@ -514,7 +514,7 @@ Respond with ONLY the JSON object, no other text.`;
                                             Note name
                                         </div>
                                         <div className="text-obsidian-accent italic font-medium truncate leading-tight text-[11px] tracking-wide opacity-80 pl-2.5 mt-0.5">
-                                            {llmResults?._noteName || "Suggest a concise, descriptive..."}
+                                            {llmResults?._noteName || currentTemplate.noteNamePrompt}
                                         </div>
                                     </div>
                                 </div>
