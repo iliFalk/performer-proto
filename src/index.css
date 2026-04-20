@@ -699,7 +699,6 @@
     box-shadow: none !important;
     appearance: none !important;
     -webkit-appearance: none !important;
-    border-radius: 0 !important;
   }
 
   /* Deep iOS Safari overrides for all form elements to prevent pill shadows */
@@ -707,8 +706,6 @@
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    border-radius: 0;
-    -webkit-border-radius: 0;
   }
   
   /* Remove iOS inner shadow specifically */
