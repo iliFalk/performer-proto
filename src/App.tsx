@@ -670,7 +670,7 @@ Respond with ONLY the JSON object, no other text.`;
                             className="w-full h-full flex flex-col"
                         >
                             {/* Settings Scrollable */}
-                            <div className="flex-1 overflow-y-auto custom-scroll px-arc-5 pb-arc-6 pt-arc-5">
+                            <div className="flex-1 overflow-y-auto custom-scroll px-arc-5 pb-[50vh] pt-arc-5">
                                                                 <section className="mb-arc-6">
                                     <div className="sticky top-0 w-full flex items-center justify-between mb-arc-4 z-40 py-1 layer-2">
                                         <h3 className="text-white text-h2 uppercase tracking-wider">
@@ -939,7 +939,7 @@ Respond with ONLY the JSON object, no other text.`;
                                                             onChange={(e) => setModelSearch(e.target.value)}
                                                             onFocus={(e) => {
                                                                 const target = e.target;
-                                                                setTimeout(() => target.parentElement?.parentElement?.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 300);
+                                                                setTimeout(() => target.parentElement?.parentElement?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 300);
                                                             }}
                                                             className="flex-1 arc-base-input rounded-xl px-arc-3 py-arc-2 text-xs outline-none focus:border-arc-primary!"
                                                         />
