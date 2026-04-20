@@ -369,13 +369,16 @@ Respond with ONLY the JSON object, no other text.`;
                 },
                 signal: controller.signal,
                 body: JSON.stringify({
-                    model: selectedModel,
+                    // Auto-fallback: tries primary model first, loops through remaining list if provider fails
+                    models: [selectedModel, ...settings.models.filter(m => m !== selectedModel)],
+                    route: "fallback",
                     messages: [
                         { role: 'system', content: systemPrompt },
                         { role: 'user', content: userPrompt }
                     ],
                     temperature: 0.3,
-                    // response_format: { type: 'json_object' } // Removed to prevent 400 errors on Claude/Llama models
+                    // If a note exceeds the model's context window, safely compress it by removing the middle
+                    transforms: ["middle-out"]
                 })
             });
 
@@ -390,8 +393,11 @@ Respond with ONLY the JSON object, no other text.`;
             const content = data.choices?.[0]?.message?.content;
             if (!content) throw new Error('Empty response from LLM.');
 
+            // Clean reasoning blocks from deepseek/R1 models BEFORE parsing
+            let cleanContent = content.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
+            
             // Clean markdown artifacts (e.g. ```json ... ```) that LLMs often inject
-            const cleanContent = content.replace(/^```(?:json)?\n?/i, '').replace(/\n?```$/i, '').trim();
+            cleanContent = cleanContent.replace(/^```(?:json)?\n?/i, '').replace(/\n?```$/i, '').trim();
 
             const parsed = JSON.parse(cleanContent);
             setLlmResults(parsed);
@@ -1016,6 +1022,25 @@ Respond with ONLY the JSON object, no other text.`;
                                                                         <Plus size={12} className="opacity-0 group-hover:opacity-100 text-arc-primary" />
                                                                     </button>
                                                                 ))}
+                                                                
+                                                            {modelSearch.trim().length > 0 && (
+                                                                <button 
+                                                                    type="button"
+                                                                    onClick={(e) => {
+                                                                        e.preventDefault();
+                                                                        const customId = modelSearch.trim();
+                                                                        if (!settings.models.includes(customId)) {
+                                                                            setSettings({ ...settings, models: [...settings.models, customId] });
+                                                                        }
+                                                                        setIsAddingModel(false);
+                                                                        setModelSearch('');
+                                                                    }}
+                                                                    className="w-full text-left px-arc-3 py-arc-2 text-xs font-bold text-obsidian-accent hover:text-white hover:bg-arc-primary/20 rounded-lg transition-colors flex items-center justify-between bg-transparent! border border-dashed border-obsidian-border mt-2"
+                                                                >
+                                                                    <span className="truncate">Force Add: <span className="font-mono">{modelSearch.trim()}</span></span>
+                                                                    <Plus size={12} />
+                                                                </button>
+                                                            )}
                                                         </div>
                                                     )}
                                                 </div>
