@@ -15,7 +15,9 @@ import {
   Eye, 
   Brain,
   RefreshCw,
-  Zap
+  Zap,
+  Download,
+  Upload
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
@@ -327,6 +329,7 @@ export default function App({ app, plugin }: AppProps) {
     const [availableModels, setAvailableModels] = useState<any[]>([]);
     const [isFetchingModels, setIsFetchingModels] = useState(false);
     const [modelSearch, setModelSearch] = useState('');
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
     const currentTemplate = settings.templates.find(t => t.id === currentTemplateId) || settings.templates[0];
 
@@ -485,6 +488,49 @@ Respond with ONLY the JSON object, no other text.`;
         } finally {
             setIsFetchingModels(false);
         }
+    };
+
+    const exportSettings = () => {
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(settings, null, 2));
+        const downloadAnchorNode = document.createElement('a');
+        downloadAnchorNode.setAttribute("href", dataStr);
+        downloadAnchorNode.setAttribute("download", "performer-settings.json");
+        document.body.appendChild(downloadAnchorNode);
+        downloadAnchorNode.click();
+        downloadAnchorNode.remove();
+    };
+
+    const importSettings = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            try {
+                const parsed = JSON.parse(e.target?.result as string);
+                // Robust merge: ensure we don't break the app with missing fields from older versions
+                const mergedSettings: SettingsState = {
+                    ...DEFAULT_SETTINGS, // The current version's defaults form the safe base structure
+                    ...parsed, // Apply overrides from import
+                    
+                    // Arrays specifically need to be validated as they can completely crash the app if missing internally
+                    models: Array.isArray(parsed.models) && parsed.models.length > 0 ? parsed.models : DEFAULT_SETTINGS.models,
+                    templates: Array.isArray(parsed.templates) && parsed.templates.length > 0 ? parsed.templates : DEFAULT_SETTINGS.templates,
+                };
+                
+                setSettings(mergedSettings);
+                
+                // Safety check: if the imported templates list doesn't include the active viewing template, swap safely to the first one available
+                if (!mergedSettings.templates.some(t => t.id === currentTemplateId)) {
+                    setCurrentTemplateId(mergedSettings.templates[0]?.id || 'raw');
+                }
+            } catch (err) {
+                setError("Failed to parse settings file. Make sure it is a valid Performer export (performer-settings.json).");
+            }
+            // Clear file input to allow re-importing the same file
+            if (fileInputRef.current) fileInputRef.current.value = '';
+        };
+        reader.readAsText(file);
     };
 
     return createPortal(
@@ -904,6 +950,42 @@ Respond with ONLY the JSON object, no other text.`;
                                                 <option value="dark">Dark</option>
                                                 <option value="light">Light</option>
                                             </select>
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <section className="mb-arc-6 pb-arc-6 border-b border-obsidian-border/30">
+                                    <h3 className="text-white mb-arc-4 text-h2 uppercase tracking-wider layer-2">
+                                        Data Management
+                                    </h3>
+                                    <div className="border border-obsidian-border rounded-2xl p-arc-5 space-y-arc-4 shadow-xl glass-standard layer-1">
+                                        <div className="text-xs text-obsidian-muted mb-arc-2">
+                                            Export or restore your templates and config. Handful for migrating vaults or sharing setups.
+                                        </div>
+                                        <div className="flex gap-arc-3">
+                                            <button 
+                                                type="button"
+                                                onClick={exportSettings} 
+                                                className="btn-arc flex-1 flex items-center justify-center gap-2 h-10 border border-obsidian-border/50 hover:border-obsidian-accent/50"
+                                            >
+                                                <Download size={16} className="text-obsidian-muted" /> 
+                                                <span className="text-xs font-bold uppercase tracking-wider text-obsidian-text">Export</span>
+                                            </button>
+                                            <button 
+                                                type="button"
+                                                onClick={() => fileInputRef.current?.click()} 
+                                                className="btn-arc flex-1 flex items-center justify-center gap-2 h-10 border border-obsidian-border/50 hover:border-obsidian-accent/50 group"
+                                            >
+                                                <Upload size={16} className="text-obsidian-muted group-hover:text-amber-500 transition-colors" /> 
+                                                <span className="text-xs font-bold uppercase tracking-wider text-obsidian-text group-hover:text-amber-500 transition-colors">Import</span>
+                                            </button>
+                                            <input 
+                                                type="file" 
+                                                ref={fileInputRef} 
+                                                accept=".json" 
+                                                className="hidden" 
+                                                onChange={importSettings} 
+                                            />
                                         </div>
                                     </div>
                                 </section>
