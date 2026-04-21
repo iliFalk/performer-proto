@@ -556,8 +556,8 @@ Respond with ONLY the JSON object, no other text.`;
     };
 
     return createPortal(
-        <div id="arc-reactor-plugin" className="fixed inset-x-0 bottom-0 top-[env(safe-area-inset-top)] sm:top-0 sm:inset-0 w-full sm:h-[100dvh] bg-black/60 backdrop-blur-sm z-[99999] flex flex-col items-center justify-end sm:justify-center text-obsidian-text overflow-hidden font-sans pointer-events-auto p-0 sm:px-6 sm:py-[5vh]">
-            <div className="w-full flex-1 max-h-full sm:max-h-[850px] sm:w-[400px] sm:max-w-md bg-obsidian-bg rounded-t-[2rem] sm:rounded-b-[2rem] shadow-[0_24px_64px_rgba(0,0,0,0.6)] ring-1 ring-obsidian-border/50 ring-inset relative flex flex-col overflow-hidden isolate pt-0 pb-0">
+        <div id="arc-reactor-plugin" className="fixed inset-0 w-full h-[100dvh] bg-black/60 backdrop-blur-sm z-[99999] flex flex-col items-center justify-end sm:justify-center text-obsidian-text overflow-hidden font-sans pointer-events-auto p-0 sm:px-6 sm:py-[5vh]">
+            <div className="w-full mt-[env(safe-area-inset-top)] sm:mt-0 flex-1 min-h-0 sm:max-h-[850px] sm:w-[400px] sm:max-w-md bg-obsidian-bg rounded-t-[20px] sm:rounded-b-[20px] shadow-[0_24px_64px_rgba(0,0,0,0.6)] ring-1 ring-obsidian-border/50 ring-inset relative flex flex-col overflow-hidden isolate pt-0 pb-0">
                 <AnimatePresence mode="wait">
                     {view === 'performer' ? (
                         <motion.div 
