@@ -19,15 +19,6 @@ import {
   Download,
   Upload
 } from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
-import { 
-  revealVariants, 
-  pulseVariants, 
-  floatVariants, 
-  hologramRowsVariants, 
-  connectedTransition,
-  getStaggerChildren
-} from './lib/animations';
 import { getObsidianBridge, ObsidianNote } from './lib/obsidian';
 import { App as ObsidianApp } from 'obsidian';
 
@@ -558,12 +549,9 @@ Respond with ONLY the JSON object, no other text.`;
     return createPortal(
         <div id="arc-reactor-plugin" className="fixed inset-0 w-full h-[100dvh] bg-black/60 backdrop-blur-sm z-[99999] flex flex-col items-center justify-end sm:justify-center text-obsidian-text overflow-hidden font-sans pointer-events-auto p-0 sm:px-6 sm:py-[5vh]">
             <div className="w-full mt-[env(safe-area-inset-top)] sm:mt-0 flex-1 min-h-0 sm:max-h-[850px] sm:w-[400px] sm:max-w-md bg-obsidian-bg rounded-t-[20px] sm:rounded-b-[20px] shadow-[0_24px_64px_rgba(0,0,0,0.6)] ring-1 ring-obsidian-border/50 ring-inset relative flex flex-col overflow-hidden isolate pt-0 pb-0">
-                <AnimatePresence mode="wait">
                     {view === 'performer' ? (
-                        <motion.div 
+                        <div 
                             key="performer"
-                            initial={{ x: 0, opacity: 1 }}
-                            exit={{ x: -100, opacity: 0 }}
                             className="w-full h-full flex flex-col relative"
                         >
                             {/* Header */}
@@ -631,20 +619,13 @@ Respond with ONLY the JSON object, no other text.`;
                                         </div>
                                     </button>
                                     {!fmCollapsed && (
-                                        <motion.div 
-                                            variants={getStaggerChildren(0.02)}
-                                            initial="initial"
-                                            animate="animate"
-                                            className="px-arc-4 pb-arc-4 space-y-1.5"
-                                        >
+                                        <div className="px-arc-4 pb-arc-4 space-y-1.5">
                                             {currentTemplate.fields.map((field, i) => {
                                                 const resultValue = llmResults?.[field.name];
                                                 const hasValue = resultValue !== undefined;
                                                 return (
-                                                    <motion.div 
+                                                    <div 
                                                         key={i} 
-                                                        variants={hologramRowsVariants}
-                                                        custom={i}
                                                         className={`flex items-stretch rounded-lg border border-obsidian-border/50 bg-obsidian-bg/30 overflow-hidden group hover:border-obsidian-accent/30 transition-all duration-300 ${hasValue ? 'field-highlight border-arc-primary/50 layer-2' : ''}`}
                                                     >
                                                         <div className="bg-obsidian-surface/50 border-r border-obsidian-border/50 px-2 py-1.5 min-w-[76px] flex items-center justify-center">
@@ -663,10 +644,10 @@ Respond with ONLY the JSON object, no other text.`;
                                                                 </div>
                                                             )}
                                                         </div>
-                                                    </motion.div>
+                                                    </div>
                                                 );
                                             })}
-                                        </motion.div>
+                                        </div>
                                     )}
                                 </div>
                                 
@@ -686,29 +667,22 @@ Respond with ONLY the JSON object, no other text.`;
                             {/* Bottom Bar: Model + Perform */}
                             <div className="shrink-0 w-full px-4 pt-arc-3 pb-[calc(1rem+env(safe-area-inset-bottom))] border-t border-arc-primary/20 bg-obsidian-bg/95 backdrop-blur-md space-y-arc-3 layer-2 glass-heavy z-50">
                                 <div className="flex gap-arc-3 relative">
-                                    <AnimatePresence>
-                                        {error && (
-                                            <motion.div 
-                                                initial={{ opacity: 0, y: 5 }}
-                                                animate={{ opacity: 1, y: 0 }}
-                                                exit={{ opacity: 0, y: 5 }}
-                                                className="absolute inset-0 z-20 flex"
+                                    {error && (
+                                        <div className="absolute inset-0 z-20 flex">
+                                            <div 
+                                                role="button"
+                                                onClick={() => setError(null)}
+                                                className="flex-1 w-full bg-[#1e0f11] backdrop-blur-md border border-obsidian-error/40 rounded-xl px-3 flex items-center justify-between gap-arc-2 shadow-lg cursor-pointer hover:border-obsidian-error text-obsidian-error pointer-events-auto"
+                                                title="Click to dismiss error"
                                             >
-                                                <div 
-                                                    role="button"
-                                                    onClick={() => setError(null)}
-                                                    className="flex-1 w-full bg-[#1e0f11] backdrop-blur-md border border-obsidian-error/40 rounded-xl px-3 flex items-center justify-between gap-arc-2 shadow-lg cursor-pointer hover:border-obsidian-error text-obsidian-error pointer-events-auto"
-                                                    title="Click to dismiss error"
-                                                >
-                                                    <div className="flex items-center gap-arc-2 overflow-hidden w-full">
-                                                        <AlertCircle size={16} className="flex-shrink-0" />
-                                                        <span className="text-xs truncate font-medium leading-tight block w-full">{error}</span>
-                                                    </div>
-                                                    <X size={14} className="flex-shrink-0 ml-1 opacity-70" />
+                                                <div className="flex items-center gap-arc-2 overflow-hidden w-full">
+                                                    <AlertCircle size={16} className="flex-shrink-0" />
+                                                    <span className="text-xs truncate font-medium leading-tight block w-full">{error}</span>
                                                 </div>
-                                            </motion.div>
-                                        )}
-                                    </AnimatePresence>
+                                                <X size={14} className="flex-shrink-0 ml-1 opacity-70" />
+                                            </div>
+                                        </div>
+                                    )}
                                     <div className="flex-1 relative min-w-0">
                                         <select 
                                             value={selectedModel} 
@@ -747,13 +721,9 @@ Respond with ONLY the JSON object, no other text.`;
                                     >
                                         <div className="flex items-center justify-center gap-2">
                                             <Save size={16} />
-                                            <AnimatePresence mode="wait">
-                                                {isSaved ? (
-                                                    <motion.span className="text-[10px] sm:text-[11px] font-bold tracking-[0.1em]" key="saved" initial={{ y: 10, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -10, opacity: 0 }}>Saved!</motion.span>
-                                                ) : (
-                                                    <motion.span className="text-[10px] sm:text-[11px] font-bold tracking-[0.1em]" key="update" initial={{ y: 10, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -10, opacity: 0 }}>Update Note</motion.span>
-                                                )}
-                                            </AnimatePresence>
+                                            <span className="text-[10px] sm:text-[11px] font-bold tracking-[0.1em]">
+                                                {isSaved ? "Saved!" : "Update Note"}
+                                            </span>
                                         </div>
                                     </button>
                                     <button 
@@ -764,13 +734,10 @@ Respond with ONLY the JSON object, no other text.`;
                                     </button>
                                 </div>
                             </div>
-                        </motion.div>
+                        </div>
                     ) : (
-                        <motion.div 
+                        <div 
                             key="settings"
-                            initial={{ x: 300, opacity: 0 }}
-                            animate={{ x: 0, opacity: 1 }}
-                            exit={{ x: 300, opacity: 0 }}
                             className="w-full h-full flex flex-col"
                         >
                             {/* Settings Scrollable */}
@@ -1098,9 +1065,9 @@ Respond with ONLY the JSON object, no other text.`;
                                                     
                                                     {isFetchingModels ? (
                                                         <div className="py-arc-6 flex flex-col items-center gap-arc-3">
-                                                             <motion.div animate={{ rotate: 360 }} transition={{ duration: 2, repeat: Infinity, ease: "linear" }}>
+                                                             <div className="animate-spin">
                                                                 <Zap size={20} className="text-arc-primary" />
-                                                            </motion.div>
+                                                            </div>
                                                             <span className="text-obsidian-muted text-label uppercase tracking-widest">Synchronizing...</span>
                                                         </div>
                                                     ) : (
@@ -1166,9 +1133,8 @@ Respond with ONLY the JSON object, no other text.`;
 
 
                             </div>
-                        </motion.div>
+                        </div>
                     )}
-                </AnimatePresence>
             </div>
         </div>,
         document.body
