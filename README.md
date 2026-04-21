@@ -1,3 +1,14 @@
+## 📸 Preview
+
+<div align="center">
+
+![Performer – Dark Theme](assets/preview-dark.jpg)
+![Performer – Light Theme](assets/preview-light.jpg)
+
+</div>
+
+---
+
 # 🔍 Performer
 
 **The magnifier for your thoughts.**
@@ -75,7 +86,7 @@ You have full control over the "script" the AI follows. In the **Settings**, you
 ## 🛠️ Core Capabilities
 
 ### 🔍 The Loupe (Natural Overlay)
-Performer acts as a lens you slide over your note. It’s a fluid overlay that feels like a natural extension of your writing process, not a separate utility.
+Performer acts as a lens you slide over your note. It's a fluid overlay that feels like a natural extension of your writing process, not a separate utility.
 
 ### 🧬 Metadata Synthesis
 Automatically extracts and generates Frontmatter. It identifies titles, authors, dates, and types, turning raw text into a queryable database.
