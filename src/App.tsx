@@ -556,15 +556,15 @@ Respond with ONLY the JSON object, no other text.`;
     };
 
     return createPortal(
-        <div id="arc-reactor-plugin" className="fixed inset-0 w-full h-[100dvh] bg-black/60 backdrop-blur-sm z-[99999] flex flex-col items-center justify-end sm:justify-center text-obsidian-text overflow-hidden font-sans pointer-events-auto sm:px-6 sm:pt-[5vh] sm:pb-[5vh] p-0">
-            <div className="w-full flex-1 max-h-screen sm:max-h-[850px] sm:w-[400px] sm:max-w-md bg-obsidian-bg rounded-t-[2rem] sm:rounded-b-[2rem] shadow-[0_24px_64px_rgba(0,0,0,0.6)] ring-1 ring-obsidian-border/50 ring-inset relative flex flex-col overflow-hidden isolate pt-[env(safe-area-inset-top)] sm:pt-0 pb-[env(safe-area-inset-bottom)] sm:pb-0">
+        <div id="arc-reactor-plugin" className="fixed inset-x-0 bottom-0 top-[env(safe-area-inset-top)] sm:top-0 sm:inset-0 w-full sm:h-[100dvh] bg-black/60 backdrop-blur-sm z-[99999] flex flex-col items-center justify-end sm:justify-center text-obsidian-text overflow-hidden font-sans pointer-events-auto p-0 sm:px-6 sm:py-[5vh]">
+            <div className="w-full flex-1 max-h-full sm:max-h-[850px] sm:w-[400px] sm:max-w-md bg-obsidian-bg rounded-t-[2rem] sm:rounded-b-[2rem] shadow-[0_24px_64px_rgba(0,0,0,0.6)] ring-1 ring-obsidian-border/50 ring-inset relative flex flex-col overflow-hidden isolate pt-0 pb-0">
                 <AnimatePresence mode="wait">
                     {view === 'performer' ? (
                         <motion.div 
                             key="performer"
                             initial={{ x: 0, opacity: 1 }}
                             exit={{ x: -100, opacity: 0 }}
-                            className="w-full h-full flex flex-col"
+                            className="w-full h-full flex flex-col relative"
                         >
                             {/* Header */}
                             <div className="sticky top-0 w-full flex items-center justify-between px-arc-4 pt-arc-4 pb-arc-3 layer-2 glass-heavy border-b border-arc-primary/20 z-50">
@@ -591,7 +591,7 @@ Respond with ONLY the JSON object, no other text.`;
                             </div>
                             
                             {/* Scrollable Content wrapper */}
-                            <div className="flex-1 flex flex-col min-h-0 px-arc-4 pb-arc-4 pt-arc-3 space-y-arc-3 overflow-y-auto custom-scroll">
+                            <div className="flex-1 flex flex-col min-h-0 px-arc-4 pt-arc-3 pb-arc-3 space-y-arc-3 overflow-y-auto custom-scroll">
                                 {/* Template Dropdown */}
                                 <div className="layer-2 shrink-0">
                                     <select 
@@ -671,7 +671,7 @@ Respond with ONLY the JSON object, no other text.`;
                                 </div>
                                 
                                 {/* Note Body */}
-                                <div className="flex-1 flex flex-col min-h-0 layer-1">
+                                <div className="flex-1 flex flex-col min-h-[150px] layer-1">
                                     <div className="shrink-0 flex items-center gap-2 mb-arc-3">
                                         <FileText size={14} className="text-obsidian-tertiary opacity-70" />
                                         <span className="text-label">Note Body</span>
@@ -684,7 +684,7 @@ Respond with ONLY the JSON object, no other text.`;
                             </div>
                             
                             {/* Bottom Bar: Model + Perform */}
-                            <div className="sticky bottom-0 px-arc-4 pt-arc-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] border-t border-arc-primary/20 bg-obsidian-bg/95 backdrop-blur-md space-y-arc-3 layer-2 glass-heavy z-50">
+                            <div className="shrink-0 w-full px-4 pt-arc-3 pb-[calc(1rem+env(safe-area-inset-bottom))] border-t border-arc-primary/20 bg-obsidian-bg/95 backdrop-blur-md space-y-arc-3 layer-2 glass-heavy z-50">
                                 <div className="flex gap-arc-3 relative">
                                     <AnimatePresence>
                                         {error && (
