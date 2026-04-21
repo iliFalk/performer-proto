@@ -82,9 +82,13 @@ const createRealBridge = (app: App, plugin: any): ObsidianBridge => {
 
       if (cache?.frontmatter) {
         frontmatter = { ...cache.frontmatter };
-        // Approximate body by removing frontmatter block
-        const match = content.match(/^---[\s\S]*?---\n?([\s\S]*)$/);
-        if (match) body = match[1];
+        if (cache?.frontmatterPosition) {
+            const end = cache.frontmatterPosition.end.offset;
+            body = content.slice(end).trim();
+        } else {
+            const match = content.match(/^---[\s\S]*?---\n?([\s\S]*)$/);
+            if (match) body = match[1];
+        }
       }
 
       return {
@@ -106,20 +110,8 @@ const createRealBridge = (app: App, plugin: any): ObsidianBridge => {
         const newNoteName = metadata._noteName;
         const currentName = activeFile.basename;
         
-        // 1. Process and save the content first
-        await app.vault.process(activeFile, (content) => {
-          // Construct new content
-          const cleanMetadata = { ...metadata };
-          // Remove internal keys starting with _
-          Object.keys(cleanMetadata).forEach(key => {
-            if (key.startsWith('_')) delete cleanMetadata[key];
-          });
-
-          const yamlStr = yaml.dump(cleanMetadata);
-          return `---\n${yamlStr}---\n\n${body}`;
-        });
-        
-        // 2. Rename the file if _noteName exists, is valid, and changed
+        // 1. Rename the file first to prevent saving content on an un-renamable file
+        let targetFile = activeFile;
         if (newNoteName && typeof newNoteName === 'string' && newNoteName.trim() !== '' && newNoteName !== currentName) {
             const safeName = newNoteName.replace(/[\\/:"*?<>|]/g, '-').trim();
             if (safeName) {
@@ -131,8 +123,27 @@ const createRealBridge = (app: App, plugin: any): ObsidianBridge => {
                     newPath = `${safeName}.md`;
                 }
                 await app.fileManager.renameFile(activeFile, newPath);
+                
+                // Get the updated file instance after renaming
+                const updatedFile = app.vault.getAbstractFileByPath(newPath);
+                if (updatedFile instanceof TFile) {
+                    targetFile = updatedFile;
+                }
             }
         }
+        
+        // 2. Process and save the content
+        await app.vault.process(targetFile, (content) => {
+          // Construct new content
+          const cleanMetadata = { ...metadata };
+          // Remove internal keys starting with _ AND the body key if it accidentally leaked from the LLM JSON
+          Object.keys(cleanMetadata).forEach(key => {
+            if (key.startsWith('_') || key === 'body') delete cleanMetadata[key];
+          });
+
+          const yamlStr = yaml.dump(cleanMetadata);
+          return `---\n${yamlStr}---\n\n${body}`;
+        });
         
         new Notice('Note updated successfully!');
         return true;
@@ -159,12 +170,16 @@ const createRealBridge = (app: App, plugin: any): ObsidianBridge => {
 let bridge: ObsidianBridge | null = null;
 
 export const getObsidianBridge = (app?: App, plugin?: any): ObsidianBridge => {
-  if (bridge) return bridge;
-  
+  // If we have app and plugin, we MUST use a real bridge, even if a mock exists.
   if (app && plugin) {
-    bridge = createRealBridge(app, plugin);
+    if (!bridge || !bridge.isPlugin) {
+      bridge = createRealBridge(app, plugin);
+    }
   } else {
-    bridge = createMockBridge();
+    // We strictly need the mock bridge for web previews
+    if (!bridge || bridge.isPlugin) {
+      bridge = createMockBridge();
+    }
   }
   
   return bridge;

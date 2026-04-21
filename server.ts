@@ -18,6 +18,10 @@ async function startServer() {
   app.post('/api/save-note', (req, res) => {
     const { metadata, body } = req.body;
     
+    if (!metadata || typeof body !== 'string') {
+        return res.status(400).json({ error: 'Invalid payload' });
+    }
+
     try {
       // Ensure notes directory exists
       const notesDir = path.join(process.cwd(), 'notes');
@@ -25,11 +29,21 @@ async function startServer() {
         fs.mkdirSync(notesDir);
       }
 
-      // Create a filename from the title or timestamp
+      // Create a filename from the title securely
       const title = metadata.title || 'Untitled';
-      const safeTitle = title.toLowerCase().replace(/[^a-z0-9]/g, '-');
+      const safeTitle = title
+          .replace(/[^a-zA-Z0-9\u00C0-\u024F\s-]/g, '')
+          .trim()
+          .replace(/\s+/g, '-')
+          .substring(0, 100) || 'untitled';
+      
       const filename = `${safeTitle}-${Date.now()}.md`;
-      const filePath = path.join(notesDir, filename);
+      const filePath = path.resolve(notesDir, filename);
+
+      // Path Traversal guard
+      if (!filePath.startsWith(path.resolve(notesDir))) {
+          return res.status(400).json({ error: 'Invalid path' });
+      }
 
       // Construct content with YAML frontmatter
       const fileContent = `---\n${yaml.dump(metadata)}---\n\n${body}`;

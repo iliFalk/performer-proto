@@ -137,7 +137,7 @@ interface SettingsState {
 
 const DEFAULT_SETTINGS: SettingsState = {
     openRouterApiKey: '',
-    models: ['google/gemini-2.0-flash-exp', 'openai/gpt-4o', 'anthropic/claude-3.5-sonnet'],
+    models: ['google/gemini-2.5-flash', 'openai/gpt-4o', 'anthropic/claude-3-5-sonnet-20241022'],
     theme: 'system',
     templates: [
         {

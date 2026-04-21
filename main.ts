@@ -63,7 +63,7 @@ interface PerformerSettings {
 
 const DEFAULT_SETTINGS: PerformerSettings = {
   openRouterApiKey: '',
-  models: ['google/gemini-2.0-flash-exp', 'openai/gpt-4o', 'anthropic/claude-3.5-sonnet'],
+  models: ['google/gemini-2.5-flash', 'openai/gpt-4o', 'anthropic/claude-3-5-sonnet-20241022'],
   templates: [] // App code has internal defaults if this is empty
 }
 
@@ -126,8 +126,8 @@ class PerformerSettingTab extends PluginSettingTab {
           });
           dropdown.setValue(models[0]);
         } else {
-          dropdown.addOption('google/gemini-2.0-flash-exp', 'gemini-2.0-flash-exp');
-          dropdown.setValue('google/gemini-2.0-flash-exp');
+          dropdown.addOption('google/gemini-2.5-flash', 'gemini-2.5-flash');
+          dropdown.setValue('google/gemini-2.5-flash');
         }
 
         dropdown.onChange(async (value) => {
@@ -187,9 +187,16 @@ export default class PerformerPlugin extends Plugin {
       leaf = leaves[0];
     } else {
       leaf = workspace.getRightLeaf(false);
-      await leaf.setViewState({ type: VIEW_TYPE_PERFORMER, active: true });
+      if (leaf) {
+        await leaf.setViewState({ type: VIEW_TYPE_PERFORMER, active: true });
+      } else {
+        new Notice("Could not create right leaf panel to open Performer.");
+        return;
+      }
     }
 
-    workspace.revealLeaf(leaf);
+    if (leaf) {
+        workspace.revealLeaf(leaf);
+    }
   }
 }
