@@ -490,14 +490,36 @@ Respond with ONLY the JSON object, no other text.`;
         }
     };
 
-    const exportSettings = () => {
-        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(settings, null, 2));
+    const exportSettings = async () => {
+        const jsonStr = JSON.stringify(settings, null, 2);
+        
+        try {
+            // iOS WebKit strictly blocks data: URIs and sometimes fake Anchor clicks. 
+            // Web Share API is the most reliable native export trigger for iOS users.
+            const file = new File([jsonStr], "performer-settings.json", { type: "application/json" });
+            if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                await navigator.share({
+                    title: "Performer Settings",
+                    files: [file]
+                });
+                return;
+            }
+        } catch (e) {
+            console.warn("Web Share API failed or rejected, falling back to standard Blob download.");
+        }
+
+        // Standard robust Blob download for Desktop / Android
+        const blob = new Blob([jsonStr], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
         const downloadAnchorNode = document.createElement('a');
-        downloadAnchorNode.setAttribute("href", dataStr);
-        downloadAnchorNode.setAttribute("download", "performer-settings.json");
+        downloadAnchorNode.href = url;
+        downloadAnchorNode.download = "performer-settings.json";
         document.body.appendChild(downloadAnchorNode);
         downloadAnchorNode.click();
-        downloadAnchorNode.remove();
+        document.body.removeChild(downloadAnchorNode);
+        
+        // Clean up memory
+        setTimeout(() => URL.revokeObjectURL(url), 500);
     };
 
     const importSettings = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -534,8 +556,8 @@ Respond with ONLY the JSON object, no other text.`;
     };
 
     return createPortal(
-        <div id="arc-reactor-plugin" className="fixed inset-0 w-full h-[100dvh] bg-black/60 backdrop-blur-sm z-[99999] flex flex-col items-center justify-end sm:justify-center text-obsidian-text overflow-hidden font-sans pointer-events-auto sm:px-6 sm:pt-[5vh] sm:pb-[5vh] pt-[calc(5vh+env(safe-area-inset-top))]">
-            <div className="w-full flex-1 min-h-0 sm:max-h-[850px] sm:w-[400px] sm:max-w-md bg-obsidian-bg rounded-t-[2rem] sm:rounded-b-[2rem] shadow-[0_24px_64px_rgba(0,0,0,0.6)] ring-1 ring-obsidian-border/50 ring-inset relative flex flex-col overflow-hidden isolate pb-[env(safe-area-inset-bottom)] sm:pb-0">
+        <div id="arc-reactor-plugin" className="fixed inset-0 w-full h-[100dvh] bg-black/60 backdrop-blur-sm z-[99999] flex flex-col items-center justify-end sm:justify-center text-obsidian-text overflow-hidden font-sans pointer-events-auto sm:px-6 sm:pt-[5vh] sm:pb-[5vh] p-0">
+            <div className="w-full flex-1 max-h-screen sm:max-h-[850px] sm:w-[400px] sm:max-w-md bg-obsidian-bg rounded-t-[2rem] sm:rounded-b-[2rem] shadow-[0_24px_64px_rgba(0,0,0,0.6)] ring-1 ring-obsidian-border/50 ring-inset relative flex flex-col overflow-hidden isolate pt-[env(safe-area-inset-top)] sm:pt-0 pb-[env(safe-area-inset-bottom)] sm:pb-0">
                 <AnimatePresence mode="wait">
                     {view === 'performer' ? (
                         <motion.div 
