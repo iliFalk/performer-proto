@@ -2,7 +2,7 @@
 
 <div align="center">
 
-<img src=".assets/image (1).png" width="1200" height="475" alt="Plugin Workflow" />
+<img src=".assets/image%20(1).png" width="1200" height="475" alt="Plugin Workflow" />
 
 </div>
 
