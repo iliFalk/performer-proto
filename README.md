@@ -2,7 +2,7 @@
 
 <div align="center">
 
-<img src=".assets/image%20(1).png" width="1200" height="475" alt="Plugin Workflow" />
+<img src="./assets/performer-workflow-banner.png" width="1200" height="475" alt="Performer Plugin Workflow" />
 
 </div>
 
