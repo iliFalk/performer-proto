@@ -2,8 +2,7 @@
 
 <div align="center">
 
-![Performer – Dark Theme](assets/preview-dark.jpg)
-![Performer – Light Theme](assets/preview-light.jpg)
+<img src=".assets/image (1).png" width="1200" height="475" alt="Plugin Workflow" />
 
 </div>
 
